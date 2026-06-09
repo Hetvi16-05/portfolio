@@ -134,6 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
+      const nameVal = document.getElementById('name').value;
+      const emailVal = document.getElementById('email').value;
+      const messageVal = document.getElementById('message').value;
+
       // Visual states
       submitBtn.disabled = true;
       if (btnText) btnText.textContent = 'Sending Message...';
@@ -143,8 +147,21 @@ document.addEventListener('DOMContentLoaded', () => {
         btnIcon.classList.add('spin-animation');
       }
 
-      // Simulate network request
-      setTimeout(() => {
+      // Send form data to FormSubmit.co API
+      fetch('https://formsubmit.co/ajax/shethhetvi11@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: nameVal,
+          email: emailVal,
+          message: messageVal
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
         // Reset button
         submitBtn.disabled = false;
         if (btnText) btnText.textContent = 'Send Message';
@@ -154,19 +171,41 @@ document.addEventListener('DOMContentLoaded', () => {
           if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        // Show success state
-        formFeedback.textContent = 'Thank you, Hetvi will get back to you shortly!';
-        formFeedback.className = 'form-feedback success';
-        
-        // Reset form
-        contactForm.reset();
+        if (data.success === 'true' || data.success === true) {
+          // Show success state
+          formFeedback.textContent = 'Thank you, Hetvi will get back to you shortly!';
+          formFeedback.className = 'form-feedback success';
+          // Reset form
+          contactForm.reset();
+        } else {
+          // Show error state
+          formFeedback.textContent = 'Something went wrong. Please try again.';
+          formFeedback.className = 'form-feedback error';
+        }
 
         // Clear feedback after a few seconds
         setTimeout(() => {
           formFeedback.textContent = '';
           formFeedback.className = 'form-feedback';
         }, 5000);
-      }, 1800);
+      })
+      .catch(error => {
+        submitBtn.disabled = false;
+        if (btnText) btnText.textContent = 'Send Message';
+        if (btnIcon) {
+          btnIcon.setAttribute('data-lucide', 'send');
+          btnIcon.classList.remove('spin-animation');
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        formFeedback.textContent = 'Network error. Please check your connection.';
+        formFeedback.className = 'form-feedback error';
+
+        setTimeout(() => {
+          formFeedback.textContent = '';
+          formFeedback.className = 'form-feedback';
+        }, 5000);
+      });
     });
   }
 
