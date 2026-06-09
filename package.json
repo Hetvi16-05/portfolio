@@ -1,0 +1,14 @@
+{
+  "name": "hetvi-sheth-portfolio",
+  "version": "1.0.0",
+  "description": "Professional AI & Full Stack Developer Portfolio for Hetvi Sheth",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
