@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Hetvi Sheth AI & Full Stack Developer</title>
+  <meta name="description" content="View the AI, Data Science, NLP, and Full Stack Web development projects built by Hetvi Sheth.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Neural Mesh Background Canvas -->
+  <div class="canvas-container">
+    <canvas id="neural-canvas"></canvas>
+  </div>
+
+  <!-- Glassmorphic Header / Navigation -->
+  <header id="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>Hetvi<span class="logo-accent">.</span>Sheth<span class="logo-accent"> /&gt;</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="contact.html" class="btn btn-sm btn-outline">Let's Talk</a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" aria-label="Toggle Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay Navigation -->
+  <div class="mobile-overlay">
+    <button class="close-menu-btn" aria-label="Close Menu">
+      <i data-lucide="x"></i>
+    </button>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <a href="projects.html" class="mobile-link">Projects</a>
+      <a href="contact.html" class="mobile-link">Contact</a>
+    </nav>
+  </div>
+
+  <main class="page-content">
+    <!-- Projects Section -->
+    <section class="section projects-section first-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2 class="section-title"><span class="number-prefix">01.</span> Featured Projects</h2>
+          <div class="section-line"></div>
+        </div>
+        
+        <p class="section-desc reveal reveal-delay-1">
+          A collection of systems designed to solve real-world problems using machine learning, big data engineering, and full-stack web architectures.
+        </p>
+
+        <div class="projects-grid">
+          <!-- Project 1: RainWise -->
+          <div class="project-card reveal">
+            <div class="project-card-inner">
+              <div class="project-header">
+                <i data-lucide="cloud-rain" class="project-icon"></i>
+                <div class="project-links">
+                  <a href="https://github.com/Hetvi16-05/rainwise" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository"><i data-lucide="github"></i></a>
+                </div>
+              </div>
+              <h3 class="project-title">RainWise — Weather Prediction</h3>
+              <p class="project-text">
+                A smart weather prediction and analysis platform designed to provide weather insights and forecasting using machine learning techniques.
+              </p>
+              <ul class="project-features">
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Weather forecasting models</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Dynamic data visualization</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Predictive analytics backend</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> User-friendly analytics dashboard</li>
+              </ul>
+              <div class="project-tech">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Machine Learning</span>
+                <span class="tech-tag">Pandas</span>
+                <span class="tech-tag">Flask</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2: GreenSort -->
+          <div class="project-card reveal reveal-delay-1">
+            <div class="project-card-inner">
+              <div class="project-header">
+                <i data-lucide="recycle" class="project-icon"></i>
+                <div class="project-links">
+                  <a href="https://github.com/snehadpatel/greensort" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository"><i data-lucide="github"></i></a>
+                </div>
+              </div>
+              <h3 class="project-title">GreenSort — Sustainable Supply Chain</h3>
+              <p class="project-text">
+                A supply chain management solution focused on sustainability and optimization strategies to improve logistics efficiency and reduce environmental impact.
+              </p>
+              <ul class="project-features">
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Eco-routing & supply chain tracking</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Optimization logistics analysis</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Sustainability-focused operational insights</li>
+              </ul>
+              <div class="project-tech">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Data Analysis</span>
+                <span class="tech-tag">Web Technologies</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3: Flood Prediction Using Big Data -->
+          <div class="project-card reveal">
+            <div class="project-card-inner">
+              <div class="project-header">
+                <i data-lucide="waves" class="project-icon"></i>
+                <div class="project-links">
+                  <a href="https://github.com/Hetvi16-05/flood-monitoring-ai" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository"><i data-lucide="github"></i></a>
+                </div>
+              </div>
+              <h3 class="project-title">Flood Prediction Using Big Data</h3>
+              <p class="project-text">
+                An AI-powered flood prediction system developed using big data analysis and predictive models to help detect and issue warnings for flood risks early.
+              </p>
+              <ul class="project-features">
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> High-accuracy risk prediction algorithms</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Multi-variable weather data analytics</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Real-time monitoring conceptual frames</li>
+              </ul>
+              <div class="project-tech">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Big Data</span>
+                <span class="tech-tag">Machine Learning</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 4: Hindi Transliteration System -->
+          <div class="project-card reveal reveal-delay-1">
+            <div class="project-card-inner">
+              <div class="project-header">
+                <i data-lucide="languages" class="project-icon"></i>
+                <div class="project-links">
+                  <a href="https://github.com/Hetvi16-05/Transliterator" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository"><i data-lucide="github"></i></a>
+                </div>
+              </div>
+              <h3 class="project-title">Hindi Transliteration System</h3>
+              <p class="project-text">
+                A transliteration application that converts English text phonetic spelling into standard Hindi script for easier communication and web accessibility.
+              </p>
+              <ul class="project-features">
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Real-time English-to-Hindi mapping</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Simple, clean accessibility-focused UI</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Natural Language Processing module</li>
+              </ul>
+              <div class="project-tech">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">NLP</span>
+                <span class="tech-tag">Machine Learning</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 5: Travel System -->
+          <div class="project-card reveal">
+            <div class="project-card-inner">
+              <div class="project-header">
+                <i data-lucide="compass" class="project-icon"></i>
+                <div class="project-links">
+                  <a href="https://github.com/Hetvi16-05/Travel" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository"><i data-lucide="github"></i></a>
+                </div>
+              </div>
+              <h3 class="project-title">Travel — Route &amp; Trip Planner</h3>
+              <p class="project-text">
+                A web-based travel routing and itinerary planning system designed to simplify trip scheduling and explore geographical destinations.
+              </p>
+              <ul class="project-features">
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Dynamic travel routing system</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Interactive destination points</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Simple itinerary saving and display</li>
+              </ul>
+              <div class="project-tech">
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">HTML5</span>
+                <span class="tech-tag">CSS3</span>
+                <span class="tech-tag">API Integration</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 6: Compiler Design -->
+          <div class="project-card reveal reveal-delay-1">
+            <div class="project-card-inner">
+              <div class="project-header">
+                <i data-lucide="binary" class="project-icon"></i>
+                <div class="project-links">
+                  <a href="https://github.com/Hetvi16-05/ComplierDesign" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository"><i data-lucide="github"></i></a>
+                </div>
+              </div>
+              <h3 class="project-title">Compiler Design System</h3>
+              <p class="project-text">
+                An educational tool and implementation of compiler design labs focusing on lexical analyzer simulations and syntactic validation models.
+              </p>
+              <ul class="project-features">
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Lexical scanner simulator</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> LL(1)/LR parse table visualizations</li>
+                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Grammatical token generation check</li>
+              </ul>
+              <div class="project-tech">
+                <span class="tech-tag">HTML5</span>
+                <span class="tech-tag">CSS3</span>
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">Compiler Theory</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <p class="copyright">
+        &copy; 2026 Hetvi Sheth. All rights reserved.
+      </p>
+      <div class="footer-socials">
+        <a href="mailto:hetvisheth@example.com" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

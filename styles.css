@@ -44,7 +44,8 @@ body {
   background-color: var(--bg-base);
   color: var(--text-main);
   font-family: var(--font-body);
-  line-height: 1.6;
+  font-size: 1.15rem;
+  line-height: 1.8;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -74,6 +75,8 @@ h1, h2, h3, h4 {
 
 p {
   color: var(--text-muted);
+  font-size: 1.15rem;
+  line-height: 1.8;
 }
 
 a {
@@ -89,22 +92,26 @@ a {
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
 .section {
-  padding: 8rem 0;
+  padding: 10rem 0;
   position: relative;
+}
+
+.first-section {
+  padding-top: 11rem !important;
 }
 
 .section-header {
   display: flex;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .section-title {
-  font-size: 2.2rem;
+  font-size: 2.8rem;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -113,7 +120,7 @@ a {
 .number-prefix {
   font-family: var(--font-display);
   color: var(--secondary);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin-right: 0.75rem;
   font-weight: 400;
 }
@@ -126,9 +133,10 @@ a {
 }
 
 .section-desc {
-  max-width: 600px;
-  margin-bottom: 4rem;
-  font-size: 1.1rem;
+  max-width: 800px;
+  margin-bottom: 5rem;
+  font-size: 1.3rem;
+  line-height: 1.8;
 }
 
 /* Badge styling */

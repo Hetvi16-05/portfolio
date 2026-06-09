@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Hetvi Sheth | AI & Full Stack Developer</title>
+  <meta name="description" content="Learn more about Hetvi Sheth's computer engineering studies, AI & Full Stack skills, academic achievements, and tech stack.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Neural Mesh Background Canvas -->
+  <div class="canvas-container">
+    <canvas id="neural-canvas"></canvas>
+  </div>
+
+  <!-- Glassmorphic Header / Navigation -->
+  <header id="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>Hetvi<span class="logo-accent">.</span>Sheth<span class="logo-accent"> /&gt;</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="contact.html" class="btn btn-sm btn-outline">Let's Talk</a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" aria-label="Toggle Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay Navigation -->
+  <div class="mobile-overlay">
+    <button class="close-menu-btn" aria-label="Close Menu">
+      <i data-lucide="x"></i>
+    </button>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <a href="projects.html" class="mobile-link">Projects</a>
+      <a href="contact.html" class="mobile-link">Contact</a>
+    </nav>
+  </div>
+
+  <main class="page-content">
+    <!-- About Me Section -->
+    <section class="section about-section first-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2 class="section-title"><span class="number-prefix">01.</span> About Me</h2>
+          <div class="section-line"></div>
+        </div>
+        
+        <div class="about-grid">
+          <div class="about-text-content reveal">
+            <p>
+              I am a <strong>Computer Engineering</strong> student with strong interests in Artificial Intelligence, Data Science, Web Development, and Problem Solving. I enjoy creating practical solutions through technology and continuously learning modern tools and frameworks.
+            </p>
+            <p>
+              I have worked on multiple projects related to flood prediction, supply chain optimization, transliteration systems, and weather prediction. I actively participate in hackathons and technical events to improve my skills, push my boundaries, and collaborate with teams on innovative ideas.
+            </p>
+            <p>
+              Currently, I am passionate about learning emerging technologies like <strong>Agentic AI</strong>, <strong>Natural Language Processing (NLP)</strong>, and cloud-based development while improving my development and analytical skills.
+            </p>
+          </div>
+          
+          <div class="about-interests-card reveal reveal-delay-1">
+            <h3 class="interests-title">
+              <i data-lucide="sparkles" class="accent-color"></i> Personal Interests
+            </h3>
+            <ul class="interests-list">
+              <li>
+                <span class="list-bullet"></span>
+                <span>Exploring AI technologies</span>
+              </li>
+              <li>
+                <span class="list-bullet"></span>
+                <span>UI/UX design & aesthetics</span>
+              </li>
+              <li>
+                <span class="list-bullet"></span>
+                <span>Hackathons & Tech sprints</span>
+              </li>
+              <li>
+                <span class="list-bullet"></span>
+                <span>Photography & creative content creation</span>
+              </li>
+              <li>
+                <span class="list-bullet"></span>
+                <span>Learning new web frameworks</span>
+              </li>
+              <li>
+                <span class="list-bullet"></span>
+                <span>Problem solving & coding challenges</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills / Tech Stack Section -->
+    <section class="section skills-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2 class="section-title"><span class="number-prefix">02.</span> Skills & Tech Stack</h2>
+          <div class="section-line"></div>
+        </div>
+        
+        <p class="section-desc reveal reveal-delay-1">
+          A representation of languages, libraries, and developer tools that I use to bring ideas to life.
+        </p>
+
+        <div class="skills-grid">
+          <!-- Programming Languages -->
+          <div class="skills-category-card reveal">
+            <div class="skills-card-header">
+              <i data-lucide="code-2" class="accent-violet"></i>
+              <h3>Programming</h3>
+            </div>
+            <div class="skills-pills">
+              <span class="skill-pill">Python</span>
+              <span class="skill-pill">Java</span>
+              <span class="skill-pill">C</span>
+              <span class="skill-pill">JavaScript</span>
+              <span class="skill-pill">SQL</span>
+            </div>
+          </div>
+
+          <!-- Web Development -->
+          <div class="skills-category-card reveal reveal-delay-1">
+            <div class="skills-card-header">
+              <i data-lucide="layout" class="accent-cyan"></i>
+              <h3>Web Development</h3>
+            </div>
+            <div class="skills-pills">
+              <span class="skill-pill">HTML5</span>
+              <span class="skill-pill">CSS3</span>
+              <span class="skill-pill">React.js</span>
+              <span class="skill-pill">Node.js</span>
+              <span class="skill-pill">Express.js</span>
+            </div>
+          </div>
+
+          <!-- AI / Data Science -->
+          <div class="skills-category-card reveal">
+            <div class="skills-card-header">
+              <i data-lucide="brain-circuit" class="accent-violet"></i>
+              <h3>AI & Data Science</h3>
+            </div>
+            <div class="skills-pills">
+              <span class="skill-pill">Machine Learning</span>
+              <span class="skill-pill">Data Analysis</span>
+              <span class="skill-pill">NLP</span>
+              <span class="skill-pill">Data Visualization</span>
+              <span class="skill-pill">Pandas</span>
+              <span class="skill-pill">NumPy</span>
+              <span class="skill-pill">Scikit-learn</span>
+            </div>
+          </div>
+
+          <!-- Databases & Tools -->
+          <div class="skills-category-card reveal reveal-delay-1">
+            <div class="skills-card-header">
+              <i data-lucide="database" class="accent-cyan"></i>
+              <h3>Databases & Infrastructure</h3>
+            </div>
+            <div class="skills-pills">
+              <span class="skill-pill">MySQL</span>
+              <span class="skill-pill">MongoDB</span>
+            </div>
+          </div>
+
+          <!-- Tools & Platforms -->
+          <div class="skills-category-card full-width-card reveal">
+            <div class="skills-card-header">
+              <i data-lucide="terminal" class="accent-violet"></i>
+              <h3>Tools & Platforms</h3>
+            </div>
+            <div class="skills-pills">
+              <span class="skill-pill">Git & GitHub</span>
+              <span class="skill-pill">VS Code</span>
+              <span class="skill-pill">Jupyter Notebook</span>
+              <span class="skill-pill">Google Colab</span>
+              <span class="skill-pill">Canva</span>
+              <span class="skill-pill">Figma</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Horizontal auto-scrolling ticker for aesthetic backdrop -->
+        <div class="skills-ticker-container">
+          <div class="skills-ticker-track">
+            <span>PYTHON</span>
+            <span class="ticker-dot">•</span>
+            <span>MACHINE LEARNING</span>
+            <span class="ticker-dot">•</span>
+            <span>JAVASCRIPT</span>
+            <span class="ticker-dot">•</span>
+            <span>REACT</span>
+            <span class="ticker-dot">•</span>
+            <span>DATA SCIENCE</span>
+            <span class="ticker-dot">•</span>
+            <span>NLP</span>
+            <span class="ticker-dot">•</span>
+            <span>NODE.JS</span>
+            <span class="ticker-dot">•</span>
+            <span>PANDAS</span>
+            <span class="ticker-dot">•</span>
+            <span>SQL</span>
+            <span class="ticker-dot">•</span>
+          </div>
+          <div class="skills-ticker-track" aria-hidden="true">
+            <span>PYTHON</span>
+            <span class="ticker-dot">•</span>
+            <span>MACHINE LEARNING</span>
+            <span class="ticker-dot">•</span>
+            <span>JAVASCRIPT</span>
+            <span class="ticker-dot">•</span>
+            <span>REACT</span>
+            <span class="ticker-dot">•</span>
+            <span>DATA SCIENCE</span>
+            <span class="ticker-dot">•</span>
+            <span>NLP</span>
+            <span class="ticker-dot">•</span>
+            <span>NODE.JS</span>
+            <span class="ticker-dot">•</span>
+            <span>PANDAS</span>
+            <span class="ticker-dot">•</span>
+            <span>SQL</span>
+            <span class="ticker-dot">•</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience & Education timeline -->
+    <section class="section timeline-section">
+      <div class="container">
+        <div class="timeline-grid">
+          <!-- Experience & Achievements -->
+          <div class="timeline-column reveal">
+            <div class="section-header">
+              <h2 class="section-title"><span class="number-prefix">03.</span> Achievements</h2>
+              <div class="section-line"></div>
+            </div>
+            
+            <div class="timeline-list">
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">Active</span>
+                  <h3 class="timeline-item-title">Hackathons &amp; Technical Competitions</h3>
+                  <p class="timeline-item-text">
+                    Participated in multiple regional and university-level hackathons and technical competitions, collaborating with developers to prototype real-world solutions under tight timeframes.
+                  </p>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">Academic &amp; Independent</span>
+                  <h3 class="timeline-item-title">AI &amp; Data Science System Development</h3>
+                  <p class="timeline-item-text">
+                    Designed and built systems addressing big data prediction challenges, from localized flood alert algorithms to semantic NLP transliterations.
+                  </p>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">Continuous Learning</span>
+                  <h3 class="timeline-item-title">Emerging Technology Exploration</h3>
+                  <p class="timeline-item-text">
+                    Actively researching Agentic AI workflows, large language model orchestrations, web application development frameworks, and database scalability tools.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Education -->
+          <div class="timeline-column reveal reveal-delay-1">
+            <div class="section-header">
+              <h2 class="section-title"><span class="number-prefix">04.</span> Education</h2>
+              <div class="section-line"></div>
+            </div>
+
+            <div class="timeline-list">
+              <div class="timeline-item education-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">Pursuing</span>
+                  <h3 class="timeline-item-title">Bachelor of Engineering</h3>
+                  <p class="timeline-institution">Computer Engineering</p>
+                  <p class="timeline-item-text">
+                    Laying a rigorous academic foundation with focus areas including:
+                  </p>
+                  <ul class="education-focus-list">
+                    <li><i data-lucide="check" class="focus-icon"></i> Artificial Intelligence</li>
+                    <li><i data-lucide="check" class="focus-icon"></i> Data Science</li>
+                    <li><i data-lucide="check" class="focus-icon"></i> Web Development</li>
+                    <li><i data-lucide="check" class="focus-icon"></i> Database Management Systems</li>
+                    <li><i data-lucide="check" class="focus-icon"></i> Compiler Design</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <p class="copyright">
+        &copy; 2026 Hetvi Sheth. All rights reserved.
+      </p>
+      <div class="footer-socials">
+        <a href="mailto:hetvisheth@example.com" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

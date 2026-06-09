@@ -46,32 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', () => toggleMobileMenu(false));
   });
 
-  // Active Nav Item highlighting using Intersection Observer
-  const observerOptions = {
-    root: null,
-    rootMargin: '-20% 0px -60% 0px',
-    threshold: 0
-  };
-
-  const observerCallback = (entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.getAttribute('id');
-        
-        // Desktop nav active class
-        navLinks.forEach(link => {
-          if (link.getAttribute('href') === `#${id}`) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
-          }
-        });
-      }
-    });
-  };
-
-  const observer = new IntersectionObserver(observerCallback, observerOptions);
-  sections.forEach(section => observer.observe(section));
+  // Active Nav Item highlighting based on Current Filename URL
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
 
   // ==========================================================================
   // Scroll Reveal Animations

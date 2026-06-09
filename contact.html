@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Hetvi Sheth | AI & Full Stack Developer</title>
+  <meta name="description" content="Get in touch with Hetvi Sheth for collaboration, internships, or questions about AI, data science, and web development.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Neural Mesh Background Canvas -->
+  <div class="canvas-container">
+    <canvas id="neural-canvas"></canvas>
+  </div>
+
+  <!-- Glassmorphic Header / Navigation -->
+  <header id="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>Hetvi<span class="logo-accent">.</span>Sheth<span class="logo-accent"> /&gt;</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="contact.html" class="btn btn-sm btn-outline">Let's Talk</a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" aria-label="Toggle Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay Navigation -->
+  <div class="mobile-overlay">
+    <button class="close-menu-btn" aria-label="Close Menu">
+      <i data-lucide="x"></i>
+    </button>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <a href="projects.html" class="mobile-link">Projects</a>
+      <a href="contact.html" class="mobile-link">Contact</a>
+    </nav>
+  </div>
+
+  <main class="page-content">
+    <!-- Contact Section -->
+    <section class="section contact-section first-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2 class="section-title"><span class="number-prefix">01.</span> Get In Touch</h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info reveal">
+            <h3 class="contact-subtitle font-display">Let's create something together</h3>
+            <p class="contact-desc">
+              I am open to discussions about internships, collaboration opportunities in AI/ML or Web Development, or just chatting about emerging technology. Feel free to reach out!
+            </p>
+            
+            <div class="contact-details">
+              <a href="mailto:hetvisheth@example.com" class="contact-item">
+                <div class="contact-icon-wrapper">
+                  <i data-lucide="mail"></i>
+                </div>
+                <div>
+                  <span class="contact-label">Email</span>
+                  <span class="contact-value">hetvisheth@example.com</span>
+                </div>
+              </a>
+
+              <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="contact-item">
+                <div class="contact-icon-wrapper">
+                  <i data-lucide="github"></i>
+                </div>
+                <div>
+                  <span class="contact-label">GitHub</span>
+                  <span class="contact-value">github.com/Hetvi16-05</span>
+                </div>
+              </a>
+
+              <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" class="contact-item">
+                <div class="contact-icon-wrapper">
+                  <i data-lucide="linkedin"></i>
+                </div>
+                <div>
+                  <span class="contact-label">LinkedIn</span>
+                  <span class="contact-value">linkedin.com/in/hetvi-sheth-4116a3346</span>
+                </div>
+              </a>
+
+              <div class="contact-item">
+                <div class="contact-icon-wrapper">
+                  <i data-lucide="map-pin"></i>
+                </div>
+                <div>
+                  <span class="contact-label">Location</span>
+                  <span class="contact-value">Vadodara, Gujarat, India</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Contact Form -->
+          <div class="contact-form-wrapper reveal reveal-delay-1">
+            <form id="contact-form" class="contact-form">
+              <div class="form-group">
+                <input type="text" id="name" name="name" required placeholder=" ">
+                <label for="name">Your Name</label>
+              </div>
+              <div class="form-group">
+                <input type="email" id="email" name="email" required placeholder=" ">
+                <label for="email">Your Email</label>
+              </div>
+              <div class="form-group">
+                <textarea id="message" name="message" rows="5" required placeholder=" "></textarea>
+                <label for="message">Message</label>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full" id="submit-btn">
+                <span>Send Message</span>
+                <i data-lucide="send" id="btn-send-icon"></i>
+              </button>
+              <div class="form-feedback" id="form-feedback"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <p class="copyright">
+        &copy; 2026 Hetvi Sheth. All rights reserved.
+      </p>
+      <div class="footer-socials">
+        <a href="mailto:hetvisheth@example.com" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
