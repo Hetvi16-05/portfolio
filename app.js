@@ -386,4 +386,31 @@ document.addEventListener('DOMContentLoaded', () => {
     initParticles();
     animate();
   }
+
+  // ==========================================================================
+  // Interactive Project Reports Tabs
+  // ==========================================================================
+  const reportTabBtns = document.querySelectorAll('.report-tab-btn');
+  const reportDetailCards = document.querySelectorAll('.report-detail-card');
+
+  if (reportTabBtns.length > 0) {
+    reportTabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        reportTabBtns.forEach(b => b.classList.remove('active'));
+        // Add active class to clicked button
+        btn.classList.add('active');
+
+        // Hide all detail cards and show target one
+        const targetId = btn.getAttribute('data-target');
+        reportDetailCards.forEach(card => {
+          if (card.getAttribute('id') === targetId) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      });
+    });
+  }
 });

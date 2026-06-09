@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume | Hetvi Sheth AI & Full Stack Developer</title>
+  <meta name="description" content="View the professional CV, academic history, course works, and achievements of Hetvi Sheth, Computer Engineering student.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Neural Mesh Background Canvas -->
+  <div class="canvas-container">
+    <canvas id="neural-canvas"></canvas>
+  </div>
+
+  <!-- Glassmorphic Header / Navigation -->
+  <header id="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>Hetvi<span class="logo-accent">.</span>Sheth<span class="logo-accent"> /&gt;</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="reports.html">Reports</a>
+        <a href="certificates.html">Certificates</a>
+        <a href="resume.html">Resume</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="contact.html" class="btn btn-sm btn-outline">Let's Talk</a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" aria-label="Toggle Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay Navigation -->
+  <div class="mobile-overlay">
+    <button class="close-menu-btn" aria-label="Close Menu">
+      <i data-lucide="x"></i>
+    </button>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <a href="projects.html" class="mobile-link">Projects</a>
+      <a href="reports.html" class="mobile-link">Reports</a>
+      <a href="certificates.html" class="mobile-link">Certificates</a>
+      <a href="resume.html" class="mobile-link">Resume</a>
+      <a href="contact.html" class="mobile-link">Contact</a>
+    </nav>
+  </div>
+
+  <main class="page-content">
+    <!-- Resume Section -->
+    <section class="section resume-section first-section">
+      <div class="container">
+        
+        <div class="resume-action-header reveal">
+          <div class="section-header" style="margin-bottom: 0;">
+            <h2 class="section-title"><span class="number-prefix">01.</span> Resume</h2>
+            <div class="section-line"></div>
+          </div>
+          <button onclick="window.print()" class="btn btn-primary btn-sm">
+            <i data-lucide="download"></i>
+            <span>Print / Download PDF</span>
+          </button>
+        </div>
+
+        <!-- Resume grid -->
+        <div class="resume-layout">
+          <!-- Sidebar: Skills and competencies -->
+          <div class="resume-sidebar-card reveal">
+            <div class="resume-section-wrapper" style="margin-bottom: 2.5rem;">
+              <h3 class="resume-section-title"><i data-lucide="user"></i> Hetvi Sheth</h3>
+              <p style="font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--text-main); font-weight: 500;">
+                AI &amp; Full Stack Developer
+              </p>
+              <p style="font-size: 0.9rem; line-height: 1.5;">
+                Computer Engineering student passionate about compiling machine learning algorithms into full-stack web applications.
+              </p>
+            </div>
+
+            <div class="resume-section-wrapper" style="margin-bottom: 2.5rem;">
+              <h3 class="resume-section-title"><i data-lucide="cpu"></i> Competencies</h3>
+              <div class="skills-pills">
+                <span class="skill-pill">Machine Learning</span>
+                <span class="skill-pill">Data Analysis</span>
+                <span class="skill-pill">NLP Models</span>
+                <span class="skill-pill">Computer Vision</span>
+                <span class="skill-pill">Full Stack Development</span>
+                <span class="skill-pill">Big Data Pipelines</span>
+              </div>
+            </div>
+
+            <div class="resume-section-wrapper">
+              <h3 class="resume-section-title"><i data-lucide="settings"></i> Languages &amp; Tools</h3>
+              <div class="skills-pills">
+                <span class="skill-pill">Python</span>
+                <span class="skill-pill">Java</span>
+                <span class="skill-pill">JavaScript</span>
+                <span class="skill-pill">React.js</span>
+                <span class="skill-pill">Node.js</span>
+                <span class="skill-pill">PyTorch</span>
+                <span class="skill-pill">TensorFlow</span>
+                <span class="skill-pill">SQL</span>
+                <span class="skill-pill">MongoDB</span>
+                <span class="skill-pill">Git</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Timeline Content -->
+          <div class="resume-main-timeline">
+            <!-- Education timeline block -->
+            <div class="resume-timeline-block reveal reveal-delay-1">
+              <h3 class="resume-section-title"><i data-lucide="graduation-cap"></i> Education</h3>
+              <div class="education-block">
+                <span class="timeline-date" style="color: var(--secondary); font-weight: 600; display: block; margin-bottom: 0.5rem;">
+                  Pursuing (Bachelor of Engineering)
+                </span>
+                <h4 style="font-size: 1.3rem; margin-bottom: 0.25rem;">Computer Engineering</h4>
+                <p style="color: var(--text-main); font-weight: 500; margin-bottom: 1rem;">Gujarat, India</p>
+                <p style="font-size: 0.95rem; margin-bottom: 1.5rem;">
+                  Acquiring specialized knowledge in high-performance computing, predictive analysis, database architecture, and compiler modeling.
+                </p>
+                
+                <h5 style="font-family: var(--font-display); font-size: 1rem; color: var(--secondary); margin-bottom: 0.75rem;">
+                  Focused Areas &amp; Coursework
+                </h5>
+                <div class="resume-coursework-list">
+                  <div class="coursework-item">
+                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
+                    <span>Artificial Intelligence</span>
+                  </div>
+                  <div class="coursework-item">
+                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
+                    <span>Data Science</span>
+                  </div>
+                  <div class="coursework-item">
+                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
+                    <span>Web Development</span>
+                  </div>
+                  <div class="coursework-item">
+                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
+                    <span>Database Management Systems</span>
+                  </div>
+                  <div class="coursework-item">
+                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
+                    <span>Compiler Design</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Achievements block -->
+            <div class="resume-timeline-block reveal reveal-delay-2">
+              <h3 class="resume-section-title"><i data-lucide="trophy"></i> Key Achievements</h3>
+              <div class="timeline-list" style="border-left: none; padding-left: 0;">
+                <div class="timeline-item" style="margin-bottom: 2rem;">
+                  <span class="timeline-date">Hackathons</span>
+                  <h4 style="font-size: 1.15rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">Supplier Ranking Agent appreciated by Mesh Works</h4>
+                  <p style="font-size: 0.95rem;">
+                    Developed and demoed an automated regression-based ranking model utilizing live scraped web metrics, receiving recognition from industrial founders.
+                  </p>
+                </div>
+                <div class="timeline-item" style="margin-bottom: 2rem;">
+                  <span class="timeline-date">Research Publication</span>
+                  <h4 style="font-size: 1.15rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">SustainX 2026 Paper Publication</h4>
+                  <p style="font-size: 0.95rem;">
+                    Co-authored and published a computer vision guided smart recycling paper based on YOLO classification models.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <span class="timeline-date">Competitive Hackathons</span>
+                  <h4 style="font-size: 1.15rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">Travia &amp; RAINWISE V3.1 Sprint Prototypes</h4>
+                  <p style="font-size: 0.95rem;">
+                    Successfully programmed full-stack applications and edge-compatible computer vision algorithms within extreme timelines (e.g. 8-hour sprints).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <p class="copyright">
+        &copy; 2026 Hetvi Sheth. All rights reserved.
+      </p>
+      <div class="footer-socials">
+        <a href="mailto:hetvisheth@example.com" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Logic -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

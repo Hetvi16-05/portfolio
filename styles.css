@@ -23,7 +23,7 @@
   --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: all 0.2s ease;
   
-  --max-width: 1200px;
+  --max-width: 1400px;
 }
 
 /* ==========================================================================
@@ -1363,5 +1363,352 @@ footer {
   
   .hero-ctas .btn {
     width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Reports Dashboard Layout
+   ========================================================================== */
+.reports-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.reports-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.report-menu-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(248, 250, 252, 0.05);
+}
+
+.report-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition-smooth);
+}
+
+.report-tab-btn i {
+  width: 16px;
+  height: 16px;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: var(--transition-fast);
+}
+
+.report-tab-btn:hover {
+  background: rgba(248, 250, 252, 0.03);
+  color: var(--text-main);
+  border-color: rgba(248, 250, 252, 0.05);
+}
+
+.report-tab-btn.active {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(34, 211, 238, 0.05));
+  border-color: var(--primary);
+  color: var(--secondary);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);
+}
+
+.report-tab-btn.active i {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.report-details-container {
+  min-height: 500px;
+}
+
+.report-detail-card {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  animation: fadeInReport 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.report-detail-card.active {
+  display: block;
+}
+
+@keyframes fadeInReport {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.report-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(248, 250, 252, 0.05);
+  border-bottom: 1px solid rgba(248, 250, 252, 0.05);
+}
+
+.report-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.report-meta-label {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  letter-spacing: 0.05em;
+}
+
+.report-meta-value {
+  font-size: 1rem;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.report-skills-used {
+  margin-top: 2rem;
+}
+
+.report-skills-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--secondary);
+  margin-bottom: 1rem;
+}
+
+.report-skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* ==========================================================================
+   Certificates Section Layout
+   ========================================================================== */
+.certificates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 2.5rem;
+}
+
+.certificate-card {
+  position: relative;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--border-color), transparent 60%);
+  padding: 1px;
+  transition: var(--transition-smooth);
+}
+
+.certificate-card-inner {
+  background: var(--bg-card);
+  border-radius: 15px;
+  padding: 2.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.certificate-card:hover {
+  transform: translateY(-8px);
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 25px rgba(34, 211, 238, 0.15);
+}
+
+.certificate-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+
+.cert-logo-wrapper {
+  width: 48px;
+  height: 48px;
+  background: rgba(10, 15, 30, 0.4);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary);
+}
+
+.certificate-badge {
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid var(--border-color-hover);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--secondary);
+}
+
+.certificate-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.certificate-org {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.certificate-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ==========================================================================
+   Resume Interactive Layout
+   ========================================================================== */
+.resume-action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.resume-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.resume-sidebar-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.resume-section-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--secondary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(248, 250, 252, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.resume-main-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.resume-timeline-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transition: var(--transition-smooth);
+}
+
+.resume-timeline-block:hover {
+  border-color: var(--border-color-hover);
+  box-shadow: 0 15px 40px rgba(124, 58, 237, 0.08);
+}
+
+.resume-coursework-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.coursework-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Print Style overrides
+   ========================================================================== */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  header, footer, .canvas-container, .resume-action-header, .btn, i {
+    display: none !important;
+  }
+  .resume-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .resume-sidebar-card, .resume-timeline-block {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    color: black !important;
+  }
+  h1, h2, h3, h4, p, span, li, strong {
+    color: black !important;
+  }
+  .skill-pill, .competency-badge, .tech-tag {
+    border: 1px solid #ccc !important;
+    background: transparent !important;
+    color: black !important;
+  }
+}
+
+/* ==========================================================================
+   Responsive Adaptations for Splits
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .reports-layout, .resume-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .certificates-grid {
+    grid-template-columns: 1fr;
   }
 }
