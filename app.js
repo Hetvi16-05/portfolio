@@ -5,6 +5,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
+  // Dynamic Typewriter Effect
+  // ==========================================================================
+  const typingSpan = document.getElementById('typing-text');
+  if (typingSpan) {
+    const words = [
+      "Machine Learning.",
+      "Full-Stack Web Apps.",
+      "Natural Language Processing.",
+      "Agentic AI Workflows."
+    ];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 100;
+
+    function type() {
+      const currentWord = words[wordIndex];
+      if (isDeleting) {
+        typingSpan.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+        typingSpeed = 40;
+      } else {
+        typingSpan.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+        typingSpeed = 80;
+      }
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        typingSpeed = 2200; // Pause at end of word
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        typingSpeed = 400; // Pause before starting next word
+      }
+
+      setTimeout(type, typingSpeed);
+    }
+
+    // Start typewriter loop
+    setTimeout(type, 800);
+  }
+
+  // ==========================================================================
   // Navigation & Scroll Effects
   // ==========================================================================
   const header = document.getElementById('header');

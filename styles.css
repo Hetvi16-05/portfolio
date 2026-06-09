@@ -404,38 +404,163 @@ header.scrolled {
   z-index: 1;
 }
 
+/* Fullscreen landing page constraint for desktop screens */
+@media (min-width: 1025px) {
+  body.home-page {
+    height: 100vh;
+    overflow: hidden;
+  }
+  body.home-page main {
+    height: calc(100vh - 80px - 100px); /* subtract header and footer */
+    display: flex;
+    align-items: center;
+  }
+  body.home-page .hero-section {
+    min-height: auto;
+    width: 100%;
+    padding-top: 0;
+  }
+}
+
 .hero-container {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   align-items: center;
   gap: 4rem;
+  width: 100%;
 }
 
 .hero-content {
-  max-width: 700px;
+  max-width: 750px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
 .hero-title {
-  font-size: 4rem;
+  font-size: 4.6rem;
   line-height: 1.1;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   margin-bottom: 2.5rem;
   color: var(--text-muted);
-  max-width: 600px;
+  max-width: 650px;
+  line-height: 1.8;
 }
 
 .hero-ctas {
   display: flex;
   gap: 1.5rem;
 }
+
+/* ==========================================================================
+   Typewriter Styling
+   ========================================================================== */
+.hero-typing {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+  min-height: 40px; /* prevent page layout shifts during cycles */
+}
+
+.hero-typing .cursor {
+  color: var(--secondary);
+  animation: blinkCursor 0.75s step-end infinite;
+}
+
+@keyframes blinkCursor {
+  from, to { color: transparent }
+  50% { color: var(--secondary); }
+}
+
+/* ==========================================================================
+   Hero Visual & Interactive Code Card
+   ========================================================================== */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  width: 100%;
+}
+
+.code-card {
+  background: rgba(30, 42, 69, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 35px rgba(124, 58, 237, 0.12);
+  transform: rotateY(-12deg) rotateX(10deg);
+  transform-style: preserve-3d;
+  animation: floatCard 6s ease-in-out infinite;
+  transition: var(--transition-smooth);
+}
+
+.code-card:hover {
+  transform: rotateY(0deg) rotateX(0deg) scale(1.05);
+  border-color: var(--secondary);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 45px rgba(34, 211, 238, 0.25);
+}
+
+@keyframes floatCard {
+  0% { transform: rotateY(-12deg) rotateX(10deg) translateY(0px); }
+  50% { transform: rotateY(-12deg) rotateX(10deg) translateY(-18px); }
+  100% { transform: rotateY(-12deg) rotateX(10deg) translateY(0px); }
+}
+
+.code-card-header {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1.25rem;
+  border-bottom: 1px solid rgba(248, 250, 252, 0.05);
+  background: rgba(10, 15, 30, 0.6);
+  border-radius: 12px 12px 0 0;
+}
+
+.code-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.code-dot.red { background: #EF4444; }
+.code-dot.yellow { background: #F59E0B; }
+.code-dot.green { background: #10B981; }
+
+.code-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-left: auto;
+  letter-spacing: 0.05em;
+}
+
+.code-card-body {
+  padding: 1.5rem;
+  font-family: 'Space Grotesk', 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  text-align: left;
+  overflow-x: auto;
+}
+
+.code-card-body pre {
+  margin: 0;
+}
+
+.code-keyword { color: #A78BFA; font-weight: bold; } /* violet keyword */
+.code-comment { color: var(--text-dark); font-style: italic; }
+.code-string { color: var(--secondary); } /* cyan string */
+.code-number { color: #F59E0B; }
 
 .scroll-indicator {
   position: absolute;
@@ -1139,6 +1264,33 @@ footer {
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .hero-content {
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .hero-subtitle {
+    max-width: 100%;
+  }
+
+  .code-card {
+    transform: none;
+    animation: floatCardMobile 4s ease-in-out infinite;
+  }
+
+  @keyframes floatCardMobile {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
   .hero-title {
     font-size: 3.5rem;
   }

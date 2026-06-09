@@ -17,7 +17,7 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="home-page">
 
   <!-- Neural Mesh Background Canvas -->
   <div class="canvas-container">
@@ -71,10 +71,13 @@
           <h1 class="hero-title reveal reveal-delay-1">
             Hi, I'm <span class="gradient-text font-display">Hetvi Sheth</span>
           </h1>
-          <p class="hero-subtitle reveal reveal-delay-2">
+          <div class="hero-typing reveal reveal-delay-2">
+            I build systems using <span id="typing-text" class="accent-cyan"></span><span class="cursor">|</span>
+          </div>
+          <p class="hero-subtitle reveal reveal-delay-3">
             An aspiring Computer Engineer passionate about building intelligent, impactful, and user-friendly applications. I bridge the gap between machine learning intelligence and full-stack implementation.
           </p>
-          <div class="hero-ctas reveal reveal-delay-3">
+          <div class="hero-ctas reveal reveal-delay-4">
             <a href="projects.html" class="btn btn-primary">
               View My Work
               <i data-lucide="arrow-up-right"></i>
@@ -83,6 +86,36 @@
               Contact Me
               <i data-lucide="mail"></i>
             </a>
+          </div>
+        </div>
+
+        <!-- Right Column Hero Visual -->
+        <div class="hero-visual reveal reveal-delay-3">
+          <div class="code-card">
+            <div class="code-card-header">
+              <span class="code-dot red"></span>
+              <span class="code-dot yellow"></span>
+              <span class="code-dot green"></span>
+              <span class="code-title">neural_network.py</span>
+            </div>
+            <div class="code-card-body">
+              <pre><code><span class="code-keyword">import</span> tensorflow <span class="code-keyword">as</span> tf
+
+<span class="code-comment"># Initialize neural layers</span>
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(<span class="code-number">128</span>, activation=<span class="code-string">'relu'</span>),
+    tf.keras.layers.Dropout(<span class="code-number">0.2</span>),
+    tf.keras.layers.Dense(<span class="code-number">1</span>, activation=<span class="code-string">'sigmoid'</span>)
+])
+
+<span class="code-comment"># Compiling AI model...</span>
+model.compile(optimizer=<span class="code-string">'adam'</span>, 
+              loss=<span class="code-string">'binary_crossentropy'</span>,
+              metrics=[<span class="code-string">'accuracy'</span>])
+
+<span class="code-keyword">print</span>(<span class="code-string">"Model compiled successfully."</span>)
+<span class="code-comment"># Training accuracy: 98.4%</span></code></pre>
+            </div>
           </div>
         </div>
       </div>
