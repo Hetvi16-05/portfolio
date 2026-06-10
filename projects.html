@@ -270,6 +270,49 @@
     </div>
   </footer>
 
+  <!-- Project Detail Side Panel (Drawer) -->
+  <div id="project-drawer" class="project-drawer">
+    <div class="drawer-overlay"></div>
+    <div class="drawer-content">
+      <button class="drawer-close" aria-label="Close panel">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="drawer-body">
+        <div class="drawer-icon-wrapper">
+          <i id="drawer-icon" data-lucide="folder"></i>
+        </div>
+        <h2 id="drawer-title" class="drawer-title gradient-text">Project Title</h2>
+        <div class="drawer-divider"></div>
+        
+        <div class="drawer-section">
+          <h3>Overview</h3>
+          <p id="drawer-desc">Project description goes here...</p>
+        </div>
+
+        <div class="drawer-section">
+          <h3>Key Features</h3>
+          <ul id="drawer-features" class="drawer-features-list">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+
+        <div class="drawer-section">
+          <h3>Technologies Used</h3>
+          <div id="drawer-tech" class="skills-pills">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <div class="drawer-actions">
+          <a id="drawer-github-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-full">
+            <i data-lucide="github"></i>
+            <span>View Source Code</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- App Logic -->
   <script type="module" src="app.js"></script>
 </body>

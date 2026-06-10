@@ -452,4 +452,99 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // ==========================================================================
+  // Left Side Project Drawer (Side Panel)
+  // ==========================================================================
+  const projectCards = document.querySelectorAll('.project-card');
+  const drawer = document.getElementById('project-drawer');
+  const drawerOverlay = drawer ? drawer.querySelector('.drawer-overlay') : null;
+  const drawerCloseBtn = drawer ? drawer.querySelector('.drawer-close') : null;
+
+  if (drawer && projectCards.length > 0) {
+    const drawerIconEl = document.getElementById('drawer-icon');
+    const drawerTitleEl = document.getElementById('drawer-title');
+    const drawerDescEl = document.getElementById('drawer-desc');
+    const drawerFeaturesEl = document.getElementById('drawer-features');
+    const drawerTechEl = document.getElementById('drawer-tech');
+    const drawerGithubLinkEl = document.getElementById('drawer-github-link');
+
+    const openDrawer = (card) => {
+      // Extract data from card
+      const icon = card.querySelector('.project-icon');
+      const title = card.querySelector('.project-title').textContent;
+      const desc = card.querySelector('.project-text').textContent;
+      const features = Array.from(card.querySelectorAll('.project-features li')).map(li => li.textContent.trim());
+      const tech = Array.from(card.querySelectorAll('.project-tech .tech-tag')).map(tag => tag.textContent.trim());
+      const githubLink = card.querySelector('.project-links a[aria-label="GitHub Repository"]');
+
+      // Populate drawer elements
+      if (icon && drawerIconEl) {
+        const iconName = icon.getAttribute('data-lucide') || 'folder';
+        drawerIconEl.setAttribute('data-lucide', iconName);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      if (drawerTitleEl) drawerTitleEl.textContent = title;
+      if (drawerDescEl) drawerDescEl.textContent = desc;
+
+      // Populate features list
+      if (drawerFeaturesEl) {
+        drawerFeaturesEl.innerHTML = '';
+        features.forEach(feat => {
+          const li = document.createElement('li');
+          li.innerHTML = `<i data-lucide="check-circle-2"></i> <span>${feat}</span>`;
+          drawerFeaturesEl.appendChild(li);
+        });
+      }
+
+      // Populate tech stack
+      if (drawerTechEl) {
+        drawerTechEl.innerHTML = '';
+        tech.forEach(t => {
+          const span = document.createElement('span');
+          span.className = 'skill-pill';
+          span.textContent = t;
+          drawerTechEl.appendChild(span);
+        });
+      }
+
+      // Populate GitHub source code link
+      if (drawerGithubLinkEl && githubLink) {
+        drawerGithubLinkEl.href = githubLink.href;
+      }
+
+      // Re-initialize Lucide Icons in the drawer
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+
+      // Slide in drawer
+      drawer.classList.add('active');
+      document.body.style.overflow = 'hidden'; // prevent background scrolling
+    };
+
+    const closeDrawer = () => {
+      drawer.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    };
+
+    // Add click listeners to all project cards
+    projectCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        // If click is on a link or its children (like the GitHub icon button), let default behavior happen
+        if (e.target.closest('a') || e.target.closest('button') || e.target.closest('i')) {
+          return;
+        }
+        openDrawer(card);
+      });
+    });
+
+    if (drawerCloseBtn) {
+      drawerCloseBtn.addEventListener('click', closeDrawer);
+    }
+    if (drawerOverlay) {
+      drawerOverlay.addEventListener('click', closeDrawer);
+    }
+  }
 });
