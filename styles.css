@@ -2374,5 +2374,217 @@ footer {
   animation: greenPulse 2s infinite;
 }
 
+/* ==========================================================================
+   Page Transition Overlay — Split Curtain
+   ========================================================================== */
+#page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  overflow: hidden;
+}
 
+/* Top half panel */
+.pt-panel-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 51%; /* 51% to avoid 1px gap on some screens */
+  background: linear-gradient(180deg, #06061a 0%, #0e0926 60%, #130c30 100%);
+  transform: translateY(-101%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2px;
+}
 
+/* Bottom half panel */
+.pt-panel-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 51%;
+  background: linear-gradient(0deg, #06061a 0%, #0e0926 60%, #130c30 100%);
+  transform: translateY(101%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+/* Glowing line at the meeting edge */
+.pt-panel-top::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), var(--primary), transparent);
+  background-size: 200% 100%;
+  opacity: 0;
+  animation: none;
+}
+
+.pt-panel-bottom::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--secondary), var(--primary), var(--secondary), transparent);
+  background-size: 200% 100%;
+  opacity: 0;
+}
+
+/* HS Logo shown in center during transition */
+.pt-logo-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  z-index: 2;
+}
+
+.pt-logo-ring-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--primary));
+  background-size: 300% 300%;
+  animation: pt-ring-spin 1.5s linear infinite;
+  padding: 2px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.pt-logo-bg {
+  position: absolute;
+  inset: 3px;
+  border-radius: 17px;
+  background: linear-gradient(135deg, #100830, #0c1a35);
+  border: 1px solid rgba(124, 58, 237, 0.4);
+}
+
+.pt-logo-initials {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #fff 0%, var(--secondary) 50%, var(--primary) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pt-ring-spin 2s ease infinite;
+}
+
+/* Moving shimmer stripe across panels */
+.pt-shimmer {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 60px;
+  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.08), rgba(34, 211, 238, 0.06), transparent);
+  left: -60px;
+  opacity: 0;
+}
+
+/* ==============================
+   LEAVING: panels sweep in to cover screen
+   ============================== */
+#page-transition.is-leaving .pt-panel-top {
+  pointer-events: all;
+  animation: pt-top-cover 0.45s cubic-bezier(0.55, 0, 0.8, 0.45) forwards;
+}
+
+#page-transition.is-leaving .pt-panel-bottom {
+  pointer-events: all;
+  animation: pt-bottom-cover 0.45s cubic-bezier(0.55, 0, 0.8, 0.45) forwards;
+}
+
+#page-transition.is-leaving .pt-logo-center {
+  animation: pt-logo-appear 0.4s ease 0.3s both;
+}
+
+#page-transition.is-leaving .pt-shimmer {
+  animation: pt-shimmer-run 0.8s ease 0.35s forwards;
+  opacity: 1;
+}
+
+#page-transition.is-leaving .pt-panel-top::after,
+#page-transition.is-leaving .pt-panel-bottom::after {
+  opacity: 1;
+  animation: pt-glow-line 0.8s ease 0.35s infinite;
+}
+
+/* ==============================
+   ENTERING: panels sweep away to reveal page
+   ============================== */
+#page-transition.is-entering .pt-panel-top {
+  transform: translateY(0%);
+  animation: pt-top-reveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+}
+
+#page-transition.is-entering .pt-panel-bottom {
+  transform: translateY(0%);
+  animation: pt-bottom-reveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+}
+
+#page-transition.is-entering .pt-logo-center {
+  opacity: 1;
+  animation: pt-logo-disappear 0.25s ease forwards;
+}
+
+/* ==============================
+   Keyframes
+   ============================== */
+@keyframes pt-top-cover {
+  0%   { transform: translateY(-101%); }
+  100% { transform: translateY(0%); }
+}
+
+@keyframes pt-bottom-cover {
+  0%   { transform: translateY(101%); }
+  100% { transform: translateY(0%); }
+}
+
+@keyframes pt-top-reveal {
+  0%   { transform: translateY(0%); }
+  100% { transform: translateY(-101%); }
+}
+
+@keyframes pt-bottom-reveal {
+  0%   { transform: translateY(0%); }
+  100% { transform: translateY(101%); }
+}
+
+@keyframes pt-logo-appear {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.4) rotate(-20deg); }
+  60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.08) rotate(3deg); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+}
+
+@keyframes pt-logo-disappear {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(15deg); }
+}
+
+@keyframes pt-ring-spin {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes pt-shimmer-run {
+  0%   { left: -60px; opacity: 0.6; }
+  100% { left: 110%; opacity: 0; }
+}
+
+@keyframes pt-glow-line {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}

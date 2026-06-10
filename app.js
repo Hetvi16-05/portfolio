@@ -637,4 +637,54 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(bindCursorHover, 100);
     });
   }
+
+  // ==========================================================================
+  // Page Transition — Split Curtain
+  // ==========================================================================
+  const ptOverlay = document.getElementById('page-transition');
+
+  if (ptOverlay) {
+    // On page load: run the "entering" reveal animation
+    requestAnimationFrame(() => {
+      ptOverlay.classList.add('is-entering');
+      ptOverlay.classList.remove('is-leaving');
+
+      // Clean up after animation completes
+      setTimeout(() => {
+        ptOverlay.classList.remove('is-entering');
+      }, 700);
+    });
+
+    // Navigate with leave animation
+    function navigateWithTransition(href) {
+      if (ptOverlay.classList.contains('is-leaving')) return; // prevent double-fire
+      ptOverlay.classList.remove('is-entering');
+      ptOverlay.classList.add('is-leaving');
+      ptOverlay.style.pointerEvents = 'all';
+
+      setTimeout(() => {
+        window.location.href = href;
+      }, 520); // slightly past the 0.45s animation
+    }
+
+    // Intercept all internal HTML page links
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute('href');
+      // Only internal .html links (not mailto, tel, #hash, http)
+      if (
+        href &&
+        href.endsWith('.html') &&
+        !href.startsWith('http') &&
+        !href.startsWith('//') &&
+        !link.hasAttribute('download') &&
+        link.getAttribute('target') !== '_blank'
+      ) {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          navigateWithTransition(href);
+        });
+      }
+    });
+  }
+
 });
