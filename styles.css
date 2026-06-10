@@ -223,10 +223,32 @@ a {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--text-main) 30%, var(--secondary) 60%, var(--primary));
+  background: linear-gradient(135deg, #ffffff 0%, var(--secondary) 35%, var(--primary) 65%, var(--secondary) 100%);
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: name-shimmer 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 24px rgba(124, 58, 237, 0.35)) drop-shadow(0 0 8px rgba(34, 211, 238, 0.2));
+  position: relative;
+}
+
+@keyframes name-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes hero-title-entry {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
 /* ==========================================================================
@@ -281,102 +303,115 @@ header.scrolled {
   transition: var(--transition-smooth);
 }
 
+/* ==========================================================================
+   Logo Monogram — Animated HS Badge
+   ========================================================================== */
 .logo {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: var(--text-main);
-  letter-spacing: -0.01em;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
   transition: var(--transition-smooth);
+  position: relative;
 }
 
-.logo-accent {
-  color: var(--secondary);
-  transition: var(--transition-smooth);
+.logo-monogram {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: monogram-entry 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.logo-left, .logo-right, .logo-dot, .logo-name-first, .logo-name-last {
-  display: inline-block;
-  transition: var(--transition-smooth);
+/* Outer rotating ring */
+.logo-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--primary));
+  background-size: 200% 200%;
+  animation: ring-spin 3s linear infinite, ring-gradient 4s ease infinite;
+  padding: 2px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
-.logo-left {
-  margin-right: 2px;
-  animation: slide-in-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Inner glowing background */
+.logo-bg {
+  position: absolute;
+  inset: 2px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(34,211,238,0.08));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  box-shadow:
+    0 0 0 0 rgba(124, 58, 237, 0.4),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  animation: logo-pulse 2.5s ease-in-out infinite;
 }
 
-.logo-right {
-  margin-left: 2px;
-  animation: slide-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* The HS text */
+.logo-initials {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, #fff 0%, var(--secondary) 50%, var(--primary) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: initials-shimmer 3s ease infinite;
 }
 
-.logo-name-first {
-  animation: fade-in-blur 0.6s ease-out 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+/* Hover effects */
+.logo:hover .logo-bg {
+  box-shadow:
+    0 0 20px rgba(124, 58, 237, 0.5),
+    0 0 40px rgba(34, 211, 238, 0.2),
+    inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
-.logo-name-last {
-  animation: fade-in-blur 0.6s ease-out 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+.logo:hover .logo-monogram {
+  transform: scale(1.08) rotate(-3deg);
 }
 
-.logo-dot {
-  animation: fade-in-blur 0.6s ease-out 0.4s cubic-bezier(0.16, 1, 0.3, 1) both,
-             logo-dot-blink 1s infinite alternate ease-in-out 1s;
-}
-
-/* Hover States */
-.logo:hover .logo-left {
-  transform: translateX(-5px) scale(1.1);
-  color: var(--primary);
-  text-shadow: 0 0 10px var(--primary-glow);
-}
-
-.logo:hover .logo-right {
-  transform: translateX(5px) scale(1.1);
-  color: var(--primary);
-  text-shadow: 0 0 10px var(--primary-glow);
-}
-
-.logo:hover .logo-name-first {
-  color: var(--secondary);
-  transform: scale(1.02);
-  text-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
-}
-
-.logo:hover .logo-name-last {
-  color: var(--text-main);
-  transform: scale(1.02);
-  text-shadow: 0 0 8px rgba(248, 250, 252, 0.3);
-}
-
-.logo:hover .logo-dot {
-  animation: pulse-dot-active 0.8s infinite alternate ease-in-out;
-  color: var(--secondary);
+.logo:hover .logo-ring {
+  animation: ring-spin 0.8s linear infinite, ring-gradient 2s ease infinite;
 }
 
 /* Keyframes */
-@keyframes slide-in-left {
-  0% {
-    transform: translateX(-15px);
-    opacity: 0;
+@keyframes monogram-entry {
+  0% { opacity: 0; transform: scale(0.5) rotate(-15deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes ring-spin {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes ring-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes logo-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.3), inset 0 1px 0 rgba(255,255,255,0.08);
   }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
+  50% {
+    box-shadow: 0 0 15px 3px rgba(124, 58, 237, 0.2), 0 0 30px rgba(34,211,238,0.1), inset 0 1px 0 rgba(255,255,255,0.08);
   }
 }
 
-@keyframes slide-in-right {
-  0% {
-    transform: translateX(15px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+@keyframes initials-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 @keyframes fade-in-blur {
@@ -389,33 +424,6 @@ header.scrolled {
     opacity: 1;
     filter: blur(0);
     transform: translateY(0);
-  }
-}
-
-@keyframes logo-dot-blink {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.4;
-    color: var(--text-muted);
-  }
-  50% {
-    transform: scale(1.25);
-    opacity: 1;
-    color: var(--secondary);
-    text-shadow: 0 0 10px var(--secondary-glow);
-  }
-}
-
-@keyframes pulse-dot-active {
-  0% {
-    transform: scale(1);
-    color: var(--secondary);
-    text-shadow: 0 0 4px var(--secondary-glow);
-  }
-  100% {
-    transform: scale(1.4);
-    color: var(--primary);
-    text-shadow: 0 0 12px var(--primary-glow);
   }
 }
 
@@ -568,6 +576,30 @@ header.scrolled {
   line-height: 1.1;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+  animation: hero-title-entry 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(124, 58, 237, 0.08);
+}
+
+.hero-greeting {
+  display: inline-block;
+  color: var(--text-main);
+  animation: greeting-shadow 4s ease-in-out infinite;
+}
+
+@keyframes greeting-shadow {
+  0%, 100% {
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.5),
+      0 0 20px rgba(124, 58, 237, 0.15);
+  }
+  50% {
+    text-shadow:
+      0 2px 12px rgba(0, 0, 0, 0.6),
+      0 0 35px rgba(124, 58, 237, 0.3),
+      0 0 60px rgba(34, 211, 238, 0.1);
+  }
 }
 
 .hero-subtitle {
@@ -577,6 +609,7 @@ header.scrolled {
   max-width: 650px;
   line-height: 1.8;
 }
+
 
 .hero-ctas {
   display: flex;
@@ -1151,6 +1184,72 @@ header.scrolled {
   height: 14px;
   color: var(--secondary);
 }
+
+/* Education Status Badges */
+.edu-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.status-ongoing {
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  color: var(--primary);
+  animation: ongoing-glow 2.5s ease-in-out infinite;
+}
+
+.status-done {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10B981;
+}
+
+.status-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: status-dot-pulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes status-dot-pulse {
+  0%, 100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.6);
+  }
+  60% {
+    transform: scale(1);
+    box-shadow: 0 0 0 5px rgba(124, 58, 237, 0);
+  }
+}
+
+@keyframes ongoing-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.1); }
+  50% { box-shadow: 0 0 12px 2px rgba(124, 58, 237, 0.15); }
+}
+
+/* Completed timeline marker — green dot */
+.timeline-marker-done {
+  background: #10B981;
+  border-color: #10B981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.timeline-item:hover .timeline-marker-done {
+  background: #34d399;
+  border-color: #34d399;
+  box-shadow: 0 0 18px rgba(52, 211, 153, 0.6);
+}
+
 
 /* ==========================================================================
    Contact Section
