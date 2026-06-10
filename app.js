@@ -462,7 +462,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const drawerCloseBtn = drawer ? drawer.querySelector('.drawer-close') : null;
 
   if (drawer && projectCards.length > 0) {
-    const drawerIconEl = document.getElementById('drawer-icon');
+    const drawerBannerImgEl = document.getElementById('drawer-banner-img');
+    const drawerCategoryEl = document.getElementById('drawer-category');
     const drawerTitleEl = document.getElementById('drawer-title');
     const drawerDescEl = document.getElementById('drawer-desc');
     const drawerFeaturesEl = document.getElementById('drawer-features');
@@ -471,7 +472,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const openDrawer = (card) => {
       // Extract data from card
-      const icon = card.querySelector('.project-icon');
+      const bannerImgUrl = card.getAttribute('data-image');
+      const category = card.querySelector('.project-category').textContent;
       const title = card.querySelector('.project-title').textContent;
       const desc = card.querySelector('.project-text').textContent;
       const features = Array.from(card.querySelectorAll('.project-features li')).map(li => li.textContent.trim());
@@ -479,12 +481,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const githubLink = card.querySelector('.project-links a[aria-label="GitHub Repository"]');
 
       // Populate drawer elements
-      if (icon && drawerIconEl) {
-        const iconName = icon.getAttribute('data-lucide') || 'folder';
-        drawerIconEl.setAttribute('data-lucide', iconName);
-        if (typeof lucide !== 'undefined') lucide.createIcons();
+      if (drawerBannerImgEl && bannerImgUrl) {
+        drawerBannerImgEl.src = bannerImgUrl;
       }
-
+      if (drawerCategoryEl && category) {
+        drawerCategoryEl.textContent = category;
+      }
       if (drawerTitleEl) drawerTitleEl.textContent = title;
       if (drawerDescEl) drawerDescEl.textContent = desc;
 
@@ -532,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add click listeners to all project cards
     projectCards.forEach(card => {
       card.addEventListener('click', (e) => {
-        // If click is on a link or its children (like the GitHub icon button), let default behavior happen
+        // If click is on a link or its children, let default behavior happen
         if (e.target.closest('a') || e.target.closest('button') || e.target.closest('i')) {
           return;
         }
@@ -546,5 +548,93 @@ document.addEventListener('DOMContentLoaded', () => {
     if (drawerOverlay) {
       drawerOverlay.addEventListener('click', closeDrawer);
     }
+  }
+
+  // ==========================================================================
+  // Projects Category Filtering
+  // ==========================================================================
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  if (filterBtns.length > 0) {
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Active button visual toggle
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterValue = btn.getAttribute('data-filter');
+        projectCards.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          if (filterValue === 'all' || cardCategory === filterValue) {
+            card.classList.remove('hide');
+          } else {
+            card.classList.add('hide');
+          }
+        });
+      });
+    });
+  }
+
+  // ==========================================================================
+  // Premium Cursor Follower
+  // ==========================================================================
+  // Only initialize custom cursor on non-touch desktop screens
+  if (window.matchMedia('(min-width: 1025px)').matches) {
+    const cursorDot = document.createElement('div');
+    cursorDot.className = 'cursor-dot';
+    const cursorOutline = document.createElement('div');
+    cursorOutline.className = 'cursor-outline';
+    document.body.appendChild(cursorDot);
+    document.body.appendChild(cursorOutline);
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let outlineX = -100;
+    let outlineY = -100;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+    });
+
+    const animateCursor = () => {
+      // Linear interpolation for smooth trailing outline
+      outlineX += (mouseX - outlineX) * 0.15;
+      outlineY += (mouseY - outlineY) * 0.15;
+
+      cursorOutline.style.left = `${outlineX}px`;
+      cursorOutline.style.top = `${outlineY}px`;
+
+      requestAnimationFrame(animateCursor);
+    };
+    animateCursor();
+
+    // Re-bind hover logic function to target hover items
+    const bindCursorHover = () => {
+      const hoverTargets = document.querySelectorAll('a, button, .project-card, .skills-category-card, .certificate-card, .report-tab-btn, .filter-btn');
+      hoverTargets.forEach(el => {
+        // Avoid duplicate event attachments
+        if (el.dataset.cursorBound) return;
+        el.dataset.cursorBound = "true";
+
+        el.addEventListener('mouseenter', () => {
+          cursorOutline.classList.add('hover');
+          cursorDot.classList.add('hover');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorOutline.classList.remove('hover');
+          cursorDot.classList.remove('hover');
+        });
+      });
+    };
+
+    bindCursorHover();
+
+    // Re-bind cursor events when dynamic tabs or elements are loaded/clicked
+    document.addEventListener('click', () => {
+      setTimeout(bindCursorHover, 100);
+    });
   }
 });

@@ -84,9 +84,20 @@
           and full-stack web architectures.
         </p>
 
+        <!-- Projects Category Filter Bar -->
+        <div class="projects-filter reveal reveal-delay-1">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="fullstack">Full Stack & AI</button>
+          <button class="filter-btn" data-filter="datascience">Data Science & ML</button>
+          <button class="filter-btn" data-filter="computervision">Computer Vision</button>
+          <button class="filter-btn" data-filter="bigdata">Big Data & AI</button>
+          <button class="filter-btn" data-filter="nlp">NLP & DL</button>
+          <button class="filter-btn" data-filter="iot">IoT & CV</button>
+        </div>
+
         <div class="projects-grid">
           <!-- Project 1: Travia -->
-          <div class="project-card reveal">
+          <div class="project-card reveal" data-category="fullstack" data-image="public/images/travia_hero.png">
             <div class="project-card-inner">
               <div class="project-header">
                 <i data-lucide="compass" class="project-icon"></i>
@@ -95,6 +106,7 @@
                     aria-label="GitHub Repository"><i data-lucide="github"></i></a>
                 </div>
               </div>
+              <span class="project-category">Full Stack & AI</span>
               <h3 class="project-title">Travia — AI Travel Planning</h3>
               <p class="project-text">
                 An AI-powered travel planning platform designed during a hackathon to generate personalized itineraries,
@@ -118,7 +130,7 @@
           </div>
 
           <!-- Project 2: AI Supplier Ranking -->
-          <div class="project-card reveal reveal-delay-1">
+          <div class="project-card reveal reveal-delay-1" data-category="datascience" data-image="public/images/supplier_hero.png">
             <div class="project-card-inner">
               <div class="project-header">
                 <i data-lucide="award" class="project-icon"></i>
@@ -127,6 +139,7 @@
                     aria-label="GitHub Repository"><i data-lucide="github"></i></a>
                 </div>
               </div>
+              <span class="project-category">Data Science & ML</span>
               <h3 class="project-title">AI Supplier Ranking Agent</h3>
               <p class="project-text">
                 An intelligent supplier evaluation and ranking platform employing regression models trained on live
@@ -148,7 +161,7 @@
           </div>
 
           <!-- Project 3: RAINWISE V3.1 -->
-          <div class="project-card reveal">
+          <div class="project-card reveal" data-category="computervision" data-image="public/images/rainwise_hero.png">
             <div class="project-card-inner">
               <div class="project-header">
                 <i data-lucide="cloud-rain" class="project-icon"></i>
@@ -157,6 +170,7 @@
                     aria-label="GitHub Repository"><i data-lucide="github"></i></a>
                 </div>
               </div>
+              <span class="project-category">Computer Vision & DL</span>
               <h3 class="project-title">RAINWISE V3.1</h3>
               <p class="project-text">
                 A computer-vision and deep-learning system designed for real-time flood segmentation, zero-shot threat
@@ -179,7 +193,7 @@
           </div>
 
           <!-- Project 4: Flood Prediction & Big Data -->
-          <div class="project-card reveal reveal-delay-1">
+          <div class="project-card reveal reveal-delay-1" data-category="bigdata" data-image="public/images/flood_hero.png">
             <div class="project-card-inner">
               <div class="project-header">
                 <i data-lucide="waves" class="project-icon"></i>
@@ -188,6 +202,7 @@
                     aria-label="GitHub Repository"><i data-lucide="github"></i></a>
                 </div>
               </div>
+              <span class="project-category">Big Data & AI</span>
               <h3 class="project-title">Flood Prediction &amp; Big Data</h3>
               <p class="project-text">
                 An AI-based forecasting and processing pipeline powered by distributed big data tools and Temporal
@@ -211,7 +226,7 @@
           </div>
 
           <!-- Project 5: Hindi Transliteration Engine -->
-          <div class="project-card reveal">
+          <div class="project-card reveal" data-category="nlp" data-image="public/images/transliteration_hero.png">
             <div class="project-card-inner">
               <div class="project-header">
                 <i data-lucide="languages" class="project-icon"></i>
@@ -220,6 +235,7 @@
                     aria-label="GitHub Repository"><i data-lucide="github"></i></a>
                 </div>
               </div>
+              <span class="project-category">NLP & Deep Learning</span>
               <h3 class="project-title">Hindi Transliteration Engine</h3>
               <p class="project-text">
                 An NLP-based deep learning transliteration system converting Hinglish text into Hindi script utilizing
@@ -242,7 +258,7 @@
           </div>
 
           <!-- Project 6: GreenSort -->
-          <div class="project-card reveal reveal-delay-1">
+          <div class="project-card reveal reveal-delay-1" data-category="iot" data-image="public/images/greensort_hero.png">
             <div class="project-card-inner">
               <div class="project-header">
                 <i data-lucide="recycle" class="project-icon"></i>
@@ -251,6 +267,7 @@
                     aria-label="GitHub Repository"><i data-lucide="github"></i></a>
                 </div>
               </div>
+              <span class="project-category">IoT & Computer Vision</span>
               <h3 class="project-title">GreenSort — Smart Waste</h3>
               <p class="project-text">
                 An AI and IoT-based waste classification and sorting system using computer vision algorithms connected
@@ -301,13 +318,18 @@
       <button class="drawer-close" aria-label="Close panel">
         <i data-lucide="x"></i>
       </button>
-      <div class="drawer-body">
-        <div class="drawer-icon-wrapper">
-          <i id="drawer-icon" data-lucide="folder"></i>
+      
+      <!-- Drawer Header Banner Image -->
+      <div class="drawer-header-banner">
+        <img id="drawer-banner-img" src="" alt="Project Banner">
+        <div class="drawer-banner-overlay"></div>
+        <div class="drawer-banner-meta">
+          <span id="drawer-category" class="badge">Category</span>
+          <h2 id="drawer-title" class="drawer-title">Project Title</h2>
         </div>
-        <h2 id="drawer-title" class="drawer-title gradient-text">Project Title</h2>
-        <div class="drawer-divider"></div>
+      </div>
 
+      <div class="drawer-body">
         <div class="drawer-section">
           <h3>Overview</h3>
           <p id="drawer-desc">Project description goes here...</p>

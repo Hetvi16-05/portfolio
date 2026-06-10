@@ -2006,3 +2006,217 @@ footer {
   transition: var(--transition-smooth);
 }
 
+.project-category {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+/* ==========================================================================
+   Projects Dynamic Category Filters
+   ========================================================================== */
+.projects-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 3.5rem;
+  justify-content: center;
+}
+
+.filter-btn {
+  background: rgba(30, 42, 69, 0.45);
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.filter-btn:hover {
+  border-color: var(--secondary);
+  color: var(--text-main);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.1);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--primary), #6366F1);
+  color: var(--text-main);
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+}
+
+.project-card.hide {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Project Drawer Banner Image Header
+   ========================================================================== */
+.drawer-header-banner {
+  position: relative;
+  width: calc(100% + 5rem);
+  margin-top: -3.5rem;
+  margin-left: -2.5rem;
+  margin-right: -2.5rem;
+  height: 220px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#drawer-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drawer-banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(10, 15, 30, 0.3) 0%, rgba(10, 15, 30, 0.9) 100%);
+}
+
+.drawer-banner-meta {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 2.5rem;
+  right: 2.5rem;
+  z-index: 2;
+}
+
+.drawer-banner-meta .badge {
+  background: rgba(34, 211, 238, 0.15);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  margin-bottom: 0.5rem;
+}
+
+.drawer-close {
+  z-index: 10;
+  color: #F8FAFC;
+  background: rgba(10, 15, 30, 0.6);
+  border-radius: 50%;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(248, 250, 252, 0.1);
+}
+
+/* ==========================================================================
+   Internship Availability indicator (Home)
+   ========================================================================== */
+.hero-badges {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.internship-badge {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #10B981;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.08);
+  animation: badgeFloat 3s ease-in-out infinite alternate;
+}
+
+.internship-dot {
+  width: 8px;
+  height: 8px;
+  background: #10B981;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #10B981;
+  animation: greenPulse 2s infinite;
+}
+
+@keyframes greenPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes badgeFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+/* ==========================================================================
+   Custom Pointer Follower
+   ========================================================================== */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--secondary);
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.cursor-outline {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--secondary);
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9998;
+  transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.cursor-dot.hover {
+  width: 4px;
+  height: 4px;
+  background-color: var(--primary);
+}
+
+.cursor-outline.hover {
+  width: 48px;
+  height: 48px;
+  border-color: var(--primary);
+  background-color: rgba(124, 58, 237, 0.1);
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+/* Hide cursor elements on touch/mobile devices */
+@media (max-width: 1024px) {
+  .cursor-dot, .cursor-outline {
+    display: none !important;
+  }
+  body {
+    cursor: auto !important;
+  }
+}
+
+/* Hide default cursor on desktop screens supporting hover */
+@media (min-width: 1025px) {
+  body {
+    cursor: none;
+  }
+  a, button, .project-card, .skills-category-card, .certificate-card, .report-tab-btn {
+    cursor: none;
+  }
+}
+
+
