@@ -5,6 +5,82 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
+  // Custom Cursor & Scroll Progress Tracker
+  // ==========================================================================
+  // Create progress bar element dynamically
+  const progressContainer = document.createElement('div');
+  progressContainer.className = 'scroll-progress-container';
+  const progressBar = document.createElement('div');
+  progressBar.className = 'scroll-progress-bar';
+  progressContainer.appendChild(progressBar);
+  document.body.appendChild(progressContainer);
+
+  // Update progress bar width on scroll
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = scrolled + '%';
+  }, { passive: true });
+
+  // Create custom cursor elements dynamically
+  const cursor = document.createElement('div');
+  cursor.className = 'custom-cursor';
+  const cursorDot = document.createElement('div');
+  cursorDot.className = 'custom-cursor-dot';
+  document.body.appendChild(cursor);
+  document.body.appendChild(cursorDot);
+
+  // Track cursor position
+  let cursorX = 0, cursorY = 0;
+  let targetX = 0, targetY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    
+    // Immediate position for the dot
+    cursorDot.style.left = targetX + 'px';
+    cursorDot.style.top = targetY + 'px';
+  }, { passive: true });
+
+  // Smooth follow behavior for outer circle
+  const updateCursor = () => {
+    const dx = targetX - cursorX;
+    const dy = targetY - cursorY;
+    cursorX += dx * 0.15;
+    cursorY += dy * 0.15;
+    
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+    
+    requestAnimationFrame(updateCursor);
+  };
+  updateCursor();
+
+  // Add hover class on interactive elements
+  const hoverTargets = document.querySelectorAll('a, button, .project-card, .certificate-card, .btn, .report-tab-btn');
+  const addHover = () => cursor.classList.add('hover');
+  const removeHover = () => cursor.classList.remove('hover');
+
+  const addCursorHoverListeners = () => {
+    document.querySelectorAll('a, button, .project-card, .certificate-card, .btn, .report-tab-btn, .game-cell, .synapse-node').forEach(elem => {
+      elem.removeEventListener('mouseenter', addHover);
+      elem.removeEventListener('mouseleave', removeHover);
+      elem.addEventListener('mouseenter', addHover);
+      elem.addEventListener('mouseleave', removeHover);
+    });
+  };
+  addCursorHoverListeners();
+
+  // Re-run listener attachment on DOM changes (e.g. after drawer opening)
+  const observer = new MutationObserver(() => {
+    addCursorHoverListeners();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+
+
+  // ==========================================================================
   // Dynamic Typewriter Effect
   // ==========================================================================
   const typingSpan = document.getElementById('typing-text');
@@ -315,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Aesthetics
         this.radius = Math.random() * 1.5 + 1.2;
-        this.color = Math.random() > 0.5 ? '#A78BFA' : '#67E8F9';
+        this.color = Math.random() > 0.5 ? '#8B5CF6' : '#0D9488';
         
         // 3D Parallax Scrolling depth factor
         this.depth = Math.random() * 0.75 + 0.25; 
@@ -419,6 +495,18 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.lineWidth = 0.8;
             ctx.globalAlpha = linkAlpha;
             ctx.stroke();
+
+            // Periodically draw a glowing signal pulse traveling along the synapse line
+            const pulseSpeed = 0.0008;
+            const t = (Date.now() * pulseSpeed + (i + j)) % 1; 
+            const pulseX = p1.x + (p2.x - p1.x) * t;
+            const pulseY = p1Y + (p2Y - p1Y) * t;
+
+            ctx.beginPath();
+            ctx.arc(pulseX, pulseY, 1.2, 0, Math.PI * 2);
+            ctx.fillStyle = p2.color;
+            ctx.globalAlpha = Math.min(linkAlpha * 3.5, 1);
+            ctx.fill();
           }
         }
       }
@@ -932,5 +1020,598 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ==========================================================================
+  // Floating AI Mind Game Widget
+  // ==========================================================================
+  
+  // Confetti Canvas Overlay
+  let confettiCanvas = document.getElementById('widget-confetti-canvas');
+  if (!confettiCanvas) {
+    confettiCanvas = document.createElement('canvas');
+    confettiCanvas.id = 'widget-confetti-canvas';
+    confettiCanvas.style.position = 'fixed';
+    confettiCanvas.style.top = '0';
+    confettiCanvas.style.left = '0';
+    confettiCanvas.style.width = '100vw';
+    confettiCanvas.style.height = '100vh';
+    confettiCanvas.style.pointerEvents = 'none';
+    confettiCanvas.style.zIndex = '9999';
+    document.body.appendChild(confettiCanvas);
+  }
+  
+  const confettiCtx = confettiCanvas.getContext('2d');
+  let confettiActive = false;
+  let confettiParticles = [];
+  let confettiAnimId = null;
+
+  function resizeConfetti() {
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeConfetti);
+  resizeConfetti();
+
+  class Confetti {
+    constructor() {
+      this.x = Math.random() * window.innerWidth;
+      this.y = Math.random() * -100 - 20;
+      this.size = Math.random() * 6 + 4;
+      this.color = ['#6D28D9', '#0D9488', '#F59E0B', '#EF4444', '#10B981', '#3B82F6'][Math.floor(Math.random() * 6)];
+      this.speedY = Math.random() * 3 + 2;
+      this.speedX = (Math.random() - 0.5) * 2;
+      this.rotation = Math.random() * 360;
+      this.rotationSpeed = (Math.random() - 0.5) * 4;
+    }
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX;
+      this.rotation += this.rotationSpeed;
+    }
+    draw() {
+      confettiCtx.save();
+      confettiCtx.translate(this.x, this.y);
+      confettiCtx.rotate((this.rotation * Math.PI) / 180);
+      confettiCtx.fillStyle = this.color;
+      confettiCtx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+      confettiCtx.restore();
+    }
+  }
+
+  function triggerConfetti() {
+    if (confettiActive) return;
+    confettiActive = true;
+    confettiParticles = [];
+    for (let i = 0; i < 120; i++) {
+      confettiParticles.push(new Confetti());
+    }
+    function run() {
+      if (!confettiActive) return;
+      confettiCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      confettiParticles.forEach((p, idx) => {
+        p.update();
+        p.draw();
+        if (p.y > window.innerHeight) {
+          confettiParticles[idx] = new Confetti();
+        }
+      });
+      confettiAnimId = requestAnimationFrame(run);
+    }
+    run();
+    setTimeout(() => {
+      confettiActive = false;
+      confettiCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      cancelAnimationFrame(confettiAnimId);
+    }, 3500);
+  }
+
+  // Create FAB
+  const fab = document.createElement('button');
+  fab.className = 'floating-widget-btn';
+  fab.setAttribute('aria-label', 'Open Brain Game');
+  fab.innerHTML = '<i data-lucide="brain"></i>';
+  document.body.appendChild(fab);
+
+  // Create Widget Card Popup
+  const widgetCard = document.createElement('div');
+  widgetCard.className = 'floating-widget-card';
+  widgetCard.innerHTML = `
+    <div class="widget-card-header">
+      <div class="widget-card-title">
+        <i data-lucide="brain-circuit"></i>
+        <span>Neural Mind Games</span>
+      </div>
+      <button class="widget-close-btn" aria-label="Close Game">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="widget-card-body" style="padding-top: 0.75rem;">
+      <!-- Game Mode Tabs -->
+      <div class="widget-game-tabs" style="display: flex; gap: 0.5rem; width: 100%; margin-bottom: 0.75rem;">
+        <button class="widget-tab-btn active" data-widget-game="memory" style="flex: 1; padding: 0.4rem; font-size: 0.75rem; font-family: var(--font-display); font-weight: 700; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-card); cursor: pointer; transition: var(--transition-fast);">Memory Match</button>
+        <button class="widget-tab-btn" data-widget-game="connect" style="flex: 1; padding: 0.4rem; font-size: 0.75rem; font-family: var(--font-display); font-weight: 700; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-card); cursor: pointer; transition: var(--transition-fast);">Path Finder</button>
+      </div>
+
+      <!-- Game 1: Memory Match Section -->
+      <div id="widget-memory-game" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div class="widget-game-desc">Replicate the neural activation sequence to tune the synaptic network!</div>
+        <div class="synaptic-scoreboard">
+          <span>Level: <span id="synapse-level">1</span></span>
+          <span>High Score: <span id="synapse-highscore">0</span></span>
+        </div>
+        <div class="synaptic-board">
+          <svg class="synaptic-svg">
+            <line x1="120" y1="40" x2="60" y2="100" class="synaptic-line" id="line-0-1"></line>
+            <line x1="120" y1="40" x2="180" y2="100" class="synaptic-line" id="line-0-2"></line>
+            <line x1="60" y1="100" x2="90" y2="180" class="synaptic-line" id="line-1-3"></line>
+            <line x1="180" y1="100" x2="150" y2="180" class="synaptic-line" id="line-2-4"></line>
+            <line x1="90" y1="180" x2="120" y2="40" class="synaptic-line" id="line-3-0"></line>
+            <line x1="150" y1="180" x2="120" y2="40" class="synaptic-line" id="line-4-0"></line>
+            <line x1="60" y1="100" x2="180" y2="100" class="synaptic-line" id="line-1-2"></line>
+            <line x1="90" y1="180" x2="150" y2="180" class="synaptic-line" id="line-3-4"></line>
+          </svg>
+          <div class="synaptic-node" style="left: 50%; top: 17%;" data-node="0">IN</div>
+          <div class="synaptic-node" style="left: 25%; top: 42%;" data-node="1">H1</div>
+          <div class="synaptic-node" style="left: 75%; top: 42%;" data-node="2">H2</div>
+          <div class="synaptic-node" style="left: 37%; top: 75%;" data-node="3">W1</div>
+          <div class="synaptic-node" style="left: 63%; top: 75%;" data-node="4">OUT</div>
+        </div>
+        <div class="widget-game-status" id="widget-status">Click Start to begin</div>
+        <button class="btn btn-primary btn-full btn-sm" id="widget-start-btn">Start Game</button>
+      </div>
+
+      <!-- Game 2: Path Finder Section -->
+      <div id="widget-connect-game" style="width: 100%; display: none; flex-direction: column; align-items: center; gap: 1rem;">
+        <div class="widget-game-desc">Create a path from green IN nodes to blue OUT nodes. Tap adjacent nodes while avoiding blocked (red) nodes!</div>
+        <div class="synaptic-scoreboard">
+          <span>Objective: <span style="color:var(--secondary)">Connect IN ➜ OUT</span></span>
+          <span>Fails: <span id="connect-fails">0</span></span>
+        </div>
+        <div class="connect-board" id="widget-connect-board">
+          <svg class="connect-svg" id="widget-connect-svg"></svg>
+          <!-- Nodes dynamically drawn -->
+        </div>
+        <div class="widget-game-status" id="widget-connect-status">Find a neural pathway!</div>
+        <button class="btn btn-primary btn-full btn-sm" id="widget-connect-reset-btn">Reset Board</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(widgetCard);
+
+  // Initialize Lucide Icons for injected items
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons({
+      attrs: {
+        'stroke-width': 2
+      },
+      nameAttr: 'data-lucide'
+    });
+  }
+
+  // FAB toggle actions
+  const closeBtn = widgetCard.querySelector('.widget-close-btn');
+  fab.addEventListener('click', () => {
+    widgetCard.classList.toggle('open');
+    fab.classList.toggle('active');
+  });
+  closeBtn.addEventListener('click', () => {
+    widgetCard.classList.remove('open');
+    fab.classList.remove('active');
+  });
+
+  // Tab Button toggling
+  const tabBtns = widgetCard.querySelectorAll('.widget-tab-btn');
+  const memorySection = widgetCard.querySelector('#widget-memory-game');
+  const connectSection = widgetCard.querySelector('#widget-connect-game');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const targetGame = btn.getAttribute('data-widget-game');
+      if (targetGame === 'memory') {
+        memorySection.style.display = 'flex';
+        connectSection.style.display = 'none';
+      } else {
+        memorySection.style.display = 'none';
+        connectSection.style.display = 'flex';
+        drawConnectNetwork(); // Initial render for connect game board
+      }
+    });
+  });
+
+  // ==========================================================================
+  // Game 1: Memory Match Logic
+  // ==========================================================================
+  let gameSequence = [];
+  let userSequence = [];
+  let gameLevel = 1;
+  let gameHighScore = parseInt(localStorage.getItem('synaptic_highscore')) || 0;
+  let isAITurn = false;
+  let isGameActive = false;
+
+  const levelSpan = widgetCard.querySelector('#synapse-level');
+  const highScoreSpan = widgetCard.querySelector('#synapse-highscore');
+  const statusDiv = widgetCard.querySelector('#widget-status');
+  const startBtn = widgetCard.querySelector('#widget-start-btn');
+  const nodesDOM = widgetCard.querySelectorAll('.synaptic-node');
+
+  highScoreSpan.textContent = gameHighScore;
+
+  const connections = [
+    { u: 0, v: 1, id: 'line-0-1' },
+    { u: 0, v: 2, id: 'line-0-2' },
+    { u: 1, v: 3, id: 'line-1-3' },
+    { u: 2, v: 4, id: 'line-2-4' },
+    { u: 3, v: 0, id: 'line-3-0' },
+    { u: 4, v: 0, id: 'line-4-0' },
+    { u: 1, v: 2, id: 'line-1-2' },
+    { u: 3, v: 4, id: 'line-3-4' }
+  ];
+
+  function highlightLine(u, v) {
+    const conn = connections.find(c => (c.u === u && c.v === v) || (c.u === v && c.v === u));
+    if (conn) {
+      const line = widgetCard.querySelector(`#${conn.id}`);
+      if (line) {
+        line.classList.add('lit');
+        setTimeout(() => line.classList.remove('lit'), 450);
+      }
+    }
+  }
+
+  function flashNode(nodeIdx) {
+    const nodeEl = widgetCard.querySelector(`.synaptic-node[data-node="${nodeIdx}"]`);
+    if (nodeEl) {
+      nodeEl.classList.add('flashing');
+      setTimeout(() => nodeEl.classList.remove('flashing'), 400);
+    }
+  }
+
+  function playAISequence() {
+    isAITurn = true;
+    userSequence = [];
+    statusDiv.textContent = 'AI is training...';
+    statusDiv.style.color = 'var(--primary)';
+    
+    let i = 0;
+    const interval = setInterval(() => {
+      if (!isGameActive) {
+        clearInterval(interval);
+        return;
+      }
+      const nodeIdx = gameSequence[i];
+      flashNode(nodeIdx);
+      
+      if (i > 0) {
+        highlightLine(gameSequence[i - 1], nodeIdx);
+      }
+
+      i++;
+      if (i >= gameSequence.length) {
+        clearInterval(interval);
+        setTimeout(() => {
+          if (!isGameActive) return;
+          isAITurn = false;
+          statusDiv.textContent = 'Your turn! Replicate sequence';
+          statusDiv.style.color = 'var(--secondary)';
+        }, 600);
+      }
+    }, 700);
+  }
+
+  function addNewSequenceStep() {
+    const randomNode = Math.floor(Math.random() * 5);
+    gameSequence.push(randomNode);
+  }
+
+  function startWidgetGame() {
+    gameSequence = [];
+    userSequence = [];
+    gameLevel = 1;
+    levelSpan.textContent = gameLevel;
+    isGameActive = true;
+    startBtn.textContent = 'Restart Game';
+    
+    addNewSequenceStep();
+    playAISequence();
+  }
+
+  function handleNodeClick(e) {
+    if (!isGameActive || isAITurn) return;
+
+    const clickedNode = parseInt(e.target.getAttribute('data-node'));
+    userSequence.push(clickedNode);
+    
+    e.target.classList.add('user-active');
+    setTimeout(() => e.target.classList.remove('user-active'), 200);
+
+    if (userSequence.length > 1) {
+      highlightLine(userSequence[userSequence.length - 2], clickedNode);
+    }
+
+    const currentStepIdx = userSequence.length - 1;
+    if (userSequence[currentStepIdx] !== gameSequence[currentStepIdx]) {
+      statusDiv.textContent = 'Synaptic Misalignment! Game Over';
+      statusDiv.style.color = '#EF4444';
+      isGameActive = false;
+      startBtn.textContent = 'Start Game';
+      return;
+    }
+
+    if (userSequence.length === gameSequence.length) {
+      statusDiv.textContent = 'Level Up! Synapses Calibrated!';
+      statusDiv.style.color = 'var(--secondary)';
+      
+      if (gameLevel > gameHighScore) {
+        gameHighScore = gameLevel;
+        localStorage.setItem('synaptic_highscore', gameHighScore);
+        highScoreSpan.textContent = gameHighScore;
+      }
+
+      gameLevel++;
+      levelSpan.textContent = gameLevel;
+      isAITurn = true;
+
+      if (gameLevel % 3 === 0) {
+        triggerConfetti();
+      }
+
+      setTimeout(() => {
+        if (!isGameActive) return;
+        addNewSequenceStep();
+        playAISequence();
+      }, 1000);
+    }
+  }
+
+  startBtn.addEventListener('click', startWidgetGame);
+  nodesDOM.forEach(node => node.addEventListener('click', handleNodeClick));
+
+  // ==========================================================================
+  // Game 2: Path Finder (Connect Nodes) Logic
+  // ==========================================================================
+  const connectBoard = widgetCard.querySelector('#widget-connect-board');
+  const connectSvg = widgetCard.querySelector('#widget-connect-svg');
+  const connectStatus = widgetCard.querySelector('#widget-connect-status');
+  const connectResetBtn = widgetCard.querySelector('#widget-connect-reset-btn');
+  const connectFailsSpan = widgetCard.querySelector('#connect-fails');
+
+  const connectNodes = [
+    { id: 0, x: 15, y: 30, type: 'input', label: 'IN1' },
+    { id: 1, x: 15, y: 70, type: 'input', label: 'IN2' },
+    { id: 2, x: 42, y: 22, type: 'hidden', label: 'H1' },
+    { id: 3, x: 42, y: 50, type: 'hidden', label: 'H2' },
+    { id: 4, x: 42, y: 78, type: 'hidden', label: 'H3' },
+    { id: 5, x: 68, y: 35, type: 'hidden', label: 'H4' },
+    { id: 6, x: 68, y: 65, type: 'hidden', label: 'H5' },
+    { id: 7, x: 88, y: 30, type: 'output', label: 'OUT1' },
+    { id: 8, x: 88, y: 70, type: 'output', label: 'OUT2' }
+  ];
+
+  const connectEdges = [
+    { u: 0, v: 2 }, { u: 0, v: 3 },
+    { u: 1, v: 3 }, { u: 1, v: 4 },
+    { u: 2, v: 5 }, { u: 3, v: 5 }, { u: 3, v: 6 }, { u: 4, v: 6 },
+    { u: 5, v: 7 }, { u: 6, v: 8 }
+  ];
+
+  let activeConnectNodes = new Set([0, 1]); // IN nodes active by default
+  let blockedNode = null; // Node index that is disconnected/blocked
+  let connectFails = 0;
+  let isConnectSolved = false;
+
+  function randomizeBlockedNode() {
+    // Random hidden node (2 to 6) is blocked
+    blockedNode = Math.floor(Math.random() * 5) + 2;
+    activeConnectNodes = new Set([0, 1]);
+    isConnectSolved = false;
+    if (connectStatus) {
+      connectStatus.textContent = 'Trace the pathway to OUT!';
+      connectStatus.style.color = 'var(--text-main)';
+    }
+  }
+
+  function drawConnectNetwork() {
+    if (!connectBoard || !connectSvg) return;
+
+    connectSvg.innerHTML = '';
+    const oldNodeEl = connectBoard.querySelectorAll('.connect-node');
+    oldNodeEl.forEach(n => n.remove());
+
+    const w = connectBoard.clientWidth;
+    const h = connectBoard.clientHeight;
+
+    // Draw connection lines
+    connectEdges.forEach(edge => {
+      // Don't draw lines linked to a blocked node
+      if (edge.u === blockedNode || edge.v === blockedNode) return;
+
+      const uNode = connectNodes[edge.u];
+      const vNode = connectNodes[edge.v];
+
+      const x1 = (uNode.x / 100) * w;
+      const y1 = (uNode.y / 100) * h;
+      const x2 = (vNode.x / 100) * w;
+      const y2 = (vNode.y / 100) * h;
+
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.setAttribute('class', 'connect-line');
+
+      if (activeConnectNodes.has(edge.u) && activeConnectNodes.has(edge.v)) {
+        line.classList.add('active');
+      }
+
+      connectSvg.appendChild(line);
+    });
+
+    // Draw circular node divs
+    connectNodes.forEach(node => {
+      const div = document.createElement('div');
+      div.className = `connect-node ${node.type}-node`;
+      div.style.left = `${node.x}%`;
+      div.style.top = `${node.y}%`;
+      div.textContent = node.label;
+      div.setAttribute('data-id', node.id);
+
+      if (node.id === blockedNode) {
+        div.classList.add('blocked');
+        div.textContent = '✖';
+      } else if (activeConnectNodes.has(node.id)) {
+        div.classList.add('active');
+      }
+
+      if (node.type !== 'input' && node.id !== blockedNode && !isConnectSolved) {
+        div.addEventListener('click', () => handleConnectNodeClick(node.id));
+      }
+
+      connectBoard.appendChild(div);
+    });
+  }
+
+  function handleConnectNodeClick(nodeId) {
+    if (activeConnectNodes.has(nodeId)) {
+      activeConnectNodes.delete(nodeId);
+    } else {
+      // Check if node is neighbor of any active node
+      const hasActiveNeighbor = connectEdges.some(edge => {
+        // Skip blocked path edges
+        if (edge.u === blockedNode || edge.v === blockedNode) return false;
+        if (edge.u === nodeId && activeConnectNodes.has(edge.v)) return true;
+        if (edge.v === nodeId && activeConnectNodes.has(edge.u)) return true;
+        return false;
+      });
+
+      if (hasActiveNeighbor) {
+        activeConnectNodes.add(nodeId);
+      } else {
+        // Blink red on validation failure
+        const el = connectBoard.querySelector(`.connect-node[data-id="${nodeId}"]`);
+        if (el) {
+          el.style.borderColor = '#EF4444';
+          el.style.boxShadow = '0 0 15px #EF4444';
+          setTimeout(() => {
+            el.style.borderColor = '';
+            el.style.boxShadow = '';
+          }, 250);
+        }
+        connectFails++;
+        connectFailsSpan.textContent = connectFails;
+        return;
+      }
+    }
+
+    // Run BFS starting from IN1, IN2 to prune disconnected active nodes
+    pruneConnectDisconnectedNodes();
+    drawConnectNetwork();
+    checkConnectSolved();
+  }
+
+  function pruneConnectDisconnectedNodes() {
+    const queue = [0, 1];
+    const visited = new Set([0, 1]);
+
+    while (queue.length > 0) {
+      const current = queue.shift();
+
+      connectEdges.forEach(edge => {
+        if (edge.u === blockedNode || edge.v === blockedNode) return;
+
+        let neighbor = null;
+        if (edge.u === current && activeConnectNodes.has(edge.v)) neighbor = edge.v;
+        if (edge.v === current && activeConnectNodes.has(edge.u)) neighbor = edge.u;
+
+        if (neighbor !== null && !visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push(neighbor);
+        }
+      });
+    }
+
+    activeConnectNodes.forEach(nodeId => {
+      if (!visited.has(nodeId)) {
+        activeConnectNodes.delete(nodeId);
+      }
+    });
+  }
+
+  function checkConnectSolved() {
+    const isOut1Connected = activeConnectNodes.has(7);
+    const isOut2Connected = activeConnectNodes.has(8);
+
+    if (isOut1Connected || isOut2Connected) {
+      isConnectSolved = true;
+      connectStatus.textContent = 'Synaptic Flow Online! Confetti Fired!';
+      connectStatus.style.color = 'var(--secondary)';
+      triggerConfetti();
+
+      // Load new board layout after 2 seconds
+      setTimeout(() => {
+        randomizeBlockedNode();
+        drawConnectNetwork();
+      }, 2500);
+    }
+  }
+
+  randomizeBlockedNode();
+  if (connectResetBtn) {
+    connectResetBtn.addEventListener('click', () => {
+      randomizeBlockedNode();
+      drawConnectNetwork();
+    });
+  }
+
+  // ==========================================================================
+  // Sci-Fi Text Scramble Decoder Effect on Hover
+  // ==========================================================================
+  const scrambleText = (el) => {
+    if (el.dataset.scrambling === "true") return;
+    el.dataset.scrambling = "true";
+
+    const originalText = el.getAttribute('data-original') || el.textContent;
+    if (!el.getAttribute('data-original')) {
+      el.setAttribute('data-original', originalText);
+    }
+
+    const prefixEl = el.querySelector('.number-prefix');
+    const prefixText = prefixEl ? prefixEl.outerHTML : '';
+    const cleanText = prefixEl ? originalText.replace(prefixEl.textContent, '').trim() : originalText;
+
+    const chars = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+    let iterations = 0;
+    const maxIterations = cleanText.length;
+
+    const interval = setInterval(() => {
+      let scrambled = '';
+      for (let i = 0; i < cleanText.length; i++) {
+        if (cleanText[i] === ' ') {
+          scrambled += ' ';
+          continue;
+        }
+        if (i < iterations) {
+          scrambled += cleanText[i];
+        } else {
+          scrambled += chars[Math.floor(Math.random() * chars.length)];
+        }
+      }
+
+      el.innerHTML = prefixText + ' ' + scrambled;
+
+      if (iterations >= maxIterations) {
+        clearInterval(interval);
+        el.dataset.scrambling = "false";
+      }
+      iterations += 0.5; // controls speed
+    }, 25);
+  };
+
+  document.querySelectorAll('.section-title').forEach(title => {
+    title.addEventListener('mouseenter', () => scrambleText(title));
+  });
 
 });
