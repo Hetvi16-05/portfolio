@@ -103,23 +103,77 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
-  // Scroll Reveal Animations
+  // Scroll Reveal Animations (all variants)
   // ==========================================================================
-  const revealElements = document.querySelectorAll('.reveal');
-  
+  const revealSelectors = '.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-rotate, .stagger-children, .section-header';
+  const revealElements = document.querySelectorAll(revealSelectors);
+
   const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        observer.unobserve(entry.target); // Trigger only once
+        observer.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.05,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.08,
+    rootMargin: '0px 0px -40px 0px'
   });
 
   revealElements.forEach(el => revealObserver.observe(el));
+
+  // ==========================================================================
+  // Parallax Scroll Effects
+  // ==========================================================================
+  const shapes = document.querySelectorAll('.shape');
+  const heroVisual = document.querySelector('.hero-visual');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    if (heroVisual) {
+      heroVisual.style.transform = `translateY(${scrollY * -0.04}px)`;
+    }
+    shapes.forEach((shape, i) => {
+      const speed = (i + 1) * 0.025;
+      shape.style.transform = `translateY(${scrollY * speed}px)`;
+    });
+  }, { passive: true });
+
+  // ==========================================================================
+  // Magnetic Button Effect
+  // ==========================================================================
+  const magneticBtns = document.querySelectorAll('.btn-primary, .btn-outline, .nav-cta .btn');
+
+  magneticBtns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  // ==========================================================================
+  // 3D Tilt on Interactive Cards
+  // ==========================================================================
+  const tiltCards = document.querySelectorAll('.code-card, .certificate-card');
+
+  tiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(800px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
 
   // ==========================================================================
   // Interactive Contact Form Handling
@@ -261,13 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Aesthetics
         this.radius = Math.random() * 1.5 + 1.2;
-        this.color = Math.random() > 0.5 ? '#7C3AED' : '#22D3EE'; // Violet or Cyan
+        this.color = Math.random() > 0.5 ? '#A78BFA' : '#67E8F9';
         
         // 3D Parallax Scrolling depth factor
         this.depth = Math.random() * 0.75 + 0.25; 
         
         // Base alpha (fade overlay)
-        this.alpha = Math.random() * 0.5 + 0.3;
+        this.alpha = Math.random() * 0.35 + 0.15;
       }
 
       draw(scrollY) {
@@ -350,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.lineTo(p2.x, p2Y);
 
             // Connect opacity based on proximity
-            const linkAlpha = (1 - distance / maxDistance) * 0.15;
+            const linkAlpha = (1 - distance / maxDistance) * 0.08;
             
             // Render beautiful gradient lines between contrasting nodes
             if (p1.color !== p2.color) {
@@ -554,10 +608,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Projects Category Filtering
   // ==========================================================================
   const filterBtns = document.querySelectorAll('.filter-btn');
+  let refreshCarousel = null;
+
   if (filterBtns.length > 0) {
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Active button visual toggle
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
@@ -570,8 +625,199 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.add('hide');
           }
         });
+
+        if (refreshCarousel) refreshCarousel(true);
       });
     });
+  }
+
+  // ==========================================================================
+  // Projects Carousel
+  // ==========================================================================
+  const projectsCarousel = document.getElementById('projects-carousel');
+
+  if (projectsCarousel) {
+    const track = projectsCarousel.querySelector('.carousel-track');
+    const prevBtn = projectsCarousel.querySelector('.carousel-prev');
+    const nextBtn = projectsCarousel.querySelector('.carousel-next');
+    const dotsContainer = projectsCarousel.querySelector('.carousel-dots');
+    const progressBar = projectsCarousel.querySelector('.carousel-progress-bar');
+
+    let currentSlide = 0;
+    let autoplayTimer = null;
+    let progressTimer = null;
+    let progressElapsed = 0;
+    const AUTOPLAY_MS = 5500;
+    const PROGRESS_TICK = 50;
+
+    const getCardsPerView = () => window.innerWidth >= 1024 ? 2 : 1;
+
+    const getVisibleCards = () =>
+      Array.from(track.querySelectorAll('.project-card:not(.hide)'));
+
+    const getTotalSlides = () => {
+      const count = getVisibleCards().length;
+      if (count === 0) return 0;
+      return Math.ceil(count / getCardsPerView());
+    };
+
+    const buildDots = () => {
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      const total = getTotalSlides();
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === currentSlide ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dot.setAttribute('role', 'tab');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+      }
+    };
+
+    const updateActiveCards = () => {
+      const cards = getVisibleCards();
+      const perView = getCardsPerView();
+      const start = currentSlide * perView;
+
+      cards.forEach((card, index) => {
+        card.classList.toggle('is-active', index >= start && index < start + perView);
+      });
+    };
+
+    const updateCarouselPosition = () => {
+      const cards = getVisibleCards();
+      const total = getTotalSlides();
+
+      if (total === 0) {
+        track.style.transform = 'translateX(0)';
+        if (prevBtn) prevBtn.disabled = true;
+        if (nextBtn) nextBtn.disabled = true;
+        return;
+      }
+
+      if (currentSlide >= total) currentSlide = 0;
+
+      const firstCard = cards[0];
+      if (!firstCard) return;
+
+      const gap = parseFloat(getComputedStyle(track).gap) || 40;
+      const cardWidth = firstCard.offsetWidth;
+      const perView = getCardsPerView();
+      const offset = currentSlide * perView * (cardWidth + gap);
+
+      track.style.transform = `translateX(-${offset}px)`;
+      updateActiveCards();
+
+      if (prevBtn) prevBtn.disabled = currentSlide === 0;
+      if (nextBtn) nextBtn.disabled = currentSlide >= total - 1;
+
+      dotsContainer?.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+    };
+
+    const triggerSlideAnimation = () => {
+      track.classList.remove('is-animating');
+      void track.offsetWidth;
+      track.classList.add('is-animating');
+      setTimeout(() => track.classList.remove('is-animating'), 650);
+    };
+
+    const resetProgress = () => {
+      progressElapsed = 0;
+      if (progressBar) progressBar.style.width = '0%';
+    };
+
+    const startAutoplay = () => {
+      stopAutoplay();
+      resetProgress();
+
+      progressTimer = setInterval(() => {
+        progressElapsed += PROGRESS_TICK;
+        const pct = Math.min((progressElapsed / AUTOPLAY_MS) * 100, 100);
+        if (progressBar) progressBar.style.width = `${pct}%`;
+      }, PROGRESS_TICK);
+
+      autoplayTimer = setInterval(() => {
+        const total = getTotalSlides();
+        if (total <= 1) return;
+        goToSlide((currentSlide + 1) % total, false);
+      }, AUTOPLAY_MS);
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayTimer) clearInterval(autoplayTimer);
+      if (progressTimer) clearInterval(progressTimer);
+      autoplayTimer = null;
+      progressTimer = null;
+    };
+
+    const goToSlide = (index, animate = true) => {
+      const total = getTotalSlides();
+      if (total === 0) return;
+
+      currentSlide = Math.max(0, Math.min(index, total - 1));
+      if (animate) triggerSlideAnimation();
+      updateCarouselPosition();
+      resetProgress();
+    };
+
+    refreshCarousel = (resetSlide = false) => {
+      if (resetSlide) currentSlide = 0;
+      buildDots();
+      updateCarouselPosition();
+      resetProgress();
+    };
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        goToSlide(currentSlide - 1);
+        startAutoplay();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        goToSlide(currentSlide + 1);
+        startAutoplay();
+      });
+    }
+
+    // Touch / swipe support
+    let touchStartX = 0;
+    let touchDeltaX = 0;
+
+    track.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchDeltaX = 0;
+      stopAutoplay();
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+      touchDeltaX = e.touches[0].clientX - touchStartX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+      if (Math.abs(touchDeltaX) > 50) {
+        if (touchDeltaX < 0) goToSlide(currentSlide + 1);
+        else goToSlide(currentSlide - 1);
+      }
+      startAutoplay();
+    });
+
+    projectsCarousel.addEventListener('mouseenter', stopAutoplay);
+    projectsCarousel.addEventListener('mouseleave', startAutoplay);
+
+    window.addEventListener('resize', () => refreshCarousel(false));
+
+    refreshCarousel(true);
+    startAutoplay();
+
+    // Re-bind cursor hover for carousel controls
+    if (window.matchMedia('(min-width: 1025px)').matches) {
+      document.dispatchEvent(new Event('click'));
+    }
   }
 
   // ==========================================================================
@@ -613,7 +859,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Re-bind hover logic function to target hover items
     const bindCursorHover = () => {
-      const hoverTargets = document.querySelectorAll('a, button, .project-card, .skills-category-card, .certificate-card, .report-tab-btn, .filter-btn');
+      const hoverTargets = document.querySelectorAll('a, button, .project-card, .skills-category-card, .certificate-card, .report-tab-btn, .filter-btn, .carousel-btn, .carousel-dot');
       hoverTargets.forEach(el => {
         // Avoid duplicate event attachments
         if (el.dataset.cursorBound) return;
