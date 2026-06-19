@@ -68,6 +68,22 @@
   background-color: rgba(109, 40, 217, 0.08);
   border-color: var(--secondary);
 }
+.cursor-trail-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary-light);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+}
+.cursor-spark {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10002;
+  transform: translate(-50%, -50%);
+}
 .scroll-progress-container {
   position: fixed;
   top: 0;
@@ -85,8 +101,8 @@
   transition: width 0.1s ease;
 }
 @media (pointer: coarse) {
-  .custom-cursor, .custom-cursor-dot {
-    display: none;
+  .custom-cursor, .custom-cursor-dot, .cursor-trail-dot, .cursor-spark {
+    display: none !important;
   }
 }
 
@@ -568,6 +584,7 @@ header.scrolled {
 .nav-links {
   display: flex;
   gap: 2.5rem;
+  position: relative;
 }
 
 .nav-links a {
@@ -577,26 +594,25 @@ header.scrolled {
   color: var(--text-muted);
   position: relative;
   padding: 0.5rem 0;
+  display: inline-block;
+  transition: color 0.3s ease, transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.nav-links a::after {
-  content: '';
+.nav-underline {
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 0;
   height: 2px;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
-  transition: var(--transition-smooth);
+  transition: left 0.35s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease;
+  pointer-events: none;
+  border-radius: 2px;
+  opacity: 0;
+  z-index: 1;
 }
 
 .nav-links a:hover {
   color: var(--text-main);
-}
-
-.nav-links a:hover::after,
-.nav-links a.active::after {
-  width: 100%;
+  transform: scale(1.08);
 }
 
 .nav-links a.active {
@@ -1857,6 +1873,64 @@ footer {
 
 .reveal-delay-4 {
   transition-delay: 0.6s;
+}
+
+/* Sequential Staggered Reveals for grids and lists */
+.about-grid .reveal.active:nth-child(1),
+.skills-grid .reveal.active:nth-child(1),
+.timeline-grid .reveal.active:nth-child(1),
+.certificates-grid .reveal.active:nth-child(1),
+.projects-grid .reveal.active:nth-child(1) {
+  transition-delay: 0.05s;
+}
+.about-grid .reveal.active:nth-child(2),
+.skills-grid .reveal.active:nth-child(2),
+.timeline-grid .reveal.active:nth-child(2),
+.certificates-grid .reveal.active:nth-child(2),
+.projects-grid .reveal.active:nth-child(2) {
+  transition-delay: 0.15s;
+}
+.about-grid .reveal.active:nth-child(3),
+.skills-grid .reveal.active:nth-child(3),
+.timeline-grid .reveal.active:nth-child(3),
+.certificates-grid .reveal.active:nth-child(3),
+.projects-grid .reveal.active:nth-child(3) {
+  transition-delay: 0.25s;
+}
+.about-grid .reveal.active:nth-child(4),
+.skills-grid .reveal.active:nth-child(4),
+.timeline-grid .reveal.active:nth-child(4),
+.certificates-grid .reveal.active:nth-child(4),
+.projects-grid .reveal.active:nth-child(4) {
+  transition-delay: 0.35s;
+}
+.about-grid .reveal.active:nth-child(5),
+.skills-grid .reveal.active:nth-child(5),
+.timeline-grid .reveal.active:nth-child(5),
+.certificates-grid .reveal.active:nth-child(5),
+.projects-grid .reveal.active:nth-child(5) {
+  transition-delay: 0.45s;
+}
+.about-grid .reveal.active:nth-child(6),
+.skills-grid .reveal.active:nth-child(6),
+.timeline-grid .reveal.active:nth-child(6),
+.certificates-grid .reveal.active:nth-child(6),
+.projects-grid .reveal.active:nth-child(6) {
+  transition-delay: 0.55s;
+}
+.about-grid .reveal.active:nth-child(7),
+.skills-grid .reveal.active:nth-child(7),
+.timeline-grid .reveal.active:nth-child(7),
+.certificates-grid .reveal.active:nth-child(7),
+.projects-grid .reveal.active:nth-child(7) {
+  transition-delay: 0.65s;
+}
+.about-grid .reveal.active:nth-child(8),
+.skills-grid .reveal.active:nth-child(8),
+.timeline-grid .reveal.active:nth-child(8),
+.certificates-grid .reveal.active:nth-child(8),
+.projects-grid .reveal.active:nth-child(8) {
+  transition-delay: 0.75s;
 }
 
 /* ==========================================================================
@@ -3232,6 +3306,29 @@ main, .page-content {
   animation: fabPulse 2s infinite;
 }
 
+/* Secondary orbiting pulse ring pseudo-elements */
+.floating-widget-btn::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed var(--secondary-light);
+  animation: orbitRotate 8s linear infinite;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.floating-widget-btn::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-light);
+  pointer-events: none;
+  opacity: 0;
+  animation: orbitPulse 3s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
 .floating-widget-btn:hover {
   transform: scale(1.1) rotate(10deg);
   box-shadow: 0 8px 30px rgba(109, 40, 217, 0.45), 0 0 15px var(--secondary-glow);
@@ -3254,6 +3351,16 @@ main, .page-content {
   100% { box-shadow: 0 0 0 0 rgba(109, 40, 217, 0); }
 }
 
+@keyframes orbitRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes orbitPulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
 .floating-widget-card {
   position: fixed;
   bottom: 95px;
@@ -3267,15 +3374,17 @@ main, .page-content {
   box-shadow: var(--shadow-card), 0 16px 40px rgba(31, 41, 55, 0.12);
   z-index: 9997;
   overflow: hidden;
-  display: none;
   opacity: 0;
-  transform: translateY(30px) scale(0.95);
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(30px) scale(0.9);
+  transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .floating-widget-card.open {
-  display: block;
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
   transform: translateY(0) scale(1);
 }
 
@@ -3584,5 +3693,36 @@ main, .page-content {
   opacity: 1;
   left: 150%;
   transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+}
+
+/* Metallic reflection/glare overlay following the cursor */
+.code-card::before,
+.project-card-inner::before,
+.certificate-card-inner::before,
+.skills-category-card::before,
+.about-interests-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(109, 40, 217, 0.08) 0%,
+    rgba(13, 148, 136, 0.06) 40%,
+    rgba(255, 255, 255, 0.12) 65%,
+    transparent 80%
+  );
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+  transition: opacity 0.35s ease;
+}
+
+.code-card:hover::before,
+.project-card:hover .project-card-inner::before,
+.certificate-card:hover .certificate-card-inner::before,
+.skills-category-card:hover::before,
+.about-interests-card:hover::before {
+  opacity: 1;
 }
 
