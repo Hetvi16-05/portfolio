@@ -2,6 +2,10 @@
 <html lang="en">
 
 <head>
+  <script>
+    const pageName = window.location.pathname.split('/').pop().replace('.html', '');
+    window.location.replace(`index.html?win=${pageName}`);
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Hetvi Sheth | AI & Full Stack Developer</title>
