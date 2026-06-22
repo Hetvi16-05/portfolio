@@ -1,428 +1,1092 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Lucide Icons
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
 
   // ==========================================================================
-  // Custom Cursor & Scroll Progress Tracker
+  // Web Audio Synth Bleep Feedback
   // ==========================================================================
-  // Create progress bar element dynamically
-  const progressContainer = document.createElement('div');
-  progressContainer.className = 'scroll-progress-container';
-  const progressBar = document.createElement('div');
-  progressBar.className = 'scroll-progress-bar';
-  progressContainer.appendChild(progressBar);
-  document.body.appendChild(progressContainer);
+  let soundEnabled = true;
+  const soundToggle = document.getElementById('sound-toggle');
 
-  // Update progress bar width on scroll
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    progressBar.style.width = scrolled + '%';
-  }, { passive: true });
-
-  // Create custom cursor elements dynamically
-  const cursor = document.createElement('div');
-  cursor.className = 'custom-cursor';
-  const cursorDot = document.createElement('div');
-  cursorDot.className = 'custom-cursor-dot';
-  document.body.appendChild(cursor);
-  document.body.appendChild(cursorDot);
-
-  // Create cursor trail lagging dots
-  const trailLength = 8;
-  const trailDots = [];
-  const trailPositions = Array.from({ length: trailLength }, () => ({ x: 0, y: 0 }));
-
-  for (let i = 0; i < trailLength; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'cursor-trail-dot';
-    const scale = 1 - (i / trailLength) * 0.7;
-    dot.style.transform = `translate(-50%, -50%) scale(${scale})`;
-    dot.style.opacity = (1 - (i / trailLength) * 0.8).toFixed(2);
-    document.body.appendChild(dot);
-    trailDots.push(dot);
-  }
-
-  // Cursor Spark Particles Pool to prevent garbage collection drops
-  const maxSparks = 40;
-  const sparkPool = [];
-  const activeSparks = [];
-
-  for (let i = 0; i < maxSparks; i++) {
-    const spark = document.createElement('div');
-    spark.className = 'cursor-spark';
-    spark.style.display = 'none';
-    document.body.appendChild(spark);
-    sparkPool.push({
-      element: spark,
-      x: 0,
-      y: 0,
-      vx: 0,
-      vy: 0,
-      alpha: 1,
-      size: 0,
-      active: false
+  if (soundToggle) {
+    soundToggle.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      const icon = soundToggle.querySelector('i');
+      if (icon) {
+        icon.setAttribute('data-lucide', soundEnabled ? 'volume-2' : 'volume-x');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
     });
   }
 
-  // Track cursor position
-  let cursorX = 0, cursorY = 0;
-  let targetX = 0, targetY = 0;
+  function playSystemBeep(freq = 600, duration = 0.08, type = 'sine') {
+    if (!soundEnabled) return;
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
 
-  window.addEventListener('mousemove', (e) => {
-    targetX = e.clientX;
-    targetY = e.clientY;
-    
-    // Immediate position for the dot
-    cursorDot.style.left = targetX + 'px';
-    cursorDot.style.top = targetY + 'px';
-  }, { passive: true });
-
-  window.addEventListener('click', (e) => {
-    const count = 10;
-    let spawned = 0;
-    
-    for (let i = 0; i < maxSparks; i++) {
-      const p = sparkPool[i];
-      if (!p.active) {
-        p.active = true;
-        p.x = e.clientX;
-        p.y = e.clientY;
-        
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 3 + 1.5;
-        p.vx = Math.cos(angle) * speed;
-        p.vy = Math.sin(angle) * speed;
-        
-        p.alpha = 1.0;
-        p.size = Math.random() * 6 + 4;
-        p.color = Math.random() > 0.5 ? '#8B5CF6' : '#0D9488';
-        
-        p.element.style.backgroundColor = p.color;
-        p.element.style.boxShadow = `0 0 8px ${p.color}`;
-        p.element.style.width = p.size + 'px';
-        p.element.style.height = p.size + 'px';
-        p.element.style.left = p.x + 'px';
-        p.element.style.top = p.y + 'px';
-        p.element.style.opacity = p.alpha;
-        p.element.style.display = 'block';
-        
-        activeSparks.push(p);
-        spawned++;
-        if (spawned >= count) break;
-      }
-    }
-  });
-
-  // Smooth follow behavior for outer circle and trail/sparks updates
-  const updateCursor = () => {
-    const dx = targetX - cursorX;
-    const dy = targetY - cursorY;
-    cursorX += dx * 0.15;
-    cursorY += dy * 0.15;
-    
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-
-    // Update trailing dots lag
-    if (trailPositions.length > 0) {
-      trailPositions[0].x = targetX;
-      trailPositions[0].y = targetY;
-
-      for (let i = 1; i < trailLength; i++) {
-        const tdx = trailPositions[i - 1].x - trailPositions[i].x;
-        const tdy = trailPositions[i - 1].y - trailPositions[i].y;
-        trailPositions[i].x += tdx * 0.35;
-        trailPositions[i].y += tdy * 0.35;
-      }
-
-      for (let i = 0; i < trailLength; i++) {
-        trailDots[i].style.left = trailPositions[i].x + 'px';
-        trailDots[i].style.top = trailPositions[i].y + 'px';
-      }
-    }
-
-    // Update spark animation frame calculations
-    for (let i = activeSparks.length - 1; i >= 0; i--) {
-      const p = activeSparks[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.alpha -= 0.035;
-      p.vx *= 0.95;
-      p.vy *= 0.95;
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
       
-      if (p.alpha <= 0) {
-        p.active = false;
-        p.element.style.display = 'none';
-        activeSparks.splice(i, 1);
-      } else {
-        p.element.style.left = p.x + 'px';
-        p.element.style.top = p.y + 'px';
-        p.element.style.opacity = p.alpha;
-        p.element.style.transform = `translate(-50%, -50%) scale(${p.alpha.toFixed(2)})`;
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {
+      // AudioContext blocks sometimes before click
+    }
+  }
+
+  // ==========================================================================
+  // Boot Sequence Simulation Loader
+  // ==========================================================================
+  const bootOverlay = document.getElementById('boot-overlay');
+  const bootLog = document.getElementById('boot-log-container');
+  const bootAction = document.getElementById('boot-action-area');
+  const bootBtn = document.getElementById('boot-button');
+  const desktopWrapper = document.getElementById('desktop-wrapper');
+
+  const bootLogs = [
+    { text: "HETVI_OS Core Loader v2.6.4 initializing...", type: "info" },
+    { text: "CPU Check: Core frequency 4.80 GHz ... OK", type: "info" },
+    { text: "Memory allocation: 16 GB Synaptic RAM initialized", type: "info" },
+    { text: "Neural modules check: [Programming, WebDev, AI, BigData] ... READY", type: "success" },
+    { text: "Vector databases active (pgvector link established)", type: "info" },
+    { text: "Secure communication handshake keys ... SECURE", type: "success" },
+    { text: "Warning: Timeline odyssey indexes contain high time-dilation values.", type: "warning" },
+    { text: "Encrypted vaults verification in progress...", type: "info" },
+    { text: "Decrypting key verification success.", type: "success" },
+    { text: "System engaged. Loading HETVI OS user profile.", type: "success" }
+  ];
+
+  let logIndex = 0;
+
+  function typeBootLogs() {
+    if (logIndex < bootLogs.length) {
+      const log = bootLogs[logIndex];
+      const div = document.createElement('div');
+      div.className = `boot-log-line ${log.type}`;
+      div.innerHTML = `<span>[${new Date().toLocaleTimeString()}]</span> ${log.text}`;
+      if (bootLog) {
+        bootLog.appendChild(div);
+        bootLog.scrollTop = bootLog.scrollHeight;
+      }
+      playSystemBeep(500 + logIndex * 30, 0.05, 'square');
+      logIndex++;
+      setTimeout(typeBootLogs, Math.random() * 250 + 150);
+    } else {
+      if (bootAction) {
+        bootAction.style.display = 'flex';
       }
     }
-    
-    requestAnimationFrame(updateCursor);
-  };
-  updateCursor();
+  }
 
-  // Add hover class on interactive elements
-  const hoverTargets = document.querySelectorAll('a, button, .project-card, .certificate-card, .btn, .report-tab-btn');
-  const addHover = () => cursor.classList.add('hover');
-  const removeHover = () => cursor.classList.remove('hover');
+  // Start log printing sequence
+  if (bootOverlay) {
+    setTimeout(typeBootLogs, 600);
+  }
 
-  const addCursorHoverListeners = () => {
-    document.querySelectorAll('a, button, .project-card, .certificate-card, .btn, .report-tab-btn, .game-cell, .synapse-node').forEach(elem => {
-      elem.removeEventListener('mouseenter', addHover);
-      elem.removeEventListener('mouseleave', removeHover);
-      elem.addEventListener('mouseenter', addHover);
-      elem.addEventListener('mouseleave', removeHover);
+  // Boot Button Link Trigger
+  if (bootBtn) {
+    bootBtn.addEventListener('click', () => {
+      playSystemBeep(880, 0.25, 'sine');
+      setTimeout(() => playSystemBeep(1200, 0.15, 'sine'), 100);
+      
+      bootOverlay.style.opacity = '0';
+      bootOverlay.style.transition = 'opacity 0.6s ease';
+      
+      setTimeout(() => {
+        bootOverlay.style.display = 'none';
+        desktopWrapper.style.display = 'flex';
+        // Initialize active elements
+        initializeClock();
+        initializeDiagnosticsWave();
+        initializeSkillsNeuralMap();
+        initTimelineGalaxyOrbits();
+        // Check URL parameter to open specific page directly
+        checkDeepLinkParams();
+      }, 600);
     });
-  };
-  addCursorHoverListeners();
+  }
 
-  // Re-run listener attachment on DOM changes (e.g. after drawer opening)
-  const observer = new MutationObserver(() => {
-    addCursorHoverListeners();
+  // Active status clocks
+  function initializeClock() {
+    const clock = document.getElementById('taskbar-clock');
+    if (clock) {
+      setInterval(() => {
+        clock.textContent = new Date().toLocaleTimeString();
+      }, 1000);
+    }
+
+    // Ping telemetry fluctuation
+    const pingDisplay = document.getElementById('telemetry-ping');
+    setInterval(() => {
+      if (pingDisplay) {
+        pingDisplay.textContent = `${Math.floor(Math.random() * 6 + 10)} ms`;
+      }
+    }, 3000);
+  }
+
+  // Check query parameter redirection
+  function checkDeepLinkParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const windowToOpen = urlParams.get('win');
+    if (windowToOpen) {
+      let winId = `win-${windowToOpen}`;
+      if (windowToOpen === 'about') winId = 'win-resume'; // About and Resume merged in OS report
+      const targetWindow = document.getElementById(winId);
+      if (targetWindow) {
+        openWindow(winId);
+      }
+    }
+  }
+
+  // ==========================================================================
+  // Floating Draggable Window Management
+  // ==========================================================================
+  const workspace = document.querySelector('.os-workspace');
+  const windows = document.querySelectorAll('.os-window');
+  const shortcuts = document.querySelectorAll('.desktop-shortcut');
+  const activeTabsContainer = document.getElementById('active-tabs-container');
+  const osDockInner = document.getElementById('os-dock-inner');
+
+  let activeZIndex = 300;
+
+  // Make Windows Draggable
+  windows.forEach(win => {
+    const header = win.querySelector('.win-header');
+    
+    // Focus window on click
+    win.addEventListener('mousedown', () => focusWindow(win));
+    win.addEventListener('touchstart', () => focusWindow(win));
+
+    // Handle drags
+    if (header) {
+      header.addEventListener('mousedown', (e) => startDrag(e, win));
+      header.addEventListener('touchstart', (e) => startDrag(e, win), { passive: false });
+    }
+
+    // Action controls (Min/Max/Close)
+    const minBtn = win.querySelector('.win-controls .min');
+    const maxBtn = win.querySelector('.win-controls .max');
+    const closeBtn = win.querySelector('.win-controls .close');
+
+    if (minBtn) {
+      minBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        minimizeWindow(win);
+      });
+    }
+    if (maxBtn) {
+      maxBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        maximizeWindow(win);
+      });
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeWindow(win);
+      });
+    }
   });
-  observer.observe(document.body, { childList: true, subtree: true });
 
+  // Shortcut Link triggers
+  shortcuts.forEach(sc => {
+    sc.addEventListener('click', () => {
+      const winId = sc.getAttribute('data-window');
+      openWindow(winId);
+    });
+  });
 
-  // ==========================================================================
-  // Dynamic Typewriter Effect
-  // ==========================================================================
-  const typingSpan = document.getElementById('typing-text');
-  if (typingSpan) {
-    const words = [
-      "Machine Learning.",
-      "Full-Stack Web Apps.",
-      "Natural Language Processing.",
-      "Agentic AI Workflows."
-    ];
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let typingSpeed = 100;
+  // Focus Window Z-index raise
+  function focusWindow(win) {
+    windows.forEach(w => w.classList.remove('active'));
+    win.classList.add('active');
+    activeZIndex += 1;
+    win.style.zIndex = activeZIndex;
+    
+    // Update taskbar tabs active status
+    updateTabsUI(win.id);
+  }
 
-    function type() {
-      const currentWord = words[wordIndex];
-      if (isDeleting) {
-        typingSpan.textContent = currentWord.substring(0, charIndex - 1);
-        charIndex--;
-        typingSpeed = 40;
+  // Open window from dock or icon
+  function openWindow(winId) {
+    const win = document.getElementById(winId);
+    if (!win) return;
+
+    playSystemBeep(650, 0.08, 'sine');
+    
+    win.classList.remove('minimized');
+    win.classList.add('open');
+    focusWindow(win);
+
+    // Create navigation tab in taskbar if not already present
+    createTabNode(winId, win.querySelector('.win-title').textContent);
+  }
+
+  // Close window
+  function closeWindow(win) {
+    playSystemBeep(450, 0.1, 'sine');
+    win.classList.remove('open');
+    win.classList.remove('maximized');
+    removeTabNode(win.id);
+    removeDockNode(win.id);
+  }
+
+  // Minimize window (slides into dock)
+  function minimizeWindow(win) {
+    playSystemBeep(520, 0.08, 'sine');
+    win.classList.add('minimized');
+    win.classList.remove('active');
+    
+    // Create dock icon representation
+    createDockNode(win.id, win.querySelector('.win-title').textContent, win.querySelector('.win-type-icon').getAttribute('data-lucide'));
+  }
+
+  // Maximize Window
+  function maximizeWindow(win) {
+    playSystemBeep(700, 0.08, 'sine');
+    win.classList.toggle('maximized');
+  }
+
+  // Handle pointer drags
+  function startDrag(e, win) {
+    if (win.classList.contains('maximized')) return;
+    
+    // Prevent default touch scrolls
+    if (e.type === 'touchstart') {
+      e.preventDefault();
+    }
+
+    focusWindow(win);
+
+    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+    const startX = clientX - win.offsetLeft;
+    const startY = clientY - win.offsetTop;
+
+    function doDrag(dragEvent) {
+      const currentX = dragEvent.type === 'touchmove' ? dragEvent.touches[0].clientX : dragEvent.clientX;
+      const currentY = dragEvent.type === 'touchmove' ? dragEvent.touches[0].clientY : dragEvent.clientY;
+
+      let newX = currentX - startX;
+      let newY = currentY - startY;
+
+      // Bound windows inside viewport limits
+      const maxLeft = window.innerWidth - 100;
+      const maxTop = window.innerHeight - 80;
+
+      newX = Math.max(-100, Math.min(newX, maxLeft));
+      newY = Math.max(0, Math.min(newY, maxTop));
+
+      win.style.left = `${newX}px`;
+      win.style.top = `${newY}px`;
+    }
+
+    function stopDrag() {
+      document.removeEventListener('mousemove', doDrag);
+      document.removeEventListener('mouseup', stopDrag);
+      document.removeEventListener('touchmove', doDrag);
+      document.removeEventListener('touchend', stopDrag);
+    }
+
+    document.addEventListener('mousemove', doDrag);
+    document.addEventListener('mouseup', stopDrag);
+    document.addEventListener('touchmove', doDrag, { passive: false });
+    document.addEventListener('touchend', stopDrag);
+  }
+
+  // Taskbar Tab creation logic
+  function createTabNode(winId, title) {
+    let existingTab = document.querySelector(`.tab-btn[data-win="${winId}"]`);
+    if (existingTab) return;
+
+    const tab = document.createElement('button');
+    tab.className = 'tab-btn active';
+    tab.setAttribute('data-win', winId);
+    tab.innerHTML = `<span class="status-dot online"></span> <span>${title.replace('HETVI_OS://', '')}</span>`;
+    
+    tab.addEventListener('click', () => {
+      const win = document.getElementById(winId);
+      if (win.classList.contains('minimized')) {
+        openWindow(winId);
+      } else if (win.classList.contains('active')) {
+        minimizeWindow(win);
       } else {
-        typingSpan.textContent = currentWord.substring(0, charIndex + 1);
-        charIndex++;
-        typingSpeed = 80;
+        focusWindow(win);
       }
+    });
 
-      if (!isDeleting && charIndex === currentWord.length) {
-        typingSpeed = 2200; // Pause at end of word
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-        typingSpeed = 400; // Pause before starting next word
-      }
-
-      setTimeout(type, typingSpeed);
+    if (activeTabsContainer) {
+      activeTabsContainer.appendChild(tab);
     }
+  }
 
-    // Start typewriter loop
-    setTimeout(type, 800);
+  function removeTabNode(winId) {
+    const tab = document.querySelector(`.tab-btn[data-win="${winId}"]`);
+    if (tab) tab.remove();
+  }
+
+  function updateTabsUI(activeWinId) {
+    document.querySelectorAll('.tab-btn').forEach(tab => {
+      if (tab.getAttribute('data-win') === activeWinId) {
+        tab.classList.add('active');
+      } else {
+        tab.classList.remove('active');
+      }
+    });
+  }
+
+  // Dock items logic
+  function createDockNode(winId, title, iconName) {
+    let existingNode = document.querySelector(`.dock-node[data-win="${winId}"]`);
+    if (existingNode) return;
+
+    const node = document.createElement('button');
+    node.className = 'dock-node';
+    node.setAttribute('data-win', winId);
+    node.setAttribute('title', title);
+    node.innerHTML = `<i data-lucide="${iconName || 'window'}"></i>`;
+    
+    node.addEventListener('click', () => {
+      openWindow(winId);
+      removeDockNode(winId);
+    });
+
+    if (osDockInner) {
+      osDockInner.appendChild(node);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  function removeDockNode(winId) {
+    const node = document.querySelector(`.dock-node[data-win="${winId}"]`);
+    if (node) node.remove();
   }
 
   // ==========================================================================
-  // Navigation & Scroll Effects
+  // Command Terminal Operations Interpreter
   // ==========================================================================
-  const header = document.getElementById('header');
-  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-  const closeMenuBtn = document.querySelector('.close-menu-btn');
-  const mobileOverlay = document.querySelector('.mobile-overlay');
-  const mobileLinks = document.querySelectorAll('.mobile-link');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  const sections = document.querySelectorAll('section');
+  const terminalHistory = document.getElementById('terminal-history');
+  const terminalInput = document.getElementById('terminal-textbox');
 
-  // Sticky Header scroll styling
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  });
-
-  // Mobile Menu Toggles
-  const toggleMobileMenu = (state) => {
-    if (state) {
-      mobileOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    } else {
-      mobileOverlay.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
+  const terminalCommands = {
+    help: () => {
+      return [
+        "VALID SHELL COMMANDS ARRAY:",
+        "  <span class='cmd-text'>help</span>         : Display current operations manual.",
+        "  <span class='cmd-text'>about</span>        : Print background system specs of developer.",
+        "  <span class='cmd-text'>projects</span>     : Trigger Process Manager (Featured Projects).",
+        "  <span class='cmd-text'>skills</span>       : Launch Neural Skill node networks.",
+        "  <span class='cmd-text'>vault</span>        : Unlock encrypted professional certificates vault.",
+        "  <span class='cmd-text'>resume</span>       : Display executive CV academic records.",
+        "  <span class='cmd-text'>contact</span>      : Open secure transmission channel (Contact).",
+        "  <span class='cmd-text'>diagnostics</span>  : Show system health gauges.",
+        "  <span class='cmd-text'>time-travel</span>  : Load Space-Time Odyssey timeline slides.",
+        "  <span class='cmd-text'>neofetch</span>     : Fetch OS core attributes.",
+        "  <span class='cmd-text'>clear</span>        : Flush terminal log history."
+      ];
+    },
+    about: () => {
+      return [
+        "DEVELOPER DATA SUMMARY:",
+        "  Name        : Hetvi Chirag Sheth",
+        "  Origin      : Vadodara, Gujarat, India",
+        "  Title       : AI & Full-Stack Systems Engineer",
+        "  Education   : B.Tech Computer Engineering (Navrachana Univ, Vadodara)",
+        "  Ambition    : Building scalable cognitive models and multi-agent workflows."
+      ];
+    },
+    neofetch: () => {
+      return [
+        "               <span class='cmd-text'>.,-:-..</span>          root@hetvi_os",
+        "          <span class='cmd-text'>,:/+/+++++++//:</span>        -------------",
+        "        <span class='cmd-text'>.++++/////////++++.</span>      OS: HETVI OS v2.6.4 x86_64",
+        "       <span class='cmd-text'>/+++/`         `++++/</span>     Kernel: WebKit-JS-v8",
+        "      <span class='cmd-text'>++++/             /+++</span>     Uptime: 2 mins",
+        "      <span class='cmd-text'>++++.             .+++</span>     Shell: Zsh (CoreTerminal)",
+        "      <span class='cmd-text'>++++\             /+++</span>     CPU: Gemini Neural Core (8 Cores)",
+        "       <span class='cmd-text'>\+++/`         `/+++/</span>     Memory: 7712MB / 16384MB",
+        "        <span class='cmd-text'>.++++/////////++++.</span>      Secure Link: ESTABLISHED",
+        "          <span class='cmd-text'>,:/+/+++++++//:`</span>",
+        "               <span class='cmd-text'>.,-:-..</span>"
+      ];
+    },
+    clear: () => {
+      if (terminalHistory) terminalHistory.innerHTML = '';
+      return [];
+    },
+    projects: () => { openWindow('win-processes'); return ["Opening HETVI_OS://Running_Processes panel..."]; },
+    skills: () => { openWindow('win-skills'); return ["Launching HETVI_OS://Neural_Modules network..."]; },
+    vault: () => { openWindow('win-vault'); return ["Redirecting to HETVI_OS://Encrypted_Vault..."]; },
+    resume: () => { openWindow('win-resume'); return ["Generating HETVI_OS://System_Report_Viewer..."]; },
+    contact: () => { openWindow('win-contact'); return ["Connecting to Secure Transmission Desk..."]; },
+    diagnostics: () => { openWindow('win-diagnostics'); return ["Opening system telemetry indicators..."]; },
+    "time-travel": () => { openWindow('win-timeline'); return ["Initiating chronological time warp link..."]; }
   };
 
-  if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', () => toggleMobileMenu(true));
-  }
-  if (closeMenuBtn) {
-    closeMenuBtn.addEventListener('click', () => toggleMobileMenu(false));
-  }
+  if (terminalInput) {
+    terminalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const cmdRaw = terminalInput.value.trim();
+        terminalInput.value = '';
 
-  mobileLinks.forEach(link => {
-    link.addEventListener('click', () => toggleMobileMenu(false));
-  });
+        if (!cmdRaw) return;
 
-  // Active Nav Item highlighting based on Current Filename URL
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    if (href === currentPath || (currentPath === '' && href === 'index.html')) {
-      link.classList.add('active');
-    } else {
-      link.classList.remove('active');
-    }
-  });
+        playSystemBeep(580, 0.05, 'triangle');
 
-  // Navbar Sliding Highlight Underline
-  const navList = document.querySelector('.nav-links');
-  if (navList) {
-    const underline = document.createElement('div');
-    underline.className = 'nav-underline';
-    navList.appendChild(underline);
+        // Display command in history
+        const userLine = document.createElement('div');
+        userLine.innerHTML = `<span class="terminal-prompt">root@hetvi_os:~$</span> ${cmdRaw}`;
+        terminalHistory.appendChild(userLine);
 
-    const updateUnderline = (link) => {
-      if (link) {
-        underline.style.left = link.offsetLeft + 'px';
-        underline.style.width = link.offsetWidth + 'px';
-        underline.style.opacity = '1';
-      } else {
-        underline.style.opacity = '0';
+        const cmdArg = cmdRaw.toLowerCase();
+        let logs = [];
+
+        if (terminalCommands[cmdArg]) {
+          logs = terminalCommands[cmdArg]();
+        } else {
+          logs = [
+            `sh: command not found: ${cmdRaw}`,
+            "Type <span class='cmd-text'>help</span> to check available actions."
+          ];
+        }
+
+        // Print outputs
+        logs.forEach(line => {
+          const logLine = document.createElement('div');
+          logLine.innerHTML = line;
+          terminalHistory.appendChild(logLine);
+        });
+
+        terminalHistory.scrollTop = terminalHistory.scrollHeight;
       }
+    });
+
+    // Keep focus on input
+    const terminalWindow = document.getElementById('win-terminal');
+    if (terminalWindow) {
+      terminalWindow.addEventListener('click', () => {
+        terminalInput.focus();
+      });
+    }
+  }
+
+  // ==========================================================================
+  // Telemetry Diagnostics Canvas Graphs
+  // ==========================================================================
+  let diagCanvas = document.getElementById('diagnostics-chart');
+  let diagCtx = diagCanvas ? diagCanvas.getContext('2d') : null;
+  let waveOffset = 0;
+
+  function initializeDiagnosticsWave() {
+    if (!diagCanvas || !diagCtx) return;
+
+    const resizeChart = () => {
+      const container = diagCanvas.parentElement;
+      diagCanvas.width = container.clientWidth;
+      diagCanvas.height = container.clientHeight;
+    };
+    resizeChart();
+    window.addEventListener('resize', resizeChart);
+
+    function drawWave() {
+      if (!diagCtx || !diagCanvas) return;
+      diagCtx.clearRect(0, 0, diagCanvas.width, diagCanvas.height);
+
+      diagCtx.strokeStyle = 'rgba(0, 242, 254, 0.6)';
+      diagCtx.lineWidth = 2;
+      diagCtx.shadowBlur = 6;
+      diagCtx.shadowColor = 'rgba(0, 242, 254, 0.5)';
+
+      // Outer wave line
+      diagCtx.beginPath();
+      const middleY = diagCanvas.height / 2;
+      const w = diagCanvas.width;
+
+      for (let x = 0; x < w; x++) {
+        const angle = (x / w) * Math.PI * 4 + waveOffset;
+        const y = middleY + Math.sin(angle) * 18 * Math.sin(waveOffset * 0.5);
+        if (x === 0) diagCtx.moveTo(x, y);
+        else diagCtx.lineTo(x, y);
+      }
+      diagCtx.stroke();
+
+      // Shadow overlay line
+      diagCtx.strokeStyle = 'rgba(157, 78, 221, 0.4)';
+      diagCtx.shadowColor = 'rgba(157, 78, 221, 0.3)';
+      diagCtx.beginPath();
+      for (let x = 0; x < w; x++) {
+        const angle = (x / w) * Math.PI * 6 - waveOffset;
+        const y = middleY + Math.cos(angle) * 12 * Math.sin(waveOffset * 0.3);
+        if (x === 0) diagCtx.moveTo(x, y);
+        else diagCtx.lineTo(x, y);
+      }
+      diagCtx.stroke();
+
+      diagCtx.shadowBlur = 0; // Reset blur
+
+      waveOffset += 0.05;
+      requestAnimationFrame(drawWave);
+    }
+    drawWave();
+
+    // Fluctuating dial displays
+    const cpuGauge = document.getElementById('cpu-gauge');
+    const memGauge = document.getElementById('mem-gauge');
+    const cpuVal = document.getElementById('cpu-val-display');
+    const memVal = document.getElementById('mem-val-display');
+    const bandVal = document.getElementById('bandwidth-val');
+    const sysTemp = document.getElementById('diag-temp');
+
+    setInterval(() => {
+      const cpu = Math.floor(Math.random() * 16 + 12); // 12-28
+      const mem = Math.floor(Math.random() * 4 + 46);  // 46-50
+      
+      if (cpuGauge) {
+        cpuGauge.style.setProperty('--gauge-percentage', cpu);
+        cpuVal.textContent = `${cpu}%`;
+      }
+      if (memGauge) {
+        memGauge.style.setProperty('--gauge-percentage', mem);
+        memVal.textContent = `${mem}%`;
+      }
+      if (bandVal) {
+        bandVal.textContent = `${(Math.random() * 1.5 + 2.1).toFixed(2)} Gbps`;
+      }
+      if (sysTemp) {
+        sysTemp.textContent = `${Math.floor(Math.random() * 3 + 37)}°C`;
+      }
+    }, 2000);
+  }
+
+  // ==========================================================================
+  // Projects running process managers
+  // ==========================================================================
+  const projectsData = [
+    { pid: 901, name: "Saarthi_AI_Assistant.bin", cpu: "14.2%", mem: "256MB", status: "RUNNING", category: "aiagent", url: "https://github.com/Hetvi16-05/Personal-AI-Assistant", tech: ["FastAPI", "Streamlit", "Gemini", "Supabase", "pgvector"], logs: ["Semantic chat memory via pgvector", "Multi-agent planner & recommendation engine", "Goal roadmaps & milestone tracking", "JWT auth with multi-user isolation"] },
+    { pid: 902, name: "Travia_Travel_Planner.app", cpu: "8.5%", mem: "180MB", status: "RUNNING", category: "fullstack", url: "https://github.com/Hetvi16-05/Travel", tech: ["React.js", "Node.js", "PostgreSQL", "JWT", "Leaflet"], logs: ["AI-powered itinerary generation", "Interactive map visualization (Leaflet)", "Secure authentication (JWT)", "Responsive multi-user database"] },
+    { pid: 903, name: "Supplier_Ranking_Model.py", cpu: "5.1%", mem: "120MB", status: "RUNNING", category: "datascience", url: "https://github.com/Hetvi16-05", tech: ["Python", "Machine Learning", "Web Scraping", "Regression Models"], logs: ["Regression-based scoring models", "Real-time web scraping pipeline", "Reliability rating algorithms", "Appreciated by CEO of Mesh Works"] },
+    { pid: 904, name: "RAINWISE_Threat_Core.bin", cpu: "18.9%", mem: "420MB", status: "RUNNING", category: "computervision", url: "https://github.com/Hetvi16-05/rainwise", tech: ["PyTorch", "SegFormer", "YOLO-World", "LSTM", "OpenCV"], logs: ["Flood segmentation (SegFormer-B0)", "Zero-shot threat detection (YOLO-World)", "Time-series prediction (LSTM)", "98.89% detection accuracy"] },
+    { pid: 905, name: "BigData_Flood_Alerts.jar", cpu: "12.0%", mem: "512MB", status: "RUNNING", category: "bigdata", url: "https://github.com/Hetvi16-05/flood-monitoring-ai", tech: ["TensorFlow", "Hadoop", "Spark", "Kafka", "MongoDB"], logs: ["Time-series forecasting (TFT)", "Distributed pipelines (Hadoop & Spark)", "Real-time data streaming (Kafka)", "Tableau & Power BI visualizations"] },
+    { pid: 906, name: "Hindi_Transliterator_DL.py", cpu: "9.2%", mem: "380MB", status: "RUNNING", category: "nlp", url: "https://github.com/Hetvi16-05/Transliterator", tech: ["TensorFlow", "NLP Model", "Seq2Seq", "FastAPI", "Beam Search"], logs: ["Seq2Seq + Attention architectures", "Trained on 84K Hindi-Hinglish pairs", "Metrics metrics evaluation (CER, WER, BLEU)", "FastAPI backend integration"] },
+    { pid: 907, name: "GreenSort_IoT_Sorter.elf", cpu: "4.8%", mem: "64MB", status: "RUNNING", category: "iot", url: "https://github.com/snehadpatel/greensort", tech: ["YOLO", "Arduino", "Raspberry Pi", "IoT Protocols", "OpenCV"], logs: ["YOLO & Random Forest classification", "Raspberry Pi & servo sorting mechanics", "Published paper at SustainX 2026", "Approximately 75% sorting accuracy"] }
+  ];
+
+  const processesTableBody = document.getElementById('processes-tbody');
+  const processInspector = document.getElementById('process-inspector');
+  const inspectPid = document.getElementById('inspect-pid');
+  const inspectTitle = document.getElementById('inspect-title');
+  const inspectLogs = document.getElementById('inspect-logs');
+  const inspectTech = document.getElementById('inspect-tech');
+  const closeInspectorBtn = document.getElementById('close-inspector-btn');
+
+  function renderProcesses() {
+    if (!processesTableBody) return;
+    processesTableBody.innerHTML = '';
+
+    projectsData.forEach(p => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="process-pid">${p.pid}</td>
+        <td><strong>${p.name}</strong></td>
+        <td class="process-cpu">${p.status === 'RUNNING' ? p.cpu : '0.0%'}</td>
+        <td>${p.mem}</td>
+        <td>
+          <span class="status-pill ${p.status === 'RUNNING' ? 'run' : 'killed'}">
+            <span class="status-indicator"></span> ${p.status}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-outline inspect-proc-btn" style="padding: 0.2rem 0.5rem; font-size: 0.7rem; margin-right: 0.3rem;">INSPECT</button>
+          <button class="btn btn-sm btn-primary kill-proc-btn" style="padding: 0.2rem 0.5rem; font-size: 0.7rem; background:${p.status === 'RUNNING' ? '' : '#10b981'}">${p.status === 'RUNNING' ? 'KILL' : 'BOOT'}</button>
+          <a href="${p.url}" target="_blank" class="btn btn-sm btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;"><i data-lucide="external-link" style="width:10px;height:10px;"></i></a>
+        </td>
+      `;
+
+      // Actions hooks
+      const inspectBtn = tr.querySelector('.inspect-proc-btn');
+      const killBtn = tr.querySelector('.kill-proc-btn');
+
+      inspectBtn.addEventListener('click', () => {
+        playSystemBeep(700, 0.05, 'sine');
+        inspectProcess(p);
+      });
+
+      killBtn.addEventListener('click', () => {
+        playSystemBeep(p.status === 'RUNNING' ? 300 : 800, 0.1, 'square');
+        p.status = p.status === 'RUNNING' ? 'TERMINATED' : 'RUNNING';
+        renderProcesses();
+      });
+
+      processesTableBody.appendChild(tr);
+    });
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function inspectProcess(p) {
+    if (!processInspector) return;
+    processInspector.style.display = 'flex';
+    
+    inspectPid.textContent = `THREAD ID: ${p.pid}`;
+    inspectTitle.textContent = `PROCESS LOGS: ${p.name}`;
+    
+    // Fill Features Logs
+    inspectLogs.innerHTML = '';
+    p.logs.forEach(log => {
+      const li = document.createElement('li');
+      li.textContent = log;
+      inspectLogs.appendChild(li);
+    });
+
+    // Fill Tech heap
+    inspectTech.innerHTML = '';
+    p.tech.forEach(tech => {
+      const span = document.createElement('span');
+      span.className = 'skill-pill';
+      span.textContent = tech;
+      inspectTech.appendChild(span);
+    });
+  }
+
+  if (closeInspectorBtn) {
+    closeInspectorBtn.addEventListener('click', () => {
+      playSystemBeep(400, 0.05, 'sine');
+      processInspector.style.display = 'none';
+    });
+  }
+
+  // Populate first run
+  renderProcesses();
+
+  // Periodically fluctuate CPU of active items
+  setInterval(() => {
+    projectsData.forEach(p => {
+      if (p.status === 'RUNNING') {
+        const current = parseFloat(p.cpu);
+        const change = (Math.random() - 0.5) * 3;
+        p.cpu = `${Math.max(2, Math.min(25, current + change)).toFixed(1)}%`;
+      }
+    });
+    // Check if window is open/visible to avoid redrawing DOM while minimized
+    const win = document.getElementById('win-processes');
+    if (win && win.classList.contains('open') && !win.classList.contains('minimized')) {
+      renderProcesses();
+    }
+  }, 3000);
+
+
+  // ==========================================================================
+  // Skills interactive Canvas Neural Node Network
+  // ==========================================================================
+  const skillCanvas = document.getElementById('skills-neural-canvas');
+  let skillCtx = skillCanvas ? skillCanvas.getContext('2d') : null;
+  let skillsNodes = [];
+
+  const skillGroups = [
+    { label: "PYTHON", cat: "AI", x: 0.5, y: 0.35 },
+    { label: "ML", cat: "AI", x: 0.65, y: 0.25 },
+    { label: "PYTORCH", cat: "AI", x: 0.72, y: 0.4 },
+    { label: "NLP", cat: "AI", x: 0.58, y: 0.55 },
+    { label: "JS", cat: "Web", x: 0.32, y: 0.4 },
+    { label: "REACT", cat: "Web", x: 0.2, y: 0.3 },
+    { label: "NODE.JS", cat: "Web", x: 0.25, y: 0.55 },
+    { label: "SQL", cat: "Database", x: 0.45, y: 0.78 },
+    { label: "MONGODB", cat: "Database", x: 0.3, y: 0.8 },
+    { label: "GIT", cat: "Tools", x: 0.82, y: 0.7 },
+    { label: "VS CODE", cat: "Tools", x: 0.7, y: 0.82 }
+  ];
+
+  function initializeSkillsNeuralMap() {
+    if (!skillCanvas || !skillCtx) return;
+
+    const resizeSkills = () => {
+      const wrapper = skillCanvas.parentElement;
+      skillCanvas.width = wrapper.clientWidth;
+      skillCanvas.height = wrapper.clientHeight;
+      buildSkillCoordinates();
     };
 
-    // Position initial underline once styles/fonts load
-    setTimeout(() => {
-      const activeLink = navList.querySelector('a.active');
-      updateUnderline(activeLink);
-    }, 150);
+    function buildSkillCoordinates() {
+      const w = skillCanvas.width;
+      const h = skillCanvas.height;
+      skillsNodes = skillGroups.map((g, idx) => ({
+        id: idx,
+        label: g.label,
+        cat: g.cat,
+        x: g.x * w,
+        y: g.y * h,
+        radius: 26,
+        color: g.cat === 'AI' ? '#00f2fe' : (g.cat === 'Web' ? '#9d4edd' : '#10b981'),
+        pulse: 0,
+        hovered: false
+      }));
+    }
 
-    navList.querySelectorAll('a').forEach(link => {
-      link.addEventListener('mouseenter', () => updateUnderline(link));
-      link.addEventListener('mouseleave', () => {
-        const currentActive = navList.querySelector('a.active');
-        updateUnderline(currentActive);
+    resizeSkills();
+    window.addEventListener('resize', resizeSkills);
+
+    let activeHoverNode = null;
+
+    skillCanvas.addEventListener('mousemove', (e) => {
+      const rect = skillCanvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+
+      let foundNode = null;
+      skillsNodes.forEach(node => {
+        const dx = node.x - mx;
+        const dy = node.y - my;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < node.radius) {
+          foundNode = node;
+          node.hovered = true;
+        } else {
+          node.hovered = false;
+        }
       });
+
+      if (foundNode !== activeHoverNode) {
+        if (foundNode) playSystemBeep(440 + foundNode.id * 20, 0.03, 'sine');
+        activeHoverNode = foundNode;
+      }
     });
 
-    window.addEventListener('resize', () => {
-      const currentActive = navList.querySelector('a.active');
-      updateUnderline(currentActive);
-    });
+    function drawNeuralNetwork() {
+      if (!skillCtx || !skillCanvas) return;
+      skillCtx.clearRect(0, 0, skillCanvas.width, skillCanvas.height);
+
+      // Draw vectors between nodes of same category
+      skillsNodes.forEach((n1, idx1) => {
+        skillsNodes.forEach((n2, idx2) => {
+          if (idx1 < idx2 && (n1.cat === n2.cat || n1.label === 'PYTHON' || n1.label === 'JS')) {
+            skillCtx.beginPath();
+            skillCtx.moveTo(n1.x, n1.y);
+            skillCtx.lineTo(n2.x, n2.y);
+            
+            const isHighlighted = n1.hovered || n2.hovered;
+            skillCtx.strokeStyle = isHighlighted ? 'rgba(0, 242, 254, 0.4)' : 'rgba(255, 255, 255, 0.05)';
+            skillCtx.lineWidth = isHighlighted ? 1.5 : 0.8;
+            
+            if (isHighlighted) {
+              skillCtx.shadowBlur = 6;
+              skillCtx.shadowColor = '#00f2fe';
+            }
+            skillCtx.stroke();
+            skillCtx.shadowBlur = 0;
+          }
+        });
+      });
+
+      // Draw circular nodes
+      skillsNodes.forEach(node => {
+        // Draw pulse circle
+        node.pulse = (node.pulse + 0.05) % (Math.PI * 2);
+        const pulseR = node.radius + Math.sin(node.pulse) * 4;
+
+        skillCtx.beginPath();
+        skillCtx.arc(node.x, node.y, pulseR, 0, Math.PI * 2);
+        skillCtx.strokeStyle = node.color;
+        skillCtx.globalAlpha = 0.15;
+        skillCtx.lineWidth = 1;
+        skillCtx.stroke();
+        skillCtx.globalAlpha = 1.0;
+
+        // Draw solid node
+        skillCtx.beginPath();
+        skillCtx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        skillCtx.fillStyle = '#060b18';
+        skillCtx.strokeStyle = node.hovered ? '#fff' : node.color;
+        skillCtx.lineWidth = node.hovered ? 2 : 1;
+        
+        if (node.hovered) {
+          skillCtx.shadowBlur = 10;
+          skillCtx.shadowColor = node.color;
+        }
+        
+        skillCtx.fill();
+        skillCtx.stroke();
+        skillCtx.shadowBlur = 0;
+
+        // Text labels inside nodes
+        skillCtx.fillStyle = '#fff';
+        skillCtx.font = `bold 9px var(--font-display)`;
+        skillCtx.textAlign = 'center';
+        skillCtx.textBaseline = 'middle';
+        skillCtx.fillText(node.label, node.x, node.y);
+      });
+
+      requestAnimationFrame(drawNeuralNetwork);
+    }
+    drawNeuralNetwork();
   }
 
   // ==========================================================================
-  // Scroll Reveal Animations (all variants)
+  // Certificates Decryption vault
   // ==========================================================================
-  const revealSelectors = '.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-rotate, .stagger-children, .section-header';
-  const revealElements = document.querySelectorAll(revealSelectors);
+  const decryptBtn = document.getElementById('decrypt-vault-btn');
+  const lockedScreen = document.getElementById('vault-locked-screen');
+  const unlockedScreen = document.getElementById('vault-unlocked-screen');
+  const certsListContainer = document.getElementById('certs-list-container');
+  const lockIcon = document.getElementById('lock-icon');
 
-  const revealObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-        observer.unobserve(entry.target);
+  const certificatesData = [
+    { title: "Python for Data Science", org: "IBM", file: "pythonfordatascience_IBM.pdf" },
+    { title: "Python 101 for Data Science", org: "Cognitive Class (IBM Network)", file: "PythonforDatascience_cognitiveclass.pdf" },
+    { title: "AWS Machine Learning Foundations", org: "AWS Academy Graduate", file: "AWSmachinelearning.pdf" },
+    { title: "Artificial Intelligence Fundamentals", org: "IBM SkillsBuild", file: "FundamentalodAI_IBM.pdf" },
+    { title: "AWS Data Engineering", org: "AWS Academy Graduate", file: "AWSDataengineering.pdf" },
+    { title: "Data Analysis with Python", org: "Cognitive Class (IBM Network)", file: "dataanalysisforpython_cognitiveclass.pdf" },
+    { title: "Introduction to IoT", org: "Cisco Networking Academy", file: "introductiontoIot_IBM.pdf" }
+  ];
+
+  if (decryptBtn) {
+    decryptBtn.addEventListener('click', () => {
+      playSystemBeep(200, 0.4, 'sawtooth');
+      decryptBtn.disabled = true;
+      decryptBtn.textContent = "RUNNING CIPHER LINK...";
+
+      if (lockIcon) {
+        lockIcon.setAttribute('data-lucide', 'unlock');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
       }
+
+      // Simulate character scramble decrypt loops
+      setTimeout(() => {
+        playSystemBeep(880, 0.15, 'sine');
+        if (lockedScreen) lockedScreen.style.display = 'none';
+        if (unlockedScreen) unlockedScreen.style.display = 'flex';
+        
+        // Populates certificates list with decode animations
+        populateCertificates();
+      }, 2000);
     });
-  }, {
-    threshold: 0.08,
-    rootMargin: '0px 0px -40px 0px'
-  });
+  }
 
-  revealElements.forEach(el => revealObserver.observe(el));
+  function populateCertificates() {
+    if (!certsListContainer) return;
+    certsListContainer.innerHTML = '';
+
+    certificatesData.forEach((cert, index) => {
+      const row = document.createElement('div');
+      row.className = 'cert-os-row';
+      row.innerHTML = `
+        <div class="cert-info-left">
+          <span class="cert-val-title" id="cert-title-${index}">DECRYPTING...</span>
+          <span class="cert-val-org">${cert.org}</span>
+        </div>
+        <a href="${cert.file}" target="_blank" class="btn btn-sm btn-primary">
+          <i data-lucide="external-link" style="width:12px; height:12px;"></i>
+          <span>VIEW</span>
+        </a>
+      `;
+
+      certsListContainer.appendChild(row);
+      
+      // Animate text decode scramble
+      setTimeout(() => {
+        scrambleTextEffect(document.getElementById(`cert-title-${index}`), cert.title);
+      }, index * 200 + 100);
+    });
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function scrambleTextEffect(element, finalVal) {
+    if (!element) return;
+    let original = finalVal;
+    let chars = '!@#$%^&*()_+{}[]|:;?><';
+    let iterations = 0;
+
+    let interval = setInterval(() => {
+      let temp = '';
+      for (let i = 0; i < original.length; i++) {
+        if (original[i] === ' ') {
+          temp += ' ';
+          continue;
+        }
+        if (i < iterations) {
+          temp += original[i];
+        } else {
+          temp += chars[Math.floor(Math.random() * chars.length)];
+        }
+      }
+
+      element.textContent = temp;
+
+      if (iterations >= original.length) {
+        clearInterval(interval);
+      }
+      iterations += 1;
+    }, 30);
+  }
 
   // ==========================================================================
-  // Parallax Scroll Effects
+  // Timeline Space Scroll Odyssey Parallax
   // ==========================================================================
-  const shapes = document.querySelectorAll('.shape');
-  const heroVisual = document.querySelector('.hero-visual');
+  const scrollArea = document.getElementById('timeline-scroll-area');
+  const slides = document.querySelectorAll('.timeline-scroll-slide');
+  const winTimeline = document.getElementById('win-timeline');
 
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    if (heroVisual) {
-      heroVisual.style.transform = `translateY(${scrollY * -0.04}px)`;
+  // Warp parameters based on timeline year
+  const eraWarpColors = {
+    present: 'radial-gradient(circle at 50% 50%, rgba(10, 20, 40, 0.4), #02040b)',
+    2026: 'radial-gradient(circle at 50% 50%, rgba(255, 0, 127, 0.15), #02040b)',
+    2025: 'radial-gradient(circle at 50% 50%, rgba(157, 78, 221, 0.15), #02040b)',
+    2024: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15), #02040b)',
+    2023: 'radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15), #02040b)',
+    galaxy: 'radial-gradient(circle at 50% 50%, rgba(255, 170, 0, 0.15), #02040b)'
+  };
+
+  if (scrollArea) {
+    scrollArea.addEventListener('scroll', () => {
+      // Find active slide based on scroll midpoint
+      const midPoint = scrollArea.scrollTop + scrollArea.clientHeight / 2;
+      let activeSlide = slides[0];
+
+      slides.forEach(slide => {
+        if (midPoint >= slide.offsetTop && midPoint < slide.offsetTop + slide.clientHeight) {
+          activeSlide = slide;
+        }
+      });
+
+      const era = activeSlide.getAttribute('data-slide-era');
+      if (winTimeline && eraWarpColors[era]) {
+        winTimeline.style.background = eraWarpColors[era];
+      }
+      
+      // Trigger tiny drift sound on slide warp transition
+      if (!activeSlide.classList.contains('active')) {
+        slides.forEach(s => s.classList.remove('active'));
+        activeSlide.classList.add('active');
+        playSystemBeep(220 + slides.length * 10, 0.05, 'sine');
+      }
+    }, { passive: true });
+  }
+
+  // Populates floating star fields inside space slide
+  function initTimelineGalaxyOrbits() {
+    const starsContainer = document.getElementById('stars-container');
+    if (!starsContainer) return;
+    starsContainer.innerHTML = '';
+    
+    // Create floating HTML stars (representing GitHub commits)
+    for (let i = 0; i < 50; i++) {
+      const star = document.createElement('div');
+      star.style.position = 'absolute';
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.width = `${Math.random() * 3 + 1}px`;
+      star.style.height = star.style.width;
+      star.style.backgroundColor = '#fff';
+      star.style.borderRadius = '50%';
+      star.style.opacity = Math.random().toFixed(2);
+      
+      // Floating animation delay
+      star.style.animation = `pulse ${Math.random() * 3 + 2}s infinite alternate`;
+      starsContainer.appendChild(star);
     }
-    shapes.forEach((shape, i) => {
-      const speed = (i + 1) * 0.025;
-      shape.style.transform = `translateY(${scrollY * speed}px)`;
-    });
-  }, { passive: true });
+
+    // Spiral Galaxy SVG orbits generator
+    const galaxySvg = document.getElementById('spiral-galaxy-svg');
+    if (galaxySvg) {
+      for (let i = 0; i < 80; i++) {
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        const angle = Math.random() * Math.PI * 2;
+        const dist = Math.random() * 35 + 8;
+        // Compute spiral coordinates
+        const cx = 50 + Math.cos(angle + dist * 0.1) * dist;
+        const cy = 50 + Math.sin(angle + dist * 0.1) * dist;
+        circle.setAttribute('cx', cx);
+        circle.setAttribute('cy', cy);
+        circle.setAttribute('r', Math.random() * 0.85 + 0.35);
+        circle.setAttribute('class', 'galaxy-star');
+        circle.setAttribute('fill', Math.random() > 0.5 ? '#00f2fe' : '#8f00ff');
+        galaxySvg.appendChild(circle);
+      }
+    }
+  }
 
   // ==========================================================================
-  // Magnetic Button Effect
+  // Core AI Assistant Dialogue responses chatbot
   // ==========================================================================
-  const magneticBtns = document.querySelectorAll('.btn-primary, .btn-outline, .nav-cta .btn');
+  const aiChatHistory = document.getElementById('ai-chat-history');
+  const promptPills = document.querySelectorAll('.ai-prompt-pill');
 
-  magneticBtns.forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-    });
+  const aiAnswers = {
+    background: "HETVI CHIRAG SHETH is an aspiring Computer Engineering student currently pursuing a B.Tech degree at Navrachana University, Vadodara (2023 - 2027) with an outstanding CGPA of 8.54. Prior to B.Tech, she completed her Computer Engineering Diploma at Sigma Institute (GTU) with a near-perfect CGPA of 9.86, ranking at the top of her class across all six semesters.",
+    skills: "HER PRINCIPAL TECHNICAL ABILITIES INCORPORATE:\n• Languages: Python, Java, JavaScript, C, SQL.\n• Libraries/Frameworks: PyTorch, TensorFlow, React.js, Node.js, FastAPI, OpenCV, Pandas.\n• Distributed Big Data: Hadoop, Apache Spark, Apache Kafka, MongoDB.",
+    saarthi: "SAARTHI AI is a sophisticated personal mentor chatbot developed by Hetvi. Key specifications include:\n• Vector Database integration (pgvector) inside Supabase for long-term semantic user memory.\n• Orchestrates multi-agent pipelines to outline learning roadmaps.\n• Uses JWT authentication protocols for multi-tenant isolation.",
+    contact: "TO ESTABLISH A COMM LINK WITH THE DEVELOPER:\n• Secure Email: shethhetvi11@gmail.com / hetvi.c.sheth@nuv.ac.in\n• Mobile Node: +91 9924559139\n• GitHub: github.com/Hetvi16-05\n• LinkedIn: linkedin.com/in/hetvi-sheth-4116a3346"
+  };
 
-    btn.addEventListener('mouseleave', () => {
-      btn.style.transform = '';
+  promptPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const type = pill.getAttribute('data-prompt');
+      if (!aiAnswers[type]) return;
+
+      playSystemBeep(720, 0.08, 'sine');
+
+      // Append User message bubble
+      const userBubble = document.createElement('div');
+      userBubble.className = 'ai-bubble user-msg';
+      userBubble.textContent = pill.textContent;
+      aiChatHistory.appendChild(userBubble);
+      aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
+
+      // Disable pill temporarily
+      pill.disabled = true;
+
+      // Simulate AI typing stream delay
+      setTimeout(() => {
+        const aiBubble = document.createElement('div');
+        aiBubble.className = 'ai-bubble ai-msg';
+        aiChatHistory.appendChild(aiBubble);
+        
+        typeStreamString(aiBubble, aiAnswers[type], () => {
+          pill.disabled = false;
+        });
+      }, 600);
     });
   });
 
-  // ==========================================================================
-  // 3D Tilt & Glare on Interactive Cards
-  // ==========================================================================
-  const tiltCards = document.querySelectorAll('.code-card, .certificate-card, .project-card, .skills-category-card');
+  function typeStreamString(element, text, callback) {
+    let index = 0;
+    let speed = 15;
 
-  tiltCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      
-      // Track relative coordinates on hover (percentage)
-      const glareX = ((e.clientX - rect.left) / rect.width) * 100;
-      const glareY = ((e.clientY - rect.top) / rect.height) * 100;
-      
-      card.style.setProperty('--mouse-x', `${glareX}%`);
-      card.style.setProperty('--mouse-y', `${glareY}%`);
-
-      // 3D Tilt calculations
-      const tiltX = (e.clientX - rect.left) / rect.width - 0.5;
-      const tiltY = (e.clientY - rect.top) / rect.height - 0.5;
-      
-      const isLargeCard = card.classList.contains('project-card') || card.classList.contains('certificate-card');
-      const translateY = isLargeCard ? -8 : -4;
-      
-      card.style.transform = `perspective(1000px) rotateY(${tiltX * 10}deg) rotateX(${-tiltY * 10}deg) translateY(${translateY}px)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-      card.style.removeProperty('--mouse-x');
-      card.style.removeProperty('--mouse-y');
-    });
-  });
+    function run() {
+      if (index < text.length) {
+        // Handle linebreaks
+        if (text.substr(index, 1) === '\n') {
+          element.innerHTML += '<br>';
+        } else {
+          element.innerHTML += text[index];
+        }
+        index++;
+        aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
+        
+        if (index % 3 === 0) playSystemBeep(1100, 0.01, 'triangle');
+        
+        setTimeout(run, speed);
+      } else {
+        if (callback) callback();
+      }
+    }
+    run();
+  }
 
   // ==========================================================================
-  // Interactive Contact Form Handling
+  // Secure Communication Transmission channel contact form submission
   // ==========================================================================
-  const contactForm = document.getElementById('contact-form');
-  const submitBtn = document.getElementById('submit-btn');
-  const btnText = submitBtn ? submitBtn.querySelector('span') : null;
-  const btnIcon = document.getElementById('btn-send-icon');
-  const formFeedback = document.getElementById('form-feedback');
+  const contactForm = document.getElementById('secure-contact-form');
+  const transmitBtn = document.getElementById('btn-transmit');
+  const transmitLogs = document.getElementById('comm-feedback-logs');
+  const transmitIcon = document.getElementById('transmit-icon');
 
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
@@ -432,89 +1096,77 @@ document.addEventListener('DOMContentLoaded', () => {
       const emailVal = document.getElementById('email').value;
       const messageVal = document.getElementById('message').value;
 
-      // Visual states
-      submitBtn.disabled = true;
-      if (btnText) btnText.textContent = 'Sending Message...';
-      if (btnIcon) {
-        btnIcon.setAttribute('data-lucide', 'loader-2');
+      playSystemBeep(440, 0.15, 'sawtooth');
+
+      // Update feedback loading states
+      transmitBtn.disabled = true;
+      transmitLogs.className = 'terminal-log-output warning';
+      transmitLogs.textContent = "ENCRYPTING DATA TRANSCRIPT...";
+      
+      if (transmitIcon) {
+        transmitIcon.setAttribute('data-lucide', 'loader-2');
+        transmitIcon.classList.add('spin-animation');
         if (typeof lucide !== 'undefined') lucide.createIcons();
-        btnIcon.classList.add('spin-animation');
       }
 
-      // Send form data to FormSubmit.co API
-      fetch('https://formsubmit.co/ajax/shethhetvi11@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: nameVal,
-          email: emailVal,
-          message: messageVal
+      setTimeout(() => {
+        transmitLogs.textContent = "ESTABLISHING UPLINK PACKETS...";
+        
+        fetch('https://formsubmit.co/ajax/shethhetvi11@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: nameVal,
+            email: emailVal,
+            message: messageVal
+          })
         })
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Reset button
-        submitBtn.disabled = false;
-        if (btnText) btnText.textContent = 'Send Message';
-        if (btnIcon) {
-          btnIcon.setAttribute('data-lucide', 'send');
-          btnIcon.classList.remove('spin-animation');
-          if (typeof lucide !== 'undefined') lucide.createIcons();
-        }
+        .then(response => response.json())
+        .then(data => {
+          transmitBtn.disabled = false;
+          if (transmitIcon) {
+            transmitIcon.setAttribute('data-lucide', 'send');
+            transmitIcon.classList.remove('spin-animation');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+          }
 
-        if (data.success === 'true' || data.success === true) {
-          // Show success state
-          formFeedback.textContent = 'Thank you, Hetvi will get back to you shortly!';
-          formFeedback.className = 'form-feedback success';
-          // Reset form
-          contactForm.reset();
-        } else {
-          // Show error state
-          formFeedback.textContent = 'Something went wrong. Please try again.';
-          formFeedback.className = 'form-feedback error';
-        }
+          if (data.success === 'true' || data.success === true) {
+            playSystemBeep(980, 0.25, 'sine');
+            transmitLogs.className = 'terminal-log-output success';
+            transmitLogs.textContent = "TRANSMISSION SECURELY BROADCASTED!";
+            contactForm.reset();
+          } else {
+            playSystemBeep(250, 0.35, 'square');
+            transmitLogs.className = 'terminal-log-output error';
+            transmitLogs.textContent = "TRANSMISSION MISALIGNED (ERROR)";
+          }
 
-        // Clear feedback after a few seconds
-        setTimeout(() => {
-          formFeedback.textContent = '';
-          formFeedback.className = 'form-feedback';
-        }, 5000);
-      })
-      .catch(error => {
-        submitBtn.disabled = false;
-        if (btnText) btnText.textContent = 'Send Message';
-        if (btnIcon) {
-          btnIcon.setAttribute('data-lucide', 'send');
-          btnIcon.classList.remove('spin-animation');
-          if (typeof lucide !== 'undefined') lucide.createIcons();
-        }
-
-        formFeedback.textContent = 'Network error. Please check your connection.';
-        formFeedback.className = 'form-feedback error';
-
-        setTimeout(() => {
-          formFeedback.textContent = '';
-          formFeedback.className = 'form-feedback';
-        }, 5000);
-      });
+          setTimeout(() => {
+            transmitLogs.className = 'terminal-log-output';
+            transmitLogs.textContent = "READY FOR BROADCASTING...";
+          }, 6000);
+        })
+        .catch(err => {
+          transmitBtn.disabled = false;
+          if (transmitIcon) {
+            transmitIcon.setAttribute('data-lucide', 'send');
+            transmitIcon.classList.remove('spin-animation');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+          }
+          transmitLogs.className = 'terminal-log-output error';
+          transmitLogs.textContent = "UPLINK FAILURE (NET ERROR)";
+          
+          setTimeout(() => {
+            transmitLogs.className = 'terminal-log-output';
+            transmitLogs.textContent = "READY FOR BROADCASTING...";
+          }, 6000);
+        });
+      }, 1500);
     });
   }
-
-  // Add keyframe animation for spinner via JS if needed
-  const style = document.createElement('style');
-  style.innerHTML = `
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .spin-animation {
-      animation: spin 1s linear infinite;
-    }
-  `;
-  document.head.appendChild(style);
 
   // ==========================================================================
   // Signature Neural Mesh Background Canvas
@@ -522,98 +1174,64 @@ document.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('neural-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // Mouse tracking variables
-    let mouse = {
-      x: null,
-      y: null,
-      radius: 120, // Interaction radius
-      isActive: false
-    };
-
-    // Particles list
+    let mouse = { x: null, y: null, radius: 140, isActive: false };
     let particles = [];
 
-    // Scale particle density with screen size
     const getParticleCount = () => {
-      if (window.innerWidth < 480) return 40;
-      if (window.innerWidth < 768) return 60;
-      return 100;
+      if (window.innerWidth < 768) return 40;
+      return 80;
     };
 
     class Particle {
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        // Speeds (drift rate)
-        this.vx = (Math.random() - 0.5) * 0.4;
-        this.vy = (Math.random() - 0.5) * 0.4;
-        
-        // Aesthetics
-        this.radius = Math.random() * 1.5 + 1.2;
-        this.color = Math.random() > 0.5 ? '#8B5CF6' : '#0D9488';
-        
-        // 3D Parallax Scrolling depth factor
-        this.depth = Math.random() * 0.75 + 0.25; 
-        
-        // Base alpha (fade overlay)
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.radius = Math.random() * 1.5 + 1;
+        this.color = Math.random() > 0.5 ? '#00f2fe' : '#9d4edd';
+        this.depth = Math.random() * 0.6 + 0.2;
         this.alpha = Math.random() * 0.35 + 0.15;
       }
 
       draw(scrollY) {
-        // Compute depth parallax offset on the vertical coordinate
         const drawY = (this.y - scrollY * this.depth) % height;
-        
-        // Handle negative wrapping (if scroll creates offset below 0)
         const adjustedY = drawY < 0 ? height + drawY : drawY;
 
         ctx.beginPath();
         ctx.arc(this.x, adjustedY, this.radius, 0, Math.PI * 2);
-        
-        // Apply glow style to points
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = this.color;
-        
         ctx.fillStyle = this.color;
         ctx.globalAlpha = this.alpha;
         ctx.fill();
-        
-        // Clean glow settings for connecting lines
-        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1.0;
       }
 
       update() {
-        // Drift movement
         this.x += this.vx;
         this.y += this.vy;
 
-        // Wrap-around screen bounds
         if (this.x < 0) this.x = width;
         if (this.x > width) this.x = 0;
         if (this.y < 0) this.y = height;
         if (this.y > height) this.y = 0;
 
-        // Mouse attraction interaction
         if (mouse.isActive && mouse.x !== null && mouse.y !== null) {
           const dx = mouse.x - this.x;
           const dy = mouse.y - this.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < mouse.radius) {
-            // Apply a subtle pull towards the mouse cursor
             const force = (mouse.radius - distance) / mouse.radius;
-            this.x += (dx / distance) * force * 0.5;
-            this.y += (dy / distance) * force * 0.5;
+            this.x += (dx / distance) * force * 0.4;
+            this.y += (dy / distance) * force * 0.4;
           }
         }
       }
     }
 
-    // Populate particles
     const initParticles = () => {
       particles = [];
       const count = getParticleCount();
@@ -622,10 +1240,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    // Draw lines between proximate nodes
     const connectParticles = (scrollY) => {
-      const maxDistance = 110;
-      
+      const maxDistance = 120;
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
         const p1Y = ((p1.y - scrollY * p1.depth) % height + height) % height;
@@ -643,95 +1259,30 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.moveTo(p1.x, p1Y);
             ctx.lineTo(p2.x, p2Y);
 
-            // Connect opacity based on proximity
-            const linkAlpha = (1 - distance / maxDistance) * 0.08;
-            
-            // Render beautiful gradient lines between contrasting nodes
-            if (p1.color !== p2.color) {
-              const gradient = ctx.createLinearGradient(p1.x, p1Y, p2.x, p2Y);
-              gradient.addColorStop(0, p1.color);
-              gradient.addColorStop(1, p2.color);
-              ctx.strokeStyle = gradient;
-            } else {
-              ctx.strokeStyle = p1.color;
-            }
-
-            ctx.lineWidth = 0.8;
+            const linkAlpha = (1 - distance / maxDistance) * 0.05;
+            ctx.strokeStyle = p1.color === p2.color ? p1.color : 'rgba(0,242,254,0.3)';
+            ctx.lineWidth = 0.6;
             ctx.globalAlpha = linkAlpha;
             ctx.stroke();
-
-            // Periodically draw a glowing signal pulse traveling along the synapse line
-            const pulseSpeed = 0.0008;
-            const t = (Date.now() * pulseSpeed + (i + j)) % 1; 
-            const pulseX = p1.x + (p2.x - p1.x) * t;
-            const pulseY = p1Y + (p2Y - p1Y) * t;
-
-            ctx.beginPath();
-            ctx.arc(pulseX, pulseY, 1.2, 0, Math.PI * 2);
-            ctx.fillStyle = p2.color;
-            ctx.globalAlpha = Math.min(linkAlpha * 3.5, 1);
-            ctx.fill();
-          }
-        }
-      }
-
-      // Draw lines from mouse coordinate to proximate nodes (Interactive mouse-to-canvas synapse lines)
-      if (mouse.isActive && mouse.x !== null && mouse.y !== null) {
-        const mouseConnectDistance = 150;
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
-          const pY = ((p.y - scrollY * p.depth) % height + height) % height;
-          const dx = p.x - mouse.x;
-          const dy = pY - mouse.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < mouseConnectDistance) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, pY);
-            ctx.lineTo(mouse.x, mouse.y);
-
-            const linkAlpha = (1 - distance / mouseConnectDistance) * 0.15;
-            ctx.strokeStyle = p.color;
-            ctx.lineWidth = 0.9;
-            ctx.globalAlpha = linkAlpha;
-            ctx.stroke();
-
-            // Periodic signal pulse traveling along the mouse connection synapse line
-            const pulseSpeed = 0.001;
-            const t = (Date.now() * pulseSpeed + i) % 1;
-            const pulseX = p.x + (mouse.x - p.x) * t;
-            const pulseY = pY + (mouse.y - pY) * t;
-
-            ctx.beginPath();
-            ctx.arc(pulseX, pulseY, 1.3, 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.globalAlpha = Math.min(linkAlpha * 3, 1);
-            ctx.fill();
+            ctx.globalAlpha = 1.0;
           }
         }
       }
     };
 
-    // Animation Loop
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
-
-      // Track current scroll position
       const scrollY = window.scrollY;
 
-      // Update and draw nodes
       particles.forEach(p => {
         p.update();
         p.draw(scrollY);
       });
 
-      // Connect proximate nodes
       connectParticles(scrollY);
-
-      animationFrameId = requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
     };
 
-    // Event Listeners for canvas size & interactivity
     window.addEventListener('resize', () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
@@ -745,1077 +1296,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('mouseleave', () => {
-      mouse.x = null;
-      mouse.y = null;
       mouse.isActive = false;
     });
 
-    // Handle touch interactions for mobile device gestures
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        mouse.x = e.touches[0].clientX;
-        mouse.y = e.touches[0].clientY;
-        mouse.isActive = true;
-      }
-    });
-
-    window.addEventListener('touchend', () => {
-      mouse.isActive = false;
-    });
-
-    // Start Particle System
     initParticles();
     animate();
   }
-
-  // ==========================================================================
-  // Interactive Project Reports Tabs
-  // ==========================================================================
-  const reportTabBtns = document.querySelectorAll('.report-tab-btn');
-  const reportDetailCards = document.querySelectorAll('.report-detail-card');
-
-  if (reportTabBtns.length > 0) {
-    reportTabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Remove active class from all buttons
-        reportTabBtns.forEach(b => b.classList.remove('active'));
-        // Add active class to clicked button
-        btn.classList.add('active');
-
-        // Hide all detail cards and show target one
-        const targetId = btn.getAttribute('data-target');
-        reportDetailCards.forEach(card => {
-          if (card.getAttribute('id') === targetId) {
-            card.classList.add('active');
-          } else {
-            card.classList.remove('active');
-          }
-        });
-      });
-    });
-  }
-
-  // ==========================================================================
-  // Left Side Project Drawer (Side Panel)
-  // ==========================================================================
-  const projectCards = document.querySelectorAll('.project-card');
-  const drawer = document.getElementById('project-drawer');
-  const drawerOverlay = drawer ? drawer.querySelector('.drawer-overlay') : null;
-  const drawerCloseBtn = drawer ? drawer.querySelector('.drawer-close') : null;
-
-  if (drawer && projectCards.length > 0) {
-    const drawerBannerImgEl = document.getElementById('drawer-banner-img');
-    const drawerCategoryEl = document.getElementById('drawer-category');
-    const drawerTitleEl = document.getElementById('drawer-title');
-    const drawerDescEl = document.getElementById('drawer-desc');
-    const drawerFeaturesEl = document.getElementById('drawer-features');
-    const drawerTechEl = document.getElementById('drawer-tech');
-    const drawerGithubLinkEl = document.getElementById('drawer-github-link');
-
-    const openDrawer = (card) => {
-      // Extract data from card
-      const bannerImgUrl = card.getAttribute('data-image');
-      const category = card.querySelector('.project-category').textContent;
-      const title = card.querySelector('.project-title').textContent;
-      const desc = card.querySelector('.project-text').textContent;
-      const features = Array.from(card.querySelectorAll('.project-features li')).map(li => li.textContent.trim());
-      const tech = Array.from(card.querySelectorAll('.project-tech .tech-tag')).map(tag => tag.textContent.trim());
-      const githubLink = card.querySelector('.project-links a[aria-label="GitHub Repository"]');
-
-      // Populate drawer elements
-      if (drawerBannerImgEl && bannerImgUrl) {
-        drawerBannerImgEl.src = bannerImgUrl;
-      }
-      if (drawerCategoryEl && category) {
-        drawerCategoryEl.textContent = category;
-      }
-      if (drawerTitleEl) drawerTitleEl.textContent = title;
-      if (drawerDescEl) drawerDescEl.textContent = desc;
-
-      // Populate features list
-      if (drawerFeaturesEl) {
-        drawerFeaturesEl.innerHTML = '';
-        features.forEach(feat => {
-          const li = document.createElement('li');
-          li.innerHTML = `<i data-lucide="check-circle-2"></i> <span>${feat}</span>`;
-          drawerFeaturesEl.appendChild(li);
-        });
-      }
-
-      // Populate tech stack
-      if (drawerTechEl) {
-        drawerTechEl.innerHTML = '';
-        tech.forEach(t => {
-          const span = document.createElement('span');
-          span.className = 'skill-pill';
-          span.textContent = t;
-          drawerTechEl.appendChild(span);
-        });
-      }
-
-      // Populate GitHub source code link
-      if (drawerGithubLinkEl && githubLink) {
-        drawerGithubLinkEl.href = githubLink.href;
-      }
-
-      // Re-initialize Lucide Icons in the drawer
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      }
-
-      // Slide in drawer
-      drawer.classList.add('active');
-      document.body.style.overflow = 'hidden'; // prevent background scrolling
-    };
-
-    const closeDrawer = () => {
-      drawer.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    };
-
-    // Add click listeners to all project cards
-    projectCards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        // If click is on a link or its children, let default behavior happen
-        if (e.target.closest('a') || e.target.closest('button') || e.target.closest('i')) {
-          return;
-        }
-        openDrawer(card);
-      });
-    });
-
-    if (drawerCloseBtn) {
-      drawerCloseBtn.addEventListener('click', closeDrawer);
-    }
-    if (drawerOverlay) {
-      drawerOverlay.addEventListener('click', closeDrawer);
-    }
-  }
-
-  // ==========================================================================
-  // Projects Category Filtering
-  // ==========================================================================
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  let refreshCarousel = null;
-
-  if (filterBtns.length > 0) {
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const filterValue = btn.getAttribute('data-filter');
-        projectCards.forEach(card => {
-          const cardCategory = card.getAttribute('data-category');
-          if (filterValue === 'all' || cardCategory === filterValue) {
-            card.classList.remove('hide');
-          } else {
-            card.classList.add('hide');
-          }
-        });
-
-        if (refreshCarousel) refreshCarousel(true);
-      });
-    });
-  }
-
-  // ==========================================================================
-  // Projects Carousel
-  // ==========================================================================
-  const projectsCarousel = document.getElementById('projects-carousel');
-
-  if (projectsCarousel) {
-    const track = projectsCarousel.querySelector('.carousel-track');
-    const prevBtn = projectsCarousel.querySelector('.carousel-prev');
-    const nextBtn = projectsCarousel.querySelector('.carousel-next');
-    const dotsContainer = projectsCarousel.querySelector('.carousel-dots');
-    const progressBar = projectsCarousel.querySelector('.carousel-progress-bar');
-
-    let currentSlide = 0;
-    let autoplayTimer = null;
-    let progressTimer = null;
-    let progressElapsed = 0;
-    const AUTOPLAY_MS = 5500;
-    const PROGRESS_TICK = 50;
-
-    const getCardsPerView = () => window.innerWidth >= 1024 ? 2 : 1;
-
-    const getVisibleCards = () =>
-      Array.from(track.querySelectorAll('.project-card:not(.hide)'));
-
-    const getTotalSlides = () => {
-      const count = getVisibleCards().length;
-      if (count === 0) return 0;
-      return Math.ceil(count / getCardsPerView());
-    };
-
-    const buildDots = () => {
-      if (!dotsContainer) return;
-      dotsContainer.innerHTML = '';
-      const total = getTotalSlides();
-      for (let i = 0; i < total; i++) {
-        const dot = document.createElement('button');
-        dot.className = 'carousel-dot' + (i === currentSlide ? ' active' : '');
-        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-        dot.setAttribute('role', 'tab');
-        dot.addEventListener('click', () => goToSlide(i));
-        dotsContainer.appendChild(dot);
-      }
-    };
-
-    const updateActiveCards = () => {
-      const cards = getVisibleCards();
-      const perView = getCardsPerView();
-      const start = currentSlide * perView;
-
-      cards.forEach((card, index) => {
-        card.classList.toggle('is-active', index >= start && index < start + perView);
-      });
-    };
-
-    const updateCarouselPosition = () => {
-      const cards = getVisibleCards();
-      const total = getTotalSlides();
-
-      if (total === 0) {
-        track.style.transform = 'translateX(0)';
-        if (prevBtn) prevBtn.disabled = true;
-        if (nextBtn) nextBtn.disabled = true;
-        return;
-      }
-
-      if (currentSlide >= total) currentSlide = 0;
-
-      const firstCard = cards[0];
-      if (!firstCard) return;
-
-      const gap = parseFloat(getComputedStyle(track).gap) || 40;
-      const cardWidth = firstCard.offsetWidth;
-      const perView = getCardsPerView();
-      const offset = currentSlide * perView * (cardWidth + gap);
-
-      track.style.transform = `translateX(-${offset}px)`;
-      updateActiveCards();
-
-      if (prevBtn) prevBtn.disabled = currentSlide === 0;
-      if (nextBtn) nextBtn.disabled = currentSlide >= total - 1;
-
-      dotsContainer?.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentSlide);
-      });
-    };
-
-    const triggerSlideAnimation = () => {
-      track.classList.remove('is-animating');
-      void track.offsetWidth;
-      track.classList.add('is-animating');
-      setTimeout(() => track.classList.remove('is-animating'), 650);
-    };
-
-    const resetProgress = () => {
-      progressElapsed = 0;
-      if (progressBar) progressBar.style.width = '0%';
-    };
-
-    const startAutoplay = () => {
-      stopAutoplay();
-      resetProgress();
-
-      progressTimer = setInterval(() => {
-        progressElapsed += PROGRESS_TICK;
-        const pct = Math.min((progressElapsed / AUTOPLAY_MS) * 100, 100);
-        if (progressBar) progressBar.style.width = `${pct}%`;
-      }, PROGRESS_TICK);
-
-      autoplayTimer = setInterval(() => {
-        const total = getTotalSlides();
-        if (total <= 1) return;
-        goToSlide((currentSlide + 1) % total, false);
-      }, AUTOPLAY_MS);
-    };
-
-    const stopAutoplay = () => {
-      if (autoplayTimer) clearInterval(autoplayTimer);
-      if (progressTimer) clearInterval(progressTimer);
-      autoplayTimer = null;
-      progressTimer = null;
-    };
-
-    const goToSlide = (index, animate = true) => {
-      const total = getTotalSlides();
-      if (total === 0) return;
-
-      currentSlide = Math.max(0, Math.min(index, total - 1));
-      if (animate) triggerSlideAnimation();
-      updateCarouselPosition();
-      resetProgress();
-    };
-
-    refreshCarousel = (resetSlide = false) => {
-      if (resetSlide) currentSlide = 0;
-      buildDots();
-      updateCarouselPosition();
-      resetProgress();
-    };
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        goToSlide(currentSlide - 1);
-        startAutoplay();
-      });
-    }
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        goToSlide(currentSlide + 1);
-        startAutoplay();
-      });
-    }
-
-    // Touch / swipe support
-    let touchStartX = 0;
-    let touchDeltaX = 0;
-
-    track.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-      touchDeltaX = 0;
-      stopAutoplay();
-    }, { passive: true });
-
-    track.addEventListener('touchmove', (e) => {
-      touchDeltaX = e.touches[0].clientX - touchStartX;
-    }, { passive: true });
-
-    track.addEventListener('touchend', () => {
-      if (Math.abs(touchDeltaX) > 50) {
-        if (touchDeltaX < 0) goToSlide(currentSlide + 1);
-        else goToSlide(currentSlide - 1);
-      }
-      startAutoplay();
-    });
-
-    projectsCarousel.addEventListener('mouseenter', stopAutoplay);
-    projectsCarousel.addEventListener('mouseleave', startAutoplay);
-
-    window.addEventListener('resize', () => refreshCarousel(false));
-
-    refreshCarousel(true);
-    startAutoplay();
-
-    // Re-bind cursor hover for carousel controls
-    if (window.matchMedia('(min-width: 1025px)').matches) {
-      document.dispatchEvent(new Event('click'));
-    }
-  }
-
-  // ==========================================================================
-  // Premium Cursor Follower
-  // ==========================================================================
-  // Only initialize custom cursor on non-touch desktop screens
-  if (window.matchMedia('(min-width: 1025px)').matches) {
-    const cursorDot = document.createElement('div');
-    cursorDot.className = 'cursor-dot';
-    const cursorOutline = document.createElement('div');
-    cursorOutline.className = 'cursor-outline';
-    document.body.appendChild(cursorDot);
-    document.body.appendChild(cursorOutline);
-
-    let mouseX = -100;
-    let mouseY = -100;
-    let outlineX = -100;
-    let outlineY = -100;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      
-      cursorDot.style.left = `${mouseX}px`;
-      cursorDot.style.top = `${mouseY}px`;
-    });
-
-    const animateCursor = () => {
-      // Linear interpolation for smooth trailing outline
-      outlineX += (mouseX - outlineX) * 0.15;
-      outlineY += (mouseY - outlineY) * 0.15;
-
-      cursorOutline.style.left = `${outlineX}px`;
-      cursorOutline.style.top = `${outlineY}px`;
-
-      requestAnimationFrame(animateCursor);
-    };
-    animateCursor();
-
-    // Re-bind hover logic function to target hover items
-    const bindCursorHover = () => {
-      const hoverTargets = document.querySelectorAll('a, button, .project-card, .skills-category-card, .certificate-card, .report-tab-btn, .filter-btn, .carousel-btn, .carousel-dot');
-      hoverTargets.forEach(el => {
-        // Avoid duplicate event attachments
-        if (el.dataset.cursorBound) return;
-        el.dataset.cursorBound = "true";
-
-        el.addEventListener('mouseenter', () => {
-          cursorOutline.classList.add('hover');
-          cursorDot.classList.add('hover');
-        });
-        el.addEventListener('mouseleave', () => {
-          cursorOutline.classList.remove('hover');
-          cursorDot.classList.remove('hover');
-        });
-      });
-    };
-
-    bindCursorHover();
-
-    // Re-bind cursor events when dynamic tabs or elements are loaded/clicked
-    document.addEventListener('click', () => {
-      setTimeout(bindCursorHover, 100);
-    });
-  }
-
-  // ==========================================================================
-  // Page Transition — Split Curtain
-  // ==========================================================================
-  const ptOverlay = document.getElementById('page-transition');
-
-  if (ptOverlay) {
-    // On page load: run the "entering" reveal animation
-    requestAnimationFrame(() => {
-      ptOverlay.classList.add('is-entering');
-      ptOverlay.classList.remove('is-leaving');
-
-      // Clean up after animation completes
-      setTimeout(() => {
-        ptOverlay.classList.remove('is-entering');
-      }, 700);
-    });
-
-    // Navigate with leave animation
-    function navigateWithTransition(href) {
-      if (ptOverlay.classList.contains('is-leaving')) return; // prevent double-fire
-      ptOverlay.classList.remove('is-entering');
-      ptOverlay.classList.add('is-leaving');
-      ptOverlay.style.pointerEvents = 'all';
-
-      setTimeout(() => {
-        window.location.href = href;
-      }, 520); // slightly past the 0.45s animation
-    }
-
-    // Intercept all internal HTML page links
-    document.querySelectorAll('a[href]').forEach(link => {
-      const href = link.getAttribute('href');
-      // Only internal .html links (not mailto, tel, #hash, http)
-      if (
-        href &&
-        href.endsWith('.html') &&
-        !href.startsWith('http') &&
-        !href.startsWith('//') &&
-        !link.hasAttribute('download') &&
-        link.getAttribute('target') !== '_blank'
-      ) {
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          navigateWithTransition(href);
-        });
-      }
-    });
-  }
-
-  // ==========================================================================
-  // Floating AI Mind Game Widget
-  // ==========================================================================
-  
-  // Confetti Canvas Overlay
-  let confettiCanvas = document.getElementById('widget-confetti-canvas');
-  if (!confettiCanvas) {
-    confettiCanvas = document.createElement('canvas');
-    confettiCanvas.id = 'widget-confetti-canvas';
-    confettiCanvas.style.position = 'fixed';
-    confettiCanvas.style.top = '0';
-    confettiCanvas.style.left = '0';
-    confettiCanvas.style.width = '100vw';
-    confettiCanvas.style.height = '100vh';
-    confettiCanvas.style.pointerEvents = 'none';
-    confettiCanvas.style.zIndex = '9999';
-    document.body.appendChild(confettiCanvas);
-  }
-  
-  const confettiCtx = confettiCanvas.getContext('2d');
-  let confettiActive = false;
-  let confettiParticles = [];
-  let confettiAnimId = null;
-
-  function resizeConfetti() {
-    confettiCanvas.width = window.innerWidth;
-    confettiCanvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeConfetti);
-  resizeConfetti();
-
-  class Confetti {
-    constructor() {
-      this.x = Math.random() * window.innerWidth;
-      this.y = Math.random() * -100 - 20;
-      this.size = Math.random() * 6 + 4;
-      this.color = ['#6D28D9', '#0D9488', '#F59E0B', '#EF4444', '#10B981', '#3B82F6'][Math.floor(Math.random() * 6)];
-      this.speedY = Math.random() * 3 + 2;
-      this.speedX = (Math.random() - 0.5) * 2;
-      this.rotation = Math.random() * 360;
-      this.rotationSpeed = (Math.random() - 0.5) * 4;
-    }
-    update() {
-      this.y += this.speedY;
-      this.x += this.speedX;
-      this.rotation += this.rotationSpeed;
-    }
-    draw() {
-      confettiCtx.save();
-      confettiCtx.translate(this.x, this.y);
-      confettiCtx.rotate((this.rotation * Math.PI) / 180);
-      confettiCtx.fillStyle = this.color;
-      confettiCtx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
-      confettiCtx.restore();
-    }
-  }
-
-  function triggerConfetti() {
-    if (confettiActive) return;
-    confettiActive = true;
-    confettiParticles = [];
-    for (let i = 0; i < 120; i++) {
-      confettiParticles.push(new Confetti());
-    }
-    function run() {
-      if (!confettiActive) return;
-      confettiCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      confettiParticles.forEach((p, idx) => {
-        p.update();
-        p.draw();
-        if (p.y > window.innerHeight) {
-          confettiParticles[idx] = new Confetti();
-        }
-      });
-      confettiAnimId = requestAnimationFrame(run);
-    }
-    run();
-    setTimeout(() => {
-      confettiActive = false;
-      confettiCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      cancelAnimationFrame(confettiAnimId);
-    }, 3500);
-  }
-
-  // Create FAB
-  const fab = document.createElement('button');
-  fab.className = 'floating-widget-btn';
-  fab.setAttribute('aria-label', 'Open Brain Game');
-  fab.innerHTML = '<i data-lucide="brain"></i>';
-  document.body.appendChild(fab);
-
-  // Create Widget Card Popup
-  const widgetCard = document.createElement('div');
-  widgetCard.className = 'floating-widget-card';
-  widgetCard.innerHTML = `
-    <div class="widget-card-header">
-      <div class="widget-card-title">
-        <i data-lucide="brain-circuit"></i>
-        <span>Neural Mind Games</span>
-      </div>
-      <button class="widget-close-btn" aria-label="Close Game">
-        <i data-lucide="x"></i>
-      </button>
-    </div>
-    <div class="widget-card-body" style="padding-top: 0.75rem;">
-      <!-- Game Mode Tabs -->
-      <div class="widget-game-tabs" style="display: flex; gap: 0.5rem; width: 100%; margin-bottom: 0.75rem;">
-        <button class="widget-tab-btn active" data-widget-game="memory" style="flex: 1; padding: 0.4rem; font-size: 0.75rem; font-family: var(--font-display); font-weight: 700; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-card); cursor: pointer; transition: var(--transition-fast);">Memory Match</button>
-        <button class="widget-tab-btn" data-widget-game="connect" style="flex: 1; padding: 0.4rem; font-size: 0.75rem; font-family: var(--font-display); font-weight: 700; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-card); cursor: pointer; transition: var(--transition-fast);">Path Finder</button>
-      </div>
-
-      <!-- Game 1: Memory Match Section -->
-      <div id="widget-memory-game" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-        <div class="widget-game-desc">Replicate the neural activation sequence to tune the synaptic network!</div>
-        <div class="synaptic-scoreboard">
-          <span>Level: <span id="synapse-level">1</span></span>
-          <span>High Score: <span id="synapse-highscore">0</span></span>
-        </div>
-        <div class="synaptic-board">
-          <svg class="synaptic-svg">
-            <line x1="120" y1="40" x2="60" y2="100" class="synaptic-line" id="line-0-1"></line>
-            <line x1="120" y1="40" x2="180" y2="100" class="synaptic-line" id="line-0-2"></line>
-            <line x1="60" y1="100" x2="90" y2="180" class="synaptic-line" id="line-1-3"></line>
-            <line x1="180" y1="100" x2="150" y2="180" class="synaptic-line" id="line-2-4"></line>
-            <line x1="90" y1="180" x2="120" y2="40" class="synaptic-line" id="line-3-0"></line>
-            <line x1="150" y1="180" x2="120" y2="40" class="synaptic-line" id="line-4-0"></line>
-            <line x1="60" y1="100" x2="180" y2="100" class="synaptic-line" id="line-1-2"></line>
-            <line x1="90" y1="180" x2="150" y2="180" class="synaptic-line" id="line-3-4"></line>
-          </svg>
-          <div class="synaptic-node" style="left: 50%; top: 17%;" data-node="0">IN</div>
-          <div class="synaptic-node" style="left: 25%; top: 42%;" data-node="1">H1</div>
-          <div class="synaptic-node" style="left: 75%; top: 42%;" data-node="2">H2</div>
-          <div class="synaptic-node" style="left: 37%; top: 75%;" data-node="3">W1</div>
-          <div class="synaptic-node" style="left: 63%; top: 75%;" data-node="4">OUT</div>
-        </div>
-        <div class="widget-game-status" id="widget-status">Click Start to begin</div>
-        <button class="btn btn-primary btn-full btn-sm" id="widget-start-btn">Start Game</button>
-      </div>
-
-      <!-- Game 2: Path Finder Section -->
-      <div id="widget-connect-game" style="width: 100%; display: none; flex-direction: column; align-items: center; gap: 1rem;">
-        <div class="widget-game-desc">Create a path from green IN nodes to blue OUT nodes. Tap adjacent nodes while avoiding blocked (red) nodes!</div>
-        <div class="synaptic-scoreboard">
-          <span>Objective: <span style="color:var(--secondary)">Connect IN ➜ OUT</span></span>
-          <span>Fails: <span id="connect-fails">0</span></span>
-        </div>
-        <div class="connect-board" id="widget-connect-board">
-          <svg class="connect-svg" id="widget-connect-svg"></svg>
-          <!-- Nodes dynamically drawn -->
-        </div>
-        <div class="widget-game-status" id="widget-connect-status">Find a neural pathway!</div>
-        <button class="btn btn-primary btn-full btn-sm" id="widget-connect-reset-btn">Reset Board</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(widgetCard);
-
-  // Initialize Lucide Icons for injected items
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons({
-      attrs: {
-        'stroke-width': 2
-      },
-      nameAttr: 'data-lucide'
-    });
-  }
-
-  // FAB toggle actions
-  const closeBtn = widgetCard.querySelector('.widget-close-btn');
-  fab.addEventListener('click', () => {
-    widgetCard.classList.toggle('open');
-    fab.classList.toggle('active');
-  });
-  closeBtn.addEventListener('click', () => {
-    widgetCard.classList.remove('open');
-    fab.classList.remove('active');
-  });
-
-  // Tab Button toggling
-  const tabBtns = widgetCard.querySelectorAll('.widget-tab-btn');
-  const memorySection = widgetCard.querySelector('#widget-memory-game');
-  const connectSection = widgetCard.querySelector('#widget-connect-game');
-
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const targetGame = btn.getAttribute('data-widget-game');
-      if (targetGame === 'memory') {
-        memorySection.style.display = 'flex';
-        connectSection.style.display = 'none';
-      } else {
-        memorySection.style.display = 'none';
-        connectSection.style.display = 'flex';
-        drawConnectNetwork(); // Initial render for connect game board
-      }
-    });
-  });
-
-  // ==========================================================================
-  // Game 1: Memory Match Logic
-  // ==========================================================================
-  let gameSequence = [];
-  let userSequence = [];
-  let gameLevel = 1;
-  let gameHighScore = parseInt(localStorage.getItem('synaptic_highscore')) || 0;
-  let isAITurn = false;
-  let isGameActive = false;
-
-  const levelSpan = widgetCard.querySelector('#synapse-level');
-  const highScoreSpan = widgetCard.querySelector('#synapse-highscore');
-  const statusDiv = widgetCard.querySelector('#widget-status');
-  const startBtn = widgetCard.querySelector('#widget-start-btn');
-  const nodesDOM = widgetCard.querySelectorAll('.synaptic-node');
-
-  highScoreSpan.textContent = gameHighScore;
-
-  const connections = [
-    { u: 0, v: 1, id: 'line-0-1' },
-    { u: 0, v: 2, id: 'line-0-2' },
-    { u: 1, v: 3, id: 'line-1-3' },
-    { u: 2, v: 4, id: 'line-2-4' },
-    { u: 3, v: 0, id: 'line-3-0' },
-    { u: 4, v: 0, id: 'line-4-0' },
-    { u: 1, v: 2, id: 'line-1-2' },
-    { u: 3, v: 4, id: 'line-3-4' }
-  ];
-
-  function highlightLine(u, v) {
-    const conn = connections.find(c => (c.u === u && c.v === v) || (c.u === v && c.v === u));
-    if (conn) {
-      const line = widgetCard.querySelector(`#${conn.id}`);
-      if (line) {
-        line.classList.add('lit');
-        setTimeout(() => line.classList.remove('lit'), 450);
-      }
-    }
-  }
-
-  function flashNode(nodeIdx) {
-    const nodeEl = widgetCard.querySelector(`.synaptic-node[data-node="${nodeIdx}"]`);
-    if (nodeEl) {
-      nodeEl.classList.add('flashing');
-      setTimeout(() => nodeEl.classList.remove('flashing'), 400);
-    }
-  }
-
-  function playAISequence() {
-    isAITurn = true;
-    userSequence = [];
-    statusDiv.textContent = 'AI is training...';
-    statusDiv.style.color = 'var(--primary)';
-    
-    let i = 0;
-    const interval = setInterval(() => {
-      if (!isGameActive) {
-        clearInterval(interval);
-        return;
-      }
-      const nodeIdx = gameSequence[i];
-      flashNode(nodeIdx);
-      
-      if (i > 0) {
-        highlightLine(gameSequence[i - 1], nodeIdx);
-      }
-
-      i++;
-      if (i >= gameSequence.length) {
-        clearInterval(interval);
-        setTimeout(() => {
-          if (!isGameActive) return;
-          isAITurn = false;
-          statusDiv.textContent = 'Your turn! Replicate sequence';
-          statusDiv.style.color = 'var(--secondary)';
-        }, 600);
-      }
-    }, 700);
-  }
-
-  function addNewSequenceStep() {
-    const randomNode = Math.floor(Math.random() * 5);
-    gameSequence.push(randomNode);
-  }
-
-  function startWidgetGame() {
-    gameSequence = [];
-    userSequence = [];
-    gameLevel = 1;
-    levelSpan.textContent = gameLevel;
-    isGameActive = true;
-    startBtn.textContent = 'Restart Game';
-    
-    addNewSequenceStep();
-    playAISequence();
-  }
-
-  function handleNodeClick(e) {
-    if (!isGameActive || isAITurn) return;
-
-    const clickedNode = parseInt(e.target.getAttribute('data-node'));
-    userSequence.push(clickedNode);
-    
-    e.target.classList.add('user-active');
-    setTimeout(() => e.target.classList.remove('user-active'), 200);
-
-    if (userSequence.length > 1) {
-      highlightLine(userSequence[userSequence.length - 2], clickedNode);
-    }
-
-    const currentStepIdx = userSequence.length - 1;
-    if (userSequence[currentStepIdx] !== gameSequence[currentStepIdx]) {
-      statusDiv.textContent = 'Synaptic Misalignment! Game Over';
-      statusDiv.style.color = '#EF4444';
-      isGameActive = false;
-      startBtn.textContent = 'Start Game';
-      return;
-    }
-
-    if (userSequence.length === gameSequence.length) {
-      statusDiv.textContent = 'Level Up! Synapses Calibrated!';
-      statusDiv.style.color = 'var(--secondary)';
-      
-      if (gameLevel > gameHighScore) {
-        gameHighScore = gameLevel;
-        localStorage.setItem('synaptic_highscore', gameHighScore);
-        highScoreSpan.textContent = gameHighScore;
-      }
-
-      gameLevel++;
-      levelSpan.textContent = gameLevel;
-      isAITurn = true;
-
-      if (gameLevel % 3 === 0) {
-        triggerConfetti();
-      }
-
-      setTimeout(() => {
-        if (!isGameActive) return;
-        addNewSequenceStep();
-        playAISequence();
-      }, 1000);
-    }
-  }
-
-  startBtn.addEventListener('click', startWidgetGame);
-  nodesDOM.forEach(node => node.addEventListener('click', handleNodeClick));
-
-  // ==========================================================================
-  // Game 2: Path Finder (Connect Nodes) Logic
-  // ==========================================================================
-  const connectBoard = widgetCard.querySelector('#widget-connect-board');
-  const connectSvg = widgetCard.querySelector('#widget-connect-svg');
-  const connectStatus = widgetCard.querySelector('#widget-connect-status');
-  const connectResetBtn = widgetCard.querySelector('#widget-connect-reset-btn');
-  const connectFailsSpan = widgetCard.querySelector('#connect-fails');
-
-  const connectNodes = [
-    { id: 0, x: 15, y: 30, type: 'input', label: 'IN1' },
-    { id: 1, x: 15, y: 70, type: 'input', label: 'IN2' },
-    { id: 2, x: 42, y: 22, type: 'hidden', label: 'H1' },
-    { id: 3, x: 42, y: 50, type: 'hidden', label: 'H2' },
-    { id: 4, x: 42, y: 78, type: 'hidden', label: 'H3' },
-    { id: 5, x: 68, y: 35, type: 'hidden', label: 'H4' },
-    { id: 6, x: 68, y: 65, type: 'hidden', label: 'H5' },
-    { id: 7, x: 88, y: 30, type: 'output', label: 'OUT1' },
-    { id: 8, x: 88, y: 70, type: 'output', label: 'OUT2' }
-  ];
-
-  const connectEdges = [
-    { u: 0, v: 2 }, { u: 0, v: 3 },
-    { u: 1, v: 3 }, { u: 1, v: 4 },
-    { u: 2, v: 5 }, { u: 3, v: 5 }, { u: 3, v: 6 }, { u: 4, v: 6 },
-    { u: 5, v: 7 }, { u: 6, v: 8 }
-  ];
-
-  let activeConnectNodes = new Set([0, 1]); // IN nodes active by default
-  let blockedNode = null; // Node index that is disconnected/blocked
-  let connectFails = 0;
-  let isConnectSolved = false;
-
-  function randomizeBlockedNode() {
-    // Random hidden node (2 to 6) is blocked
-    blockedNode = Math.floor(Math.random() * 5) + 2;
-    activeConnectNodes = new Set([0, 1]);
-    isConnectSolved = false;
-    if (connectStatus) {
-      connectStatus.textContent = 'Trace the pathway to OUT!';
-      connectStatus.style.color = 'var(--text-main)';
-    }
-  }
-
-  function drawConnectNetwork() {
-    if (!connectBoard || !connectSvg) return;
-
-    connectSvg.innerHTML = '';
-    const oldNodeEl = connectBoard.querySelectorAll('.connect-node');
-    oldNodeEl.forEach(n => n.remove());
-
-    const w = connectBoard.clientWidth;
-    const h = connectBoard.clientHeight;
-
-    // Draw connection lines
-    connectEdges.forEach(edge => {
-      // Don't draw lines linked to a blocked node
-      if (edge.u === blockedNode || edge.v === blockedNode) return;
-
-      const uNode = connectNodes[edge.u];
-      const vNode = connectNodes[edge.v];
-
-      const x1 = (uNode.x / 100) * w;
-      const y1 = (uNode.y / 100) * h;
-      const x2 = (vNode.x / 100) * w;
-      const y2 = (vNode.y / 100) * h;
-
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', x1);
-      line.setAttribute('y1', y1);
-      line.setAttribute('x2', x2);
-      line.setAttribute('y2', y2);
-      line.setAttribute('class', 'connect-line');
-
-      if (activeConnectNodes.has(edge.u) && activeConnectNodes.has(edge.v)) {
-        line.classList.add('active');
-      }
-
-      connectSvg.appendChild(line);
-    });
-
-    // Draw circular node divs
-    connectNodes.forEach(node => {
-      const div = document.createElement('div');
-      div.className = `connect-node ${node.type}-node`;
-      div.style.left = `${node.x}%`;
-      div.style.top = `${node.y}%`;
-      div.textContent = node.label;
-      div.setAttribute('data-id', node.id);
-
-      if (node.id === blockedNode) {
-        div.classList.add('blocked');
-        div.textContent = '✖';
-      } else if (activeConnectNodes.has(node.id)) {
-        div.classList.add('active');
-      }
-
-      if (node.type !== 'input' && node.id !== blockedNode && !isConnectSolved) {
-        div.addEventListener('click', () => handleConnectNodeClick(node.id));
-      }
-
-      connectBoard.appendChild(div);
-    });
-  }
-
-  function handleConnectNodeClick(nodeId) {
-    if (activeConnectNodes.has(nodeId)) {
-      activeConnectNodes.delete(nodeId);
-    } else {
-      // Check if node is neighbor of any active node
-      const hasActiveNeighbor = connectEdges.some(edge => {
-        // Skip blocked path edges
-        if (edge.u === blockedNode || edge.v === blockedNode) return false;
-        if (edge.u === nodeId && activeConnectNodes.has(edge.v)) return true;
-        if (edge.v === nodeId && activeConnectNodes.has(edge.u)) return true;
-        return false;
-      });
-
-      if (hasActiveNeighbor) {
-        activeConnectNodes.add(nodeId);
-      } else {
-        // Blink red on validation failure
-        const el = connectBoard.querySelector(`.connect-node[data-id="${nodeId}"]`);
-        if (el) {
-          el.style.borderColor = '#EF4444';
-          el.style.boxShadow = '0 0 15px #EF4444';
-          setTimeout(() => {
-            el.style.borderColor = '';
-            el.style.boxShadow = '';
-          }, 250);
-        }
-        connectFails++;
-        connectFailsSpan.textContent = connectFails;
-        return;
-      }
-    }
-
-    // Run BFS starting from IN1, IN2 to prune disconnected active nodes
-    pruneConnectDisconnectedNodes();
-    drawConnectNetwork();
-    checkConnectSolved();
-  }
-
-  function pruneConnectDisconnectedNodes() {
-    const queue = [0, 1];
-    const visited = new Set([0, 1]);
-
-    while (queue.length > 0) {
-      const current = queue.shift();
-
-      connectEdges.forEach(edge => {
-        if (edge.u === blockedNode || edge.v === blockedNode) return;
-
-        let neighbor = null;
-        if (edge.u === current && activeConnectNodes.has(edge.v)) neighbor = edge.v;
-        if (edge.v === current && activeConnectNodes.has(edge.u)) neighbor = edge.u;
-
-        if (neighbor !== null && !visited.has(neighbor)) {
-          visited.add(neighbor);
-          queue.push(neighbor);
-        }
-      });
-    }
-
-    activeConnectNodes.forEach(nodeId => {
-      if (!visited.has(nodeId)) {
-        activeConnectNodes.delete(nodeId);
-      }
-    });
-  }
-
-  function checkConnectSolved() {
-    const isOut1Connected = activeConnectNodes.has(7);
-    const isOut2Connected = activeConnectNodes.has(8);
-
-    if (isOut1Connected || isOut2Connected) {
-      isConnectSolved = true;
-      connectStatus.textContent = 'Synaptic Flow Online! Confetti Fired!';
-      connectStatus.style.color = 'var(--secondary)';
-      triggerConfetti();
-
-      // Load new board layout after 2 seconds
-      setTimeout(() => {
-        randomizeBlockedNode();
-        drawConnectNetwork();
-      }, 2500);
-    }
-  }
-
-  randomizeBlockedNode();
-  if (connectResetBtn) {
-    connectResetBtn.addEventListener('click', () => {
-      randomizeBlockedNode();
-      drawConnectNetwork();
-    });
-  }
-
-  // ==========================================================================
-  // Sci-Fi Text Scramble Decoder Effect on Hover
-  // ==========================================================================
-  const scrambleText = (el) => {
-    if (el.dataset.scrambling === "true") return;
-    el.dataset.scrambling = "true";
-
-    const originalText = el.getAttribute('data-original') || el.textContent;
-    if (!el.getAttribute('data-original')) {
-      el.setAttribute('data-original', originalText);
-    }
-
-    const prefixEl = el.querySelector('.number-prefix');
-    const prefixText = prefixEl ? prefixEl.outerHTML : '';
-    const cleanText = prefixEl ? originalText.replace(prefixEl.textContent, '').trim() : originalText;
-
-    const chars = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
-    let iterations = 0;
-    const maxIterations = cleanText.length;
-
-    const interval = setInterval(() => {
-      let scrambled = '';
-      for (let i = 0; i < cleanText.length; i++) {
-        if (cleanText[i] === ' ') {
-          scrambled += ' ';
-          continue;
-        }
-        if (i < iterations) {
-          scrambled += cleanText[i];
-        } else {
-          scrambled += chars[Math.floor(Math.random() * chars.length)];
-        }
-      }
-
-      el.innerHTML = prefixText + ' ' + scrambled;
-
-      if (iterations >= maxIterations) {
-        clearInterval(interval);
-        el.dataset.scrambling = "false";
-      }
-      iterations += 0.5; // controls speed
-    }, 25);
-  };
-
-  document.querySelectorAll('.section-title').forEach(title => {
-    title.addEventListener('mouseenter', () => scrambleText(title));
-  });
-
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('mouseenter', () => scrambleText(link));
-  });
 
 });
