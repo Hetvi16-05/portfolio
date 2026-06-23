@@ -2,50 +2,19 @@
 <html lang="en">
 
 <head>
-  <script>
-    const pageName = window.location.pathname.split('/').pop().replace('.html', '');
-    window.location.replace(`index.html?win=${pageName}`);
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Reports | Hetvi Sheth AI & Full Stack Developer</title>
-  <meta name="description"
-    content="Detailed reports of engineering projects built by Hetvi Sheth, including AI Supplier agents, Travia, RAINWISE V3.1, and Hindi transliteration.">
+  <title>Project Reports | Hetvi Sheth — AI & Data Analytics Portfolio</title>
+  <meta name="description" content="Detailed technical reports of AI, data science, and engineering projects by Hetvi Sheth — including RAINWISE, Flood Big Data, Hindi Transliteration, and more.">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Lucide Icons CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
-  <!-- Page Transition Overlay -->
-  <div id="page-transition" aria-hidden="true">
-    <div class="pt-panel-top"></div>
-    <div class="pt-panel-bottom"></div>
-    <div class="pt-shimmer"></div>
-    <div class="pt-logo-center">
-      <div class="pt-logo-ring-outer"></div>
-      <div class="pt-logo-bg"></div>
-      <span class="pt-logo-initials">HS</span>
-    </div>
-  </div>
-
-  <!-- Neural Mesh Background Canvas -->
-  <div class="canvas-container">
-    <canvas id="neural-canvas"></canvas>
-  </div>
-
-  <!-- Animated Floating Shapes -->
   <div class="ambient-shapes" aria-hidden="true">
     <div class="shape shape-1"></div>
     <div class="shape shape-2"></div>
@@ -53,39 +22,44 @@
     <div class="shape shape-4"></div>
   </div>
 
-  <!-- Glassmorphic Header / Navigation -->
+  <div id="page-transition" aria-hidden="true"></div>
+
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" aria-hidden="true">
+    <div class="reading-progress-bar" id="reading-progress-bar"></div>
+  </div>
+
   <header id="header">
     <div class="nav-container">
       <a href="index.html" class="logo">
         <span class="logo-monogram"><span class="logo-ring"></span><span class="logo-bg"></span><span class="logo-initials">HS</span></span>
+        <span class="logo-text">Hetvi Sheth</span>
       </a>
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
+        <a href="skills.html">Skills</a>
         <a href="projects.html">Projects</a>
-        <a href="reports.html">Reports</a>
+        <a href="reports.html" class="active">Reports</a>
         <a href="certificates.html">Certificates</a>
         <a href="resume.html">Resume</a>
         <a href="contact.html">Contact</a>
       </nav>
       <div class="nav-cta">
-        <a href="contact.html" class="btn btn-sm btn-outline">Let's Talk</a>
+        <a href="contact.html" class="btn btn-primary btn-sm">Let's Talk</a>
       </div>
-      <!-- Mobile Menu Button -->
-      <button class="mobile-menu-btn" aria-label="Toggle Menu">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
         <i data-lucide="menu"></i>
       </button>
     </div>
   </header>
 
-  <!-- Mobile Overlay Navigation -->
-  <div class="mobile-overlay">
-    <button class="close-menu-btn" aria-label="Close Menu">
-      <i data-lucide="x"></i>
-    </button>
+  <div class="mobile-overlay" id="mobile-overlay">
+    <button class="close-menu-btn" id="close-menu-btn" aria-label="Close menu"><i data-lucide="x"></i></button>
     <nav class="mobile-nav-links">
       <a href="index.html" class="mobile-link">Home</a>
       <a href="about.html" class="mobile-link">About</a>
+      <a href="skills.html" class="mobile-link">Skills</a>
       <a href="projects.html" class="mobile-link">Projects</a>
       <a href="reports.html" class="mobile-link">Reports</a>
       <a href="certificates.html" class="mobile-link">Certificates</a>
@@ -95,175 +69,199 @@
   </div>
 
   <main class="page-content">
-    <!-- Reports Section -->
-    <section class="section reports-section first-section">
+
+    <!-- Hero -->
+    <section class="reports-hero section-sm" id="reports-hero">
       <div class="container">
-        <div class="section-header reveal">
-          <h2 class="section-title"><span class="number-prefix">01.</span> Project Reports</h2>
-          <div class="section-line"></div>
-        </div>
-
-        <p class="section-desc reveal reveal-delay-1">
-          Explore complete architectural breakdowns, project details, and development timelines for academic and
-          hackathon systems.
+        <div class="section-label reveal">Technical Documentation</div>
+        <h1 class="reveal reveal-delay-1" style="font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 800; letter-spacing:-0.03em; max-width: 680px; margin-bottom: 1rem;">
+          Deep Dive into <span class="gradient-text">Project Reports</span>
+        </h1>
+        <p class="section-desc reveal reveal-delay-2">
+          Comprehensive architectural breakdowns, methodologies, and development timelines for each project — complete with PDF downloads.
         </p>
+      </div>
+    </section>
 
-        <!-- Dynamic Layout Split -->
-        <div class="reports-layout reveal reveal-delay-2">
-          <!-- Left Sidebar Menu -->
-          <div class="reports-sidebar">
-            <span class="report-menu-title">Select Project</span>
-            <button class="report-tab-btn active" data-target="report-travia">
+    <!-- Reports Layout -->
+    <section class="section" id="reports-main">
+      <div class="container">
+        <div class="reports-layout reveal">
+
+          <!-- Sidebar -->
+          <aside class="reports-sidebar" role="navigation" aria-label="Project reports navigation">
+            <div class="report-sidebar-title">Select Project</div>
+
+            <button class="report-tab-btn active" data-target="report-travia" id="tab-travia">
               <span>Travia — AI Planner</span>
               <i data-lucide="chevron-right"></i>
             </button>
-            <button class="report-tab-btn" data-target="report-supplier">
+            <button class="report-tab-btn" data-target="report-supplier" id="tab-supplier">
               <span>AI Supplier Ranking</span>
               <i data-lucide="chevron-right"></i>
             </button>
-            <button class="report-tab-btn" data-target="report-rainwise">
+            <button class="report-tab-btn" data-target="report-rainwise" id="tab-rainwise">
               <span>RAINWISE V3.1</span>
               <i data-lucide="chevron-right"></i>
             </button>
-            <button class="report-tab-btn" data-target="report-flood">
+            <button class="report-tab-btn" data-target="report-flood" id="tab-flood">
               <span>Flood Big Data</span>
               <i data-lucide="chevron-right"></i>
             </button>
-            <button class="report-tab-btn" data-target="report-transliteration">
+            <button class="report-tab-btn" data-target="report-transliteration" id="tab-transliteration">
               <span>Hindi Transliteration</span>
               <i data-lucide="chevron-right"></i>
             </button>
-            <button class="report-tab-btn" data-target="report-greensort">
+            <button class="report-tab-btn" data-target="report-greensort" id="tab-greensort">
               <span>GreenSort — Waste</span>
               <i data-lucide="chevron-right"></i>
             </button>
-          </div>
+          </aside>
 
-          <!-- Right Content Container -->
-          <div class="report-details-container">
+          <!-- Main Content -->
+          <div class="report-details-container" id="report-details-container">
+
             <!-- Report 1: Travia -->
             <div class="report-detail-card active" id="report-travia">
-              <h3 class="timeline-item-title accent-cyan">Travia — AI Travel Planning Platform</h3>
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span class="badge badge-lavender">Full Stack & AI</span>
+                <span class="badge badge-sky">Hackathon</span>
+              </div>
+              <h2 class="report-card-title">Travia — AI Travel Planning Platform</h2>
+
               <div class="report-meta-grid">
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Duration</span>
-                  <span class="report-meta-value">Jan 2026 - May 2026</span>
+                  <div class="report-meta-label">Duration</div>
+                  <div class="report-meta-value">Jan – May 2026</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Mentor</span>
-                  <span class="report-meta-value">Hackathon Project</span>
+                  <div class="report-meta-label">Project Type</div>
+                  <div class="report-meta-value">Hackathon Sprint</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Team Size</span>
-                  <span class="report-meta-value">3 Developers</span>
+                  <div class="report-meta-label">Team Size</div>
+                  <div class="report-meta-value">3 Developers</div>
                 </div>
               </div>
-              <p>
-                Developed an AI-powered travel planning platform during a hackathon to generate personalized travel
-                itineraries and budget analytics. Integrated Leaflet for interactive map visualization and implemented
-                JWT authentication for secure login and session management. Built the complete full-stack application
-                within 8 hours using React, Node.js, and PostgreSQL.
+
+              <p class="report-desc">
+                Developed an AI-powered travel planning platform during an 8-hour hackathon. Integrated Leaflet.js for interactive map visualization and implemented JWT authentication for secure login and session management. Built the complete full-stack application within 8 hours using React, Node.js, and PostgreSQL. The platform generates personalized day-by-day travel itineraries with budget analytics using LLM integration.
               </p>
-              <div class="report-skills-used">
-                <span class="report-skills-title">Key Skills &amp; Technologies</span>
-                <div class="report-skills-tags">
-                  <span class="tech-tag">React</span>
+
+              <div class="report-skills-section">
+                <div class="report-skills-title">Key Skills & Technologies</div>
+                <div class="tech-tags">
+                  <span class="tech-tag">React.js</span>
                   <span class="tech-tag">Node.js</span>
                   <span class="tech-tag">PostgreSQL</span>
                   <span class="tech-tag">JWT</span>
-                  <span class="tech-tag">Leaflet</span>
-                  <span class="tech-tag">Full Stack Development</span>
-                  <span class="tech-tag">AI Integration</span>
+                  <span class="tech-tag">Leaflet.js</span>
+                  <span class="tech-tag">Full Stack</span>
+                  <span class="tech-tag">LLM Integration</span>
                 </div>
               </div>
-              <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                <a href="Travia_Report.pdf" target="_blank" class="btn btn-sm btn-primary">
+
+              <div class="report-actions">
+                <a href="Travia_Report.pdf" target="_blank" class="btn btn-primary btn-sm" id="download-travia">
                   <i data-lucide="file-text"></i>
                   <span>Read Full PDF Report</span>
+                </a>
+                <a href="projects.html" class="btn btn-outline btn-sm">
+                  <i data-lucide="folder-open"></i>
+                  <span>View Project Card</span>
                 </a>
               </div>
             </div>
 
-            <!-- Report 2: AI Supplier Ranking -->
+            <!-- Report 2: Supplier -->
             <div class="report-detail-card" id="report-supplier">
-              <h3 class="timeline-item-title accent-cyan">AI Supplier Ranking Agent</h3>
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span class="badge badge-sky">Data Science & ML</span>
+                <span class="badge badge-teal">Hackathon</span>
+              </div>
+              <h2 class="report-card-title">AI Supplier Ranking Agent</h2>
+
               <div class="report-meta-grid">
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Duration</span>
-                  <span class="report-meta-value">Jan 2026 - May 2026</span>
+                  <div class="report-meta-label">Duration</div>
+                  <div class="report-meta-value">Jan – May 2026</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Mentor</span>
-                  <span class="report-meta-value">Hackathon Project</span>
+                  <div class="report-meta-label">Project Type</div>
+                  <div class="report-meta-value">Hackathon Sprint</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Team Size</span>
-                  <span class="report-meta-value">3 Developers</span>
+                  <div class="report-meta-label">Recognition</div>
+                  <div class="report-meta-value">CEO of Mesh Works</div>
                 </div>
               </div>
-              <p>
-                Built an AI-based supplier evaluation and ranking system using regression models trained on real-time
-                web-scraped data. Designed a custom supplier verification algorithm to improve ranking reliability and
-                automate supplier comparison for decision-making processes. The solution was appreciated during a
-                hackathon by the CEO of Mesh Works.
+
+              <p class="report-desc">
+                Built an AI-based supplier evaluation and ranking system using regression models trained on real-time web-scraped data. Designed a custom supplier verification algorithm to improve ranking reliability and automate supplier comparison for supply chain decision-making. The solution was appreciated during a hackathon by the CEO of Mesh Works, who recognized the business applicability and technical implementation quality.
               </p>
-              <div class="report-skills-used">
-                <span class="report-skills-title">Key Skills &amp; Technologies</span>
-                <div class="report-skills-tags">
+
+              <div class="report-skills-section">
+                <div class="report-skills-title">Key Skills & Technologies</div>
+                <div class="tech-tags">
                   <span class="tech-tag">Python</span>
                   <span class="tech-tag">Machine Learning</span>
                   <span class="tech-tag">Regression Models</span>
                   <span class="tech-tag">Web Scraping</span>
                   <span class="tech-tag">Data Analysis</span>
+                  <span class="tech-tag">Scikit-learn</span>
                 </div>
               </div>
-              <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                <a href="Supplier_Ranking_Agent_Report.pdf" target="_blank" class="btn btn-sm btn-primary">
+
+              <div class="report-actions">
+                <a href="Supplier_Ranking_Agent_Report.pdf" target="_blank" class="btn btn-primary btn-sm" id="download-supplier">
                   <i data-lucide="file-text"></i>
                   <span>Read Full PDF Report</span>
                 </a>
               </div>
             </div>
 
-            <!-- Report 3: RAINWISE V3.1 -->
+            <!-- Report 3: RAINWISE -->
             <div class="report-detail-card" id="report-rainwise">
-              <h3 class="timeline-item-title accent-cyan">RAINWISE V3.1 — Real-Time Flood &amp; Multi-Threat Detection
-              </h3>
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span class="badge badge-teal">Computer Vision</span>
+                <span class="badge badge-lavender">Deep Learning</span>
+              </div>
+              <h2 class="report-card-title">RAINWISE V3.1 — Real-Time Flood & Multi-Threat Detection</h2>
+
               <div class="report-meta-grid">
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Duration</span>
-                  <span class="report-meta-value">Jan 2026 - May 2026</span>
+                  <div class="report-meta-label">Duration</div>
+                  <div class="report-meta-value">Jan – May 2026</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Mentor</span>
-                  <span class="report-meta-value">J. Raulji &amp; Y. Chaudhari</span>
+                  <div class="report-meta-label">Mentors</div>
+                  <div class="report-meta-value">J. Raulji & Y. Chaudhari</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Team Size</span>
-                  <span class="report-meta-value">3 Developers</span>
+                  <div class="report-meta-label">Best Result</div>
+                  <div class="report-meta-value">98.89% Accuracy</div>
                 </div>
               </div>
-              <p>
-                Developed a real-time flood and multi-threat detection system using deep learning and computer vision
-                techniques. Integrated SegFormer-B0 for flood segmentation, YOLO-World for zero-shot object detection,
-                and LSTM models for short-term flood forecasting. Achieved 98.89% detection accuracy and optimized the
-                model for edge deployment on Apple Silicon devices with real-time FPS performance.
+
+              <p class="report-desc">
+                Developed a real-time flood and multi-threat detection system using deep learning and computer vision. Integrated SegFormer-B0 for pixel-level flood segmentation, YOLO-World for zero-shot multi-class object detection (without retraining), and LSTM models for 6-hour ahead flood forecasting. Achieved 98.89% detection accuracy and optimized the model for edge deployment on Apple Silicon (M-series) devices with real-time FPS performance.
               </p>
-              <div class="report-skills-used">
-                <span class="report-skills-title">Key Skills &amp; Technologies</span>
-                <div class="report-skills-tags">
+
+              <div class="report-skills-section">
+                <div class="report-skills-title">Key Skills & Technologies</div>
+                <div class="tech-tags">
                   <span class="tech-tag">PyTorch</span>
-                  <span class="tech-tag">SegFormer</span>
+                  <span class="tech-tag">SegFormer-B0</span>
                   <span class="tech-tag">YOLO-World</span>
                   <span class="tech-tag">SigLIP</span>
                   <span class="tech-tag">LSTM</span>
                   <span class="tech-tag">OpenCV</span>
-                  <span class="tech-tag">Deep Learning</span>
                   <span class="tech-tag">Computer Vision</span>
                 </div>
               </div>
-              <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                <a href="RAINWISE_V3_Report.pdf" target="_blank" class="btn btn-sm btn-primary">
+
+              <div class="report-actions">
+                <a href="RAINWISE_V3_Report.pdf" target="_blank" class="btn btn-primary btn-sm" id="download-rainwise">
                   <i data-lucide="file-text"></i>
                   <span>Read Full PDF Report</span>
                 </a>
@@ -272,42 +270,46 @@
 
             <!-- Report 4: Flood Big Data -->
             <div class="report-detail-card" id="report-flood">
-              <h3 class="timeline-item-title accent-cyan">AI-Based Flood Prediction &amp; Big Data Analytics</h3>
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span class="badge badge-purple">Big Data</span>
+                <span class="badge badge-sky">AI Forecasting</span>
+              </div>
+              <h2 class="report-card-title">AI-Based Flood Prediction & Big Data Analytics</h2>
+
               <div class="report-meta-grid">
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Duration</span>
-                  <span class="report-meta-value">Jan 2026 - May 2026</span>
+                  <div class="report-meta-label">Duration</div>
+                  <div class="report-meta-value">Jan – May 2026</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Mentor</span>
-                  <span class="report-meta-value">Ashish Jani Sir</span>
+                  <div class="report-meta-label">Mentor</div>
+                  <div class="report-meta-value">Ashish Jani Sir</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Team Size</span>
-                  <span class="report-meta-value">3 Developers</span>
+                  <div class="report-meta-label">Team Size</div>
+                  <div class="report-meta-value">3 Developers</div>
                 </div>
               </div>
-              <p>
-                Developed an AI and big data-based flood prediction system using Temporal Fusion Transformer (TFT)
-                models for time-series forecasting. Implemented distributed environmental data processing using Hadoop
-                and Spark, while Kafka enabled real-time weather and sensor data streaming. Created interactive
-                dashboards using Power BI and Tableau for visualization and analytics.
+
+              <p class="report-desc">
+                Developed an AI and big data-based flood prediction system using Temporal Fusion Transformer (TFT) models for multi-horizon time-series forecasting. Implemented distributed environmental data processing using Hadoop and Spark, while Kafka enabled real-time weather and sensor data streaming at scale. Created interactive dashboards using Power BI and Tableau for visualization and analytics that feed into early warning systems.
               </p>
-              <div class="report-skills-used">
-                <span class="report-skills-title">Key Skills &amp; Technologies</span>
-                <div class="report-skills-tags">
-                  <span class="tech-tag">TensorFlow</span>
-                  <span class="tech-tag">TFT</span>
+
+              <div class="report-skills-section">
+                <div class="report-skills-title">Key Skills & Technologies</div>
+                <div class="tech-tags">
+                  <span class="tech-tag">TensorFlow (TFT)</span>
                   <span class="tech-tag">Hadoop</span>
-                  <span class="tech-tag">Spark</span>
+                  <span class="tech-tag">Apache Spark</span>
                   <span class="tech-tag">Kafka</span>
                   <span class="tech-tag">MongoDB</span>
                   <span class="tech-tag">Power BI</span>
-                  <span class="tech-tag">Big Data Analytics</span>
+                  <span class="tech-tag">Tableau</span>
                 </div>
               </div>
-              <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                <a href="Flood_Prediction_BigData_Report.pdf" target="_blank" class="btn btn-sm btn-primary">
+
+              <div class="report-actions">
+                <a href="Flood_Prediction_BigData_Report.pdf" target="_blank" class="btn btn-primary btn-sm" id="download-flood">
                   <i data-lucide="file-text"></i>
                   <span>Read Full PDF Report</span>
                 </a>
@@ -316,41 +318,46 @@
 
             <!-- Report 5: Transliteration -->
             <div class="report-detail-card" id="report-transliteration">
-              <h3 class="timeline-item-title accent-cyan">Hindi Transliteration Engine — Seq2Seq + Attention</h3>
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span class="badge badge-lavender">NLP</span>
+                <span class="badge badge-purple">Deep Learning</span>
+              </div>
+              <h2 class="report-card-title">Hindi Transliteration Engine — Seq2Seq + Attention</h2>
+
               <div class="report-meta-grid">
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Duration</span>
-                  <span class="report-meta-value">Jan 2026 - May 2026</span>
+                  <div class="report-meta-label">Duration</div>
+                  <div class="report-meta-value">Jan – May 2026</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Mentor</span>
-                  <span class="report-meta-value">Jaideepsinh Raulji</span>
+                  <div class="report-meta-label">Mentor</div>
+                  <div class="report-meta-value">Jaideepsinh Raulji</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Team Size</span>
-                  <span class="report-meta-value">3 Developers</span>
+                  <div class="report-meta-label">Dataset Size</div>
+                  <div class="report-meta-value">84,000+ Pairs</div>
                 </div>
               </div>
-              <p>
-                Built an NLP-based Hindi transliteration engine to convert Hinglish text into Hindi using Seq2Seq and
-                Transformer architectures. Trained eight different deep learning models on 84,000+ text pairs and
-                evaluated performance using CER, WER, and BLEU score metrics. Implemented Beam Search decoding and
-                deployed the final model using FastAPI with a custom frontend interface.
+
+              <p class="report-desc">
+                Built an NLP-based Hindi transliteration engine to convert Hinglish (Roman script) text into Hindi Devanagari script using Seq2Seq and Transformer architectures. Trained eight different deep learning model variants on 84,000+ character-level text pairs and evaluated performance using CER (Character Error Rate), WER (Word Error Rate), and BLEU score metrics. Implemented Beam Search decoding (width=5) and deployed the final model using FastAPI with a custom frontend interface.
               </p>
-              <div class="report-skills-used">
-                <span class="report-skills-title">Key Skills &amp; Technologies</span>
-                <div class="report-skills-tags">
+
+              <div class="report-skills-section">
+                <div class="report-skills-title">Key Skills & Technologies</div>
+                <div class="tech-tags">
                   <span class="tech-tag">TensorFlow</span>
-                  <span class="tech-tag">NLP</span>
-                  <span class="tech-tag">Seq2Seq</span>
+                  <span class="tech-tag">Keras</span>
+                  <span class="tech-tag">Seq2Seq + Attention</span>
                   <span class="tech-tag">Transformer</span>
                   <span class="tech-tag">FastAPI</span>
                   <span class="tech-tag">Beam Search</span>
-                  <span class="tech-tag">Deep Learning</span>
+                  <span class="tech-tag">NLP</span>
                 </div>
               </div>
-              <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                <a href="Hindi_Transliteration_Report.pdf" target="_blank" class="btn btn-sm btn-primary">
+
+              <div class="report-actions">
+                <a href="Hindi_Transliteration_Report.pdf" target="_blank" class="btn btn-primary btn-sm" id="download-transliteration">
                   <i data-lucide="file-text"></i>
                   <span>Read Full PDF Report</span>
                 </a>
@@ -359,69 +366,92 @@
 
             <!-- Report 6: GreenSort -->
             <div class="report-detail-card" id="report-greensort">
-              <h3 class="timeline-item-title accent-cyan">GreenSort — Smart Waste Management</h3>
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span class="badge badge-teal">IoT</span>
+                <span class="badge badge-sky">Computer Vision</span>
+              </div>
+              <h2 class="report-card-title">GreenSort — Smart Waste Management System</h2>
+
               <div class="report-meta-grid">
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Duration</span>
-                  <span class="report-meta-value">Jan 2026 - May 2026</span>
+                  <div class="report-meta-label">Duration</div>
+                  <div class="report-meta-value">Jan – May 2026</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Mentor</span>
-                  <span class="report-meta-value">Faculty Guided Project</span>
+                  <div class="report-meta-label">Project Type</div>
+                  <div class="report-meta-value">Faculty Guided</div>
                 </div>
                 <div class="report-meta-item">
-                  <span class="report-meta-label">Team Size</span>
-                  <span class="report-meta-value">3 Developers</span>
+                  <div class="report-meta-label">Published At</div>
+                  <div class="report-meta-value">SustainX 2026</div>
                 </div>
               </div>
-              <p>
-                Developed an AI and IoT-based smart waste management system for automated waste classification and
-                sorting. Used YOLO and Random Forest models to classify waste into four categories with approximately
-                75% accuracy. Integrated Raspberry Pi and servo motors for automated waste sorting, and the project
-                resulted in a research paper publication at SustainX 2026.
+
+              <p class="report-desc">
+                Developed an AI and IoT-based smart waste management system for automated waste classification and physical sorting. Used YOLO (custom-trained) and Random Forest models to classify waste into four categories (plastic, metal, paper, organic) with approximately 75% accuracy. Integrated Raspberry Pi 4 and servo motors for automated physical waste sorting, and the project resulted in a research paper publication at the SustainX 2026 sustainability symposium.
               </p>
-              <div class="report-skills-used">
-                <span class="report-skills-title">Key Skills &amp; Technologies</span>
-                <div class="report-skills-tags">
+
+              <div class="report-skills-section">
+                <div class="report-skills-title">Key Skills & Technologies</div>
+                <div class="tech-tags">
                   <span class="tech-tag">YOLO</span>
+                  <span class="tech-tag">Random Forest</span>
                   <span class="tech-tag">OpenCV</span>
+                  <span class="tech-tag">Raspberry Pi 4</span>
                   <span class="tech-tag">Arduino</span>
-                  <span class="tech-tag">Raspberry Pi</span>
                   <span class="tech-tag">IoT</span>
-                  <span class="tech-tag">Machine Learning</span>
                   <span class="tech-tag">Computer Vision</span>
                 </div>
               </div>
-              <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                <a href="GreenSort_Report.pdf" target="_blank" class="btn btn-sm btn-primary">
+
+              <div class="report-actions">
+                <a href="GreenSort_Report.pdf" target="_blank" class="btn btn-primary btn-sm" id="download-greensort">
                   <i data-lucide="file-text"></i>
                   <span>Read Full PDF Report</span>
                 </a>
               </div>
             </div>
+
           </div>
         </div>
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
   <footer>
-    <div class="container footer-container">
-      <p class="copyright">
-        &copy; 2026 Hetvi Sheth. All rights reserved.
-      </p>
-      <div class="footer-socials">
-        <a href="mailto:hetvi.c.sheth@navrachana.edu.in" aria-label="Email"><i data-lucide="mail"></i></a>
-        <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-        <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer"
-          aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg></a>
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">HS</div>
+          Hetvi Sheth
+        </div>
+        <nav class="footer-nav">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="skills.html">Skills</a>
+          <a href="projects.html">Projects</a>
+          <a href="certificates.html">Certificates</a>
+          <a href="resume.html">Resume</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <div class="footer-socials">
+          <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:shethhetvi11@gmail.com" class="footer-social-link" aria-label="Email">
+            <i data-lucide="mail"></i>
+          </a>
+        </div>
+        <div class="footer-divider"></div>
+        <p class="footer-copy">© 2026 Hetvi Sheth. Crafted with passion for AI & innovation.</p>
       </div>
     </div>
   </footer>
 
-  <!-- App Logic -->
   <script type="module" src="app.js"></script>
 </body>
-
 </html>

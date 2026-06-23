@@ -2,50 +2,19 @@
 <html lang="en">
 
 <head>
-  <script>
-    const pageName = window.location.pathname.split('/').pop().replace('.html', '');
-    window.location.replace(`index.html?win=${pageName}`);
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Hetvi Sheth | AI & Full Stack Developer</title>
-  <meta name="description"
-    content="Learn more about Hetvi Sheth's computer engineering studies, AI & Full Stack skills, academic achievements, and tech stack.">
+  <title>About Hetvi Sheth | AI & Data Analytics Enthusiast</title>
+  <meta name="description" content="Learn about Hetvi Sheth's academic journey, areas of interest, career aspirations, and personal timeline as an AI & Data Analytics student.">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Lucide Icons CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
-  <!-- Page Transition Overlay -->
-  <div id="page-transition" aria-hidden="true">
-    <div class="pt-panel-top"></div>
-    <div class="pt-panel-bottom"></div>
-    <div class="pt-shimmer"></div>
-    <div class="pt-logo-center">
-      <div class="pt-logo-ring-outer"></div>
-      <div class="pt-logo-bg"></div>
-      <span class="pt-logo-initials">HS</span>
-    </div>
-  </div>
-
-  <!-- Neural Mesh Background Canvas -->
-  <div class="canvas-container">
-    <canvas id="neural-canvas"></canvas>
-  </div>
-
-  <!-- Animated Floating Shapes -->
   <div class="ambient-shapes" aria-hidden="true">
     <div class="shape shape-1"></div>
     <div class="shape shape-2"></div>
@@ -53,15 +22,18 @@
     <div class="shape shape-4"></div>
   </div>
 
-  <!-- Glassmorphic Header / Navigation -->
+  <div id="page-transition" aria-hidden="true"></div>
+
   <header id="header">
     <div class="nav-container">
       <a href="index.html" class="logo">
         <span class="logo-monogram"><span class="logo-ring"></span><span class="logo-bg"></span><span class="logo-initials">HS</span></span>
+        <span class="logo-text">Hetvi Sheth</span>
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Primary navigation">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
+        <a href="about.html" class="active">About</a>
+        <a href="skills.html">Skills</a>
         <a href="projects.html">Projects</a>
         <a href="reports.html">Reports</a>
         <a href="certificates.html">Certificates</a>
@@ -69,23 +41,20 @@
         <a href="contact.html">Contact</a>
       </nav>
       <div class="nav-cta">
-        <a href="contact.html" class="btn btn-sm btn-outline">Let's Talk</a>
+        <a href="contact.html" class="btn btn-primary btn-sm">Let's Talk</a>
       </div>
-      <!-- Mobile Menu Button -->
-      <button class="mobile-menu-btn" aria-label="Toggle Menu">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
         <i data-lucide="menu"></i>
       </button>
     </div>
   </header>
 
-  <!-- Mobile Overlay Navigation -->
-  <div class="mobile-overlay">
-    <button class="close-menu-btn" aria-label="Close Menu">
-      <i data-lucide="x"></i>
-    </button>
+  <div class="mobile-overlay" id="mobile-overlay">
+    <button class="close-menu-btn" id="close-menu-btn" aria-label="Close menu"><i data-lucide="x"></i></button>
     <nav class="mobile-nav-links">
       <a href="index.html" class="mobile-link">Home</a>
       <a href="about.html" class="mobile-link">About</a>
+      <a href="skills.html" class="mobile-link">Skills</a>
       <a href="projects.html" class="mobile-link">Projects</a>
       <a href="reports.html" class="mobile-link">Reports</a>
       <a href="certificates.html" class="mobile-link">Certificates</a>
@@ -95,327 +64,346 @@
   </div>
 
   <main class="page-content">
-    <!-- About Me Section -->
-    <section class="section about-section first-section">
+
+    <!-- ===================== ABOUT HERO ===================== -->
+    <section class="about-hero section-sm" id="about-hero">
       <div class="container">
-        <div class="section-header reveal">
-          <h2 class="section-title"><span class="number-prefix">01.</span> About Me</h2>
-          <div class="section-line"></div>
-        </div>
-
-        <div class="about-grid">
-          <div class="about-text-content reveal-left">
-            <p>
-              I am a <strong>Computer Engineering</strong> student with strong interests in Artificial Intelligence,
-              Data Science, Web Development, and Problem Solving. I enjoy creating practical solutions through
-              technology and continuously learning modern tools and frameworks.
-            </p>
-            <p>
-              I have worked on multiple projects related to flood prediction, supply chain optimization, transliteration
-              systems, and weather prediction. I actively participate in hackathons and technical events to improve my
-              skills, push my boundaries, and collaborate with teams on innovative ideas.
-            </p>
-            <p>
-              Currently, I am passionate about learning emerging technologies like <strong>Agentic AI</strong>,
-              <strong>Natural Language Processing (NLP)</strong>, and cloud-based development while improving my
-              development and analytical skills.
-            </p>
-          </div>
-
-          <div class="about-interests-card reveal-right reveal-delay-1">
-            <h3 class="interests-title">
-              <i data-lucide="sparkles" class="accent-color"></i> Personal Interests
-            </h3>
-            <ul class="interests-list">
-              <li>
-                <span class="list-bullet"></span>
-                <span>Exploring AI technologies</span>
-              </li>
-              <li>
-                <span class="list-bullet"></span>
-                <span>UI/UX design & aesthetics</span>
-              </li>
-              <li>
-                <span class="list-bullet"></span>
-                <span>Hackathons & Tech sprints</span>
-              </li>
-              <li>
-                <span class="list-bullet"></span>
-                <span>Photography & creative content creation</span>
-              </li>
-              <li>
-                <span class="list-bullet"></span>
-                <span>Learning new web frameworks</span>
-              </li>
-              <li>
-                <span class="list-bullet"></span>
-                <span>Problem solving & coding challenges</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills / Tech Stack Section -->
-    <section class="section skills-section">
-      <div class="container">
-        <div class="section-header reveal">
-          <h2 class="section-title"><span class="number-prefix">02.</span> Skills & Tech Stack</h2>
-          <div class="section-line"></div>
-        </div>
-
-        <p class="section-desc reveal reveal-delay-1">
-          A representation of languages, libraries, and developer tools that I use to bring ideas to life.
+        <div class="section-label reveal">My Story</div>
+        <h1 class="reveal reveal-delay-1" style="font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 800; letter-spacing: -0.03em; max-width: 700px; margin-bottom: 1rem;">
+          Building Intelligent Systems,<br>
+          <span class="gradient-text">One Dataset at a Time</span>
+        </h1>
+        <p class="section-desc reveal reveal-delay-2" style="font-size: 1.1rem;">
+          I'm a Computer Engineering student at Navrachana University, driven by curiosity about artificial intelligence and the power of data to shape the world.
         </p>
 
-        <div class="skills-grid">
-          <!-- Programming Languages -->
-          <div class="skills-category-card reveal">
-            <div class="skills-card-header">
-              <i data-lucide="code-2" class="accent-violet"></i>
-              <h3>Programming</h3>
-            </div>
-            <div class="skills-pills">
-              <span class="skill-pill">Python</span>
-              <span class="skill-pill">Java</span>
-              <span class="skill-pill">C</span>
-              <span class="skill-pill">JavaScript</span>
-              <span class="skill-pill">SQL</span>
-            </div>
-          </div>
-
-          <!-- Web Development -->
-          <div class="skills-category-card reveal reveal-delay-1">
-            <div class="skills-card-header">
-              <i data-lucide="layout" class="accent-cyan"></i>
-              <h3>Web Development</h3>
-            </div>
-            <div class="skills-pills">
-              <span class="skill-pill">HTML5</span>
-              <span class="skill-pill">CSS3</span>
-              <span class="skill-pill">React.js</span>
-              <span class="skill-pill">Node.js</span>
-              <span class="skill-pill">Express.js</span>
+        <div class="about-intro-grid" style="margin-top: 3rem;">
+          <!-- Text -->
+          <div class="about-intro-text">
+            <p class="reveal">
+              I am a <strong>B.Tech Computer Engineering</strong> student with deep interests in Artificial Intelligence, Data Science, Natural Language Processing, and Full-Stack Development. My journey began with a curiosity about how machines learn, and has since evolved into building real-world systems that solve meaningful problems.
+            </p>
+            <p class="reveal reveal-delay-1">
+              From engineering flood prediction pipelines with distributed big data tools to designing multi-agent AI mentors with long-term vector memory, I approach every project as an opportunity to push my technical boundaries. I've consistently ranked at the top of my class, and I actively participate in hackathons to sharpen my rapid prototyping skills.
+            </p>
+            <p class="reveal reveal-delay-2">
+              Currently, I'm passionate about <strong>Agentic AI</strong>, <strong>Large Language Models</strong>, and <strong>Computer Vision</strong> — technologies I believe will define the next decade of software engineering. I aspire to contribute to AI research and work on systems that create genuine social impact.
+            </p>
+            <div class="reveal reveal-delay-3" style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="projects.html" class="btn btn-primary">
+                <i data-lucide="folder-open"></i> View Projects
+              </a>
+              <a href="contact.html" class="btn btn-outline">
+                <i data-lucide="mail"></i> Get in Touch
+              </a>
             </div>
           </div>
 
-          <!-- AI / Data Science -->
-          <div class="skills-category-card reveal">
-            <div class="skills-card-header">
-              <i data-lucide="brain-circuit" class="accent-violet"></i>
-              <h3>AI & Data Science</h3>
+          <!-- Avatar Card -->
+          <div class="about-avatar-card reveal reveal-right">
+            <div class="avatar-circle">HS</div>
+            <div class="avatar-name">Hetvi Chirag Sheth</div>
+            <div class="avatar-title">AI & Data Analytics Enthusiast</div>
+            <div class="avatar-location">
+              <i data-lucide="map-pin"></i>
+              Vadodara, Gujarat, India
             </div>
-            <div class="skills-pills">
-              <span class="skill-pill">Machine Learning</span>
-              <span class="skill-pill">Data Analysis</span>
-              <span class="skill-pill">NLP</span>
-              <span class="skill-pill">Data Visualization</span>
-              <span class="skill-pill">Pandas</span>
-              <span class="skill-pill">NumPy</span>
-              <span class="skill-pill">Scikit-learn</span>
+            <div class="avatar-stats">
+              <div>
+                <div class="avatar-stat-num">8.54</div>
+                <div class="avatar-stat-label">CGPA</div>
+              </div>
+              <div>
+                <div class="avatar-stat-num">6+</div>
+                <div class="avatar-stat-label">Projects</div>
+              </div>
+              <div>
+                <div class="avatar-stat-num">7+</div>
+                <div class="avatar-stat-label">Certs</div>
+              </div>
             </div>
-          </div>
-
-          <!-- Databases & Tools -->
-          <div class="skills-category-card reveal reveal-delay-1">
-            <div class="skills-card-header">
-              <i data-lucide="database" class="accent-cyan"></i>
-              <h3>Databases & Infrastructure</h3>
-            </div>
-            <div class="skills-pills">
-              <span class="skill-pill">MySQL</span>
-              <span class="skill-pill">MongoDB</span>
-            </div>
-          </div>
-
-          <!-- Tools & Platforms -->
-          <div class="skills-category-card full-width-card reveal">
-            <div class="skills-card-header">
-              <i data-lucide="terminal" class="accent-violet"></i>
-              <h3>Tools & Platforms</h3>
-            </div>
-            <div class="skills-pills">
-              <span class="skill-pill">Git & GitHub</span>
-              <span class="skill-pill">VS Code</span>
-              <span class="skill-pill">Jupyter Notebook</span>
-              <span class="skill-pill">Google Colab</span>
-              <span class="skill-pill">Canva</span>
-              <span class="skill-pill">Figma</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Horizontal auto-scrolling ticker for aesthetic backdrop -->
-        <div class="skills-ticker-container">
-          <div class="skills-ticker-track">
-            <span>PYTHON</span>
-            <span class="ticker-dot">•</span>
-            <span>MACHINE LEARNING</span>
-            <span class="ticker-dot">•</span>
-            <span>JAVASCRIPT</span>
-            <span class="ticker-dot">•</span>
-            <span>REACT</span>
-            <span class="ticker-dot">•</span>
-            <span>DATA SCIENCE</span>
-            <span class="ticker-dot">•</span>
-            <span>NLP</span>
-            <span class="ticker-dot">•</span>
-            <span>NODE.JS</span>
-            <span class="ticker-dot">•</span>
-            <span>PANDAS</span>
-            <span class="ticker-dot">•</span>
-            <span>SQL</span>
-            <span class="ticker-dot">•</span>
-          </div>
-          <div class="skills-ticker-track" aria-hidden="true">
-            <span>PYTHON</span>
-            <span class="ticker-dot">•</span>
-            <span>MACHINE LEARNING</span>
-            <span class="ticker-dot">•</span>
-            <span>JAVASCRIPT</span>
-            <span class="ticker-dot">•</span>
-            <span>REACT</span>
-            <span class="ticker-dot">•</span>
-            <span>DATA SCIENCE</span>
-            <span class="ticker-dot">•</span>
-            <span>NLP</span>
-            <span class="ticker-dot">•</span>
-            <span>NODE.JS</span>
-            <span class="ticker-dot">•</span>
-            <span>PANDAS</span>
-            <span class="ticker-dot">•</span>
-            <span>SQL</span>
-            <span class="ticker-dot">•</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Experience & Education timeline -->
-    <section class="section timeline-section">
+    <!-- ===================== AREAS OF INTEREST ===================== -->
+    <section class="section" style="background: var(--bg-soft);" id="interests">
       <div class="container">
-        <div class="timeline-grid">
-          <!-- Experience & Achievements -->
-          <div class="timeline-column reveal">
-            <div class="section-header">
-              <h2 class="section-title"><span class="number-prefix">03.</span> Achievements</h2>
-              <div class="section-line"></div>
+        <div class="section-label reveal">What Excites Me</div>
+        <h2 class="section-title reveal reveal-delay-1">Areas of Interest</h2>
+
+        <div class="interests-grid stagger-children">
+          <div class="interest-card">
+            <div class="interest-icon"><i data-lucide="brain-circuit"></i></div>
+            <div class="interest-title">Artificial Intelligence</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon" style="background: var(--sky-light); color: var(--sky);"><i data-lucide="bar-chart-3"></i></div>
+            <div class="interest-title">Data Analytics</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon" style="background: var(--teal-light); color: var(--teal);"><i data-lucide="scan-text"></i></div>
+            <div class="interest-title">Natural Language Processing</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon" style="background: var(--purple-light); color: var(--purple);"><i data-lucide="eye"></i></div>
+            <div class="interest-title">Computer Vision</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon"><i data-lucide="layout-dashboard"></i></div>
+            <div class="interest-title">Full-Stack Development</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon" style="background: var(--sky-light); color: var(--sky);"><i data-lucide="database"></i></div>
+            <div class="interest-title">Big Data Engineering</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CORE STRENGTHS ===================== -->
+    <section class="section" id="strengths">
+      <div class="container">
+        <div class="section-label reveal">What I Bring</div>
+        <h2 class="section-title reveal reveal-delay-1">Core Strengths</h2>
+
+        <div class="strengths-grid">
+          <div class="strength-card reveal">
+            <div class="strength-icon"><i data-lucide="zap"></i></div>
+            <div>
+              <div class="strength-title">Rapid Prototyping</div>
+              <div class="strength-desc">Built production-ready AI pipelines within 8-hour hackathon sprints. Speed without sacrificing architecture quality.</div>
             </div>
+          </div>
+          <div class="strength-card reveal reveal-delay-1">
+            <div class="strength-icon" style="background: var(--sky-light); color: var(--sky);"><i data-lucide="brain"></i></div>
+            <div>
+              <div class="strength-title">AI System Design</div>
+              <div class="strength-desc">End-to-end design of ML pipelines — from dataset curation to model deployment and evaluation.</div>
+            </div>
+          </div>
+          <div class="strength-card reveal reveal-delay-2">
+            <div class="strength-icon" style="background: var(--teal-light); color: var(--teal);"><i data-lucide="database"></i></div>
+            <div>
+              <div class="strength-title">Data Pipeline Engineering</div>
+              <div class="strength-desc">Experience with distributed tools — Hadoop, Spark, Kafka — for processing large-scale real-time data.</div>
+            </div>
+          </div>
+          <div class="strength-card reveal reveal-delay-3">
+            <div class="strength-icon" style="background: var(--purple-light); color: var(--purple);"><i data-lucide="layers"></i></div>
+            <div>
+              <div class="strength-title">Cross-Domain Thinking</div>
+              <div class="strength-desc">Comfortable bridging AI research, backend engineering, and UI — from vector databases to interactive dashboards.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div class="timeline-list">
-              <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                  <span class="timeline-date">Active</span>
-                  <h3 class="timeline-item-title">Hackathons &amp; Technical Competitions</h3>
-                  <p class="timeline-item-text">
-                    Participated in multiple regional and university-level hackathons and technical competitions,
-                    collaborating with developers to prototype real-world solutions under tight timeframes.
-                  </p>
-                </div>
-              </div>
+    <!-- ===================== LEARNING PHILOSOPHY ===================== -->
+    <section class="section" style="background: var(--bg-soft);" id="philosophy">
+      <div class="container">
+        <div class="section-label reveal" style="justify-content: center; text-align: center;">My Mindset</div>
+        <h2 class="section-title reveal reveal-delay-1" style="text-align: center;">Learning Philosophy</h2>
 
-              <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                  <span class="timeline-date">Academic &amp; Independent</span>
-                  <h3 class="timeline-item-title">AI &amp; Data Science System Development</h3>
-                  <p class="timeline-item-text">
-                    Designed and built systems addressing big data prediction challenges, from localized flood alert
-                    algorithms to semantic NLP transliterations.
-                  </p>
-                </div>
-              </div>
+        <div class="philosophy-card reveal reveal-delay-2" style="max-width: 780px; margin: 2rem auto 0;">
+          <div class="philosophy-quote">
+            "I believe the best way to understand AI is to build with it — to move from theory to systems, from datasets to decisions. Every project is a classroom, every bug a lesson, and every deployment a milestone."
+          </div>
+          <div class="philosophy-author">— Hetvi Sheth, B.Tech CSE Student</div>
+        </div>
+      </div>
+    </section>
 
-              <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                  <span class="timeline-date">Continuous Learning</span>
-                  <h3 class="timeline-item-title">Emerging Technology Exploration</h3>
-                  <p class="timeline-item-text">
-                    Actively researching Agentic AI workflows, large language model orchestrations, web application
-                    development frameworks, and database scalability tools.
-                  </p>
-                </div>
-              </div>
+    <!-- ===================== CAREER ASPIRATIONS ===================== -->
+    <section class="section" id="aspirations">
+      <div class="container">
+        <div class="section-label reveal">Looking Ahead</div>
+        <h2 class="section-title reveal reveal-delay-1">Career Aspirations</h2>
+        <p class="section-desc reveal reveal-delay-2">
+          I aspire to work at the intersection of AI research and real-world application — contributing to systems that genuinely improve lives.
+        </p>
+
+        <div class="grid-3" style="margin-top: 2.5rem;">
+          <div class="featured-card reveal" style="cursor: default;">
+            <div class="featured-card-icon" style="background: var(--lavender-light); color: var(--lavender);">
+              <i data-lucide="bot"></i>
+            </div>
+            <div class="featured-card-category">Short-Term</div>
+            <h3 class="featured-card-title">AI/ML Engineering Internship</h3>
+            <p class="featured-card-desc">Seeking an opportunity to apply AI and data engineering skills in a real product environment — building systems that scale.</p>
+          </div>
+          <div class="featured-card reveal reveal-delay-1" style="cursor: default;">
+            <div class="featured-card-icon" style="background: var(--sky-light); color: var(--sky);">
+              <i data-lucide="trending-up"></i>
+            </div>
+            <div class="featured-card-category">Mid-Term</div>
+            <h3 class="featured-card-title">AI Product Development</h3>
+            <p class="featured-card-desc">Build production-grade AI products — from agentic workflows to data platforms — that serve thousands of users.</p>
+          </div>
+          <div class="featured-card reveal reveal-delay-2" style="cursor: default;">
+            <div class="featured-card-icon" style="background: var(--teal-light); color: var(--teal);">
+              <i data-lucide="flask-conical"></i>
+            </div>
+            <div class="featured-card-category">Long-Term</div>
+            <h3 class="featured-card-title">AI Research & Innovation</h3>
+            <p class="featured-card-desc">Contribute to cutting-edge research in autonomous multi-agent systems, distributed AI, and large vision models.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PERSONAL TIMELINE ===================== -->
+    <section class="timeline-section" id="timeline">
+      <div class="container">
+        <div class="section-label reveal" style="justify-content: center;">My Journey</div>
+        <h2 class="section-title reveal reveal-delay-1" style="text-align: center;">Personal Timeline</h2>
+        <p class="section-desc reveal reveal-delay-2" style="text-align: center; margin: 0 auto 3rem;">
+          From discovering programming to building AI systems — the milestones that shaped who I am.
+        </p>
+
+        <div class="timeline-wrapper" id="timeline-wrapper">
+          <div class="timeline-spine">
+            <div class="timeline-spine-fill" id="timeline-spine-fill"></div>
+          </div>
+
+          <div class="timeline-item-outer reveal" id="tl-2021">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <div class="timeline-year">2021</div>
+              <div class="timeline-card-title">Secondary School — Foundation</div>
+              <div class="timeline-card-desc">Completed SSC with 76.83% (Percentile 87.62). First encounter with computer science concepts igniting a lifelong passion.</div>
             </div>
           </div>
 
-          <!-- Education -->
-          <div class="timeline-column reveal reveal-delay-1">
-            <div class="section-header">
-              <h2 class="section-title"><span class="number-prefix">04.</span> Education</h2>
-              <div class="section-line"></div>
+          <div class="timeline-item-outer reveal reveal-delay-1" id="tl-2023">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <div class="timeline-year">2021 – 2023</div>
+              <div class="timeline-card-title">Diploma — Class Topper</div>
+              <div class="timeline-card-desc">Graduated from Sigma Institute of Engineering (GTU) with 9.86/10 CGPA — top rank across all 6 semesters. Mastered Java, C, SQL, and algorithms.</div>
             </div>
+          </div>
 
-            <div class="timeline-list">
-
-              <!-- B.Tech — In Progress -->
-              <div class="timeline-item education-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <span class="timeline-date">2023 – 2027</span>
-                    <span class="edu-status-badge status-ongoing">
-                      <span class="status-pulse"></span>
-                      In Progress
-                    </span>
-                  </div>
-                  <h3 class="timeline-item-title">B.Tech — Computer Engineering</h3>
-                  <p class="timeline-institution">Navrachana University, Vadodara</p>
-                  <p class="timeline-item-text">
-                    Specialising in Artificial Intelligence, Machine Learning, Computer Vision, and Big Data Analytics. Current CGPA: <strong style="color: var(--secondary);">8.54 / 10</strong>
-                  </p>
-                  <ul class="education-focus-list">
-                    <li><i data-lucide="check" class="focus-icon"></i> Artificial Intelligence</li>
-                    <li><i data-lucide="check" class="focus-icon"></i> Data Science</li>
-                    <li><i data-lucide="check" class="focus-icon"></i> Web Development</li>
-                    <li><i data-lucide="check" class="focus-icon"></i> Database Management Systems</li>
-                    <li><i data-lucide="check" class="focus-icon"></i> Compiler Design</li>
-                  </ul>
-                </div>
-              </div>
-
-              <!-- Diploma — Completed -->
-              <div class="timeline-item education-item">
-                <div class="timeline-marker timeline-marker-done"></div>
-                <div class="timeline-content">
-                  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <span class="timeline-date">Completed — 2023</span>
-                    <span class="edu-status-badge status-done">
-                      <i data-lucide="check-circle" style="width: 13px; height: 13px;"></i>
-                      Completed
-                    </span>
-                  </div>
-                  <h3 class="timeline-item-title">Diploma — Computer Engineering</h3>
-                  <p class="timeline-institution">Sigma Institute of Engineering, Vadodara (GTU)</p>
-                  <p class="timeline-item-text">
-                    Graduated with distinction — CGPA <strong style="color: #10B981;">9.86 / 10</strong>. Held top-rank positions across all 6 semesters.
-                  </p>
-                </div>
-              </div>
-
-              <!-- SSC — Completed -->
-              <div class="timeline-item education-item">
-                <div class="timeline-marker timeline-marker-done"></div>
-                <div class="timeline-content">
-                  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <span class="timeline-date">Completed — 2021</span>
-                    <span class="edu-status-badge status-done">
-                      <i data-lucide="check-circle" style="width: 13px; height: 13px;"></i>
-                      Completed
-                    </span>
-                  </div>
-                  <h3 class="timeline-item-title">SSC — Secondary School Certificate</h3>
-                  <p class="timeline-institution">GSHSEB Board</p>
-                  <p class="timeline-item-text">
-                    Scored <strong style="color: #10B981;">76.83%</strong> overall <span style="color: var(--text-muted);">(Percentile: 87.62)</span>.
-                  </p>
-                </div>
-              </div>
-
+          <div class="timeline-item-outer reveal reveal-delay-2" id="tl-2024">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <div class="timeline-year">2023 – 2024</div>
+              <div class="timeline-card-title">B.Tech & First Projects</div>
+              <div class="timeline-card-desc">Joined Navrachana University. Built Travia (AI travel planner) in an 8-hour hackathon and began exploring ML with the Hindi Transliteration Engine.</div>
             </div>
+          </div>
+
+          <div class="timeline-item-outer reveal reveal-delay-3" id="tl-2025">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <div class="timeline-year">2024 – 2025</div>
+              <div class="timeline-card-title">Deep Learning & AI Agents</div>
+              <div class="timeline-card-desc">Designed RAINWISE V3.1 (98.89% flood detection accuracy) and Saarthi AI — a multi-agent chatbot with vector memory and learning roadmaps.</div>
+            </div>
+          </div>
+
+          <div class="timeline-item-outer reveal reveal-delay-4" id="tl-2026">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <div class="timeline-year">2025 – 2026</div>
+              <div class="timeline-card-title">Big Data & Research Publication</div>
+              <div class="timeline-card-desc">Built distributed flood forecasting with TFT + Hadoop + Kafka. Co-authored a smart recycling paper published at SustainX 2026.</div>
+            </div>
+          </div>
+
+          <div class="timeline-item-outer reveal reveal-delay-5" id="tl-future">
+            <div class="timeline-dot" style="border-color: var(--teal); background: var(--teal-light);"></div>
+            <div class="timeline-card" style="border-color: var(--teal);">
+              <div class="timeline-year" style="color: var(--teal);">2026 → Future</div>
+              <div class="timeline-card-title">Research, Growth & Impact</div>
+              <div class="timeline-card-desc">Targeting AI/ML engineering roles, graduate research in autonomous multi-agent systems, and large vision model development.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EDUCATION ===================== -->
+    <section class="section" id="education" style="background: white;">
+      <div class="container">
+        <div class="section-label reveal">Academic Background</div>
+        <h2 class="section-title reveal reveal-delay-1">Education</h2>
+
+        <div class="education-timeline">
+          <div class="edu-item reveal">
+            <div class="edu-year-badge">2023 – 2027</div>
+            <div class="edu-content">
+              <div class="edu-institution">Navrachana University, Vadodara</div>
+              <div class="edu-degree">B.Tech — Computer Science & Engineering</div>
+              <div class="edu-details">
+                CGPA: <span class="edu-cgpa">8.54 / 10</span>
+                <span class="edu-status"><span class="edu-status-dot"></span> In Progress</span>
+              </div>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                Specializing in AI, Machine Learning, Computer Vision, NLP, and Big Data Analytics. Active participant in hackathons and technical events.
+              </p>
+            </div>
+          </div>
+
+          <div class="edu-item reveal reveal-delay-1">
+            <div class="edu-year-badge" style="background: var(--teal-light); color: var(--teal);">Completed 2023</div>
+            <div class="edu-content">
+              <div class="edu-institution">Sigma Institute of Engineering, Vadodara (GTU)</div>
+              <div class="edu-degree">Diploma — Computer Engineering</div>
+              <div class="edu-details">CGPA: <span class="edu-cgpa">9.86 / 10</span> — Class Topper, All 6 Semesters</div>
+            </div>
+          </div>
+
+          <div class="edu-item reveal reveal-delay-2">
+            <div class="edu-year-badge" style="background: var(--purple-light); color: var(--purple);">Completed 2021</div>
+            <div class="edu-content">
+              <div class="edu-institution">GSHSEB Board</div>
+              <div class="edu-degree">SSC — Secondary School Certificate</div>
+              <div class="edu-details">76.83% Overall — Percentile: 87.62</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ACHIEVEMENTS ===================== -->
+    <section class="section" style="background: var(--bg-soft);" id="achievements">
+      <div class="container">
+        <div class="section-label reveal">Highlights</div>
+        <h2 class="section-title reveal reveal-delay-1">Key Achievements</h2>
+
+        <div class="achievements-grid">
+          <div class="achievement-card reveal">
+            <div class="achievement-icon"><i data-lucide="trophy"></i></div>
+            <div class="achievement-title">Mesh Works Recognition</div>
+            <div class="achievement-desc">AI Supplier Ranking tool appreciated by the CEO of Mesh Works during live hackathon demonstration.</div>
+          </div>
+          <div class="achievement-card reveal reveal-delay-1">
+            <div class="achievement-icon" style="background: var(--sky-light); color: var(--sky);"><i data-lucide="file-text"></i></div>
+            <div class="achievement-title">SustainX 2026 Publication</div>
+            <div class="achievement-desc">Co-authored a computer vision smart recycling research paper published at the SustainX 2026 symposium.</div>
+          </div>
+          <div class="achievement-card reveal reveal-delay-2">
+            <div class="achievement-icon" style="background: var(--teal-light); color: var(--teal);"><i data-lucide="graduation-cap"></i></div>
+            <div class="achievement-title">Diploma Distinction</div>
+            <div class="achievement-desc">Graduated with 9.86/10 CGPA, holding the top position across all 6 semesters at Sigma Institute (GTU).</div>
+          </div>
+          <div class="achievement-card reveal reveal-delay-1">
+            <div class="achievement-icon" style="background: var(--purple-light); color: var(--purple);"><i data-lucide="zap"></i></div>
+            <div class="achievement-title">Sprint Prototyping</div>
+            <div class="achievement-desc">Successfully built and deployed Travia and RAINWISE V3.1 within 8-hour competitive hackathon timelines.</div>
+          </div>
+          <div class="achievement-card reveal reveal-delay-2">
+            <div class="achievement-icon"><i data-lucide="award"></i></div>
+            <div class="achievement-title">7+ Certifications</div>
+            <div class="achievement-desc">Completed certifications from IBM, AWS Academy, and Cisco — covering ML, Data Engineering, AI, and IoT.</div>
+          </div>
+          <div class="achievement-card reveal reveal-delay-3">
+            <div class="achievement-icon" style="background: var(--sky-light); color: var(--sky);"><i data-lucide="target"></i></div>
+            <div class="achievement-title">98.89% Accuracy</div>
+            <div class="achievement-desc">RAINWISE V3.1 achieved 98.89% detection precision for real-time flood and multi-threat identification.</div>
           </div>
         </div>
       </div>
@@ -423,23 +411,39 @@
 
   </main>
 
-  <!-- Footer -->
   <footer>
-    <div class="container footer-container">
-      <p class="copyright">
-        &copy; 2026 Hetvi Sheth. All rights reserved.
-      </p>
-      <div class="footer-socials">
-        <a href="mailto:hetvi.c.sheth@navrachana.edu.in" aria-label="Email"><i data-lucide="mail"></i></a>
-        <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-        <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer"
-          aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg></a>
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">HS</div>
+          Hetvi Sheth
+        </div>
+        <nav class="footer-nav">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="skills.html">Skills</a>
+          <a href="projects.html">Projects</a>
+          <a href="certificates.html">Certificates</a>
+          <a href="resume.html">Resume</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <div class="footer-socials">
+          <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:shethhetvi11@gmail.com" class="footer-social-link" aria-label="Email">
+            <i data-lucide="mail"></i>
+          </a>
+        </div>
+        <div class="footer-divider"></div>
+        <p class="footer-copy">© 2026 Hetvi Sheth. Crafted with passion for AI & innovation.</p>
       </div>
     </div>
   </footer>
 
-  <!-- App Logic -->
   <script type="module" src="app.js"></script>
 </body>
-
 </html>

@@ -2,50 +2,19 @@
 <html lang="en">
 
 <head>
-  <script>
-    const pageName = window.location.pathname.split('/').pop().replace('.html', '');
-    window.location.replace(`index.html?win=${pageName}`);
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume | Hetvi Sheth AI & Full Stack Developer</title>
-  <meta name="description"
-    content="View the professional CV, academic history, course works, and achievements of Hetvi Sheth, Computer Engineering student.">
+  <title>Resume | Hetvi Sheth — AI & Data Analytics Portfolio</title>
+  <meta name="description" content="Interactive professional resume of Hetvi Sheth — education, technical skills, projects, and achievements in AI, data analytics, and software engineering.">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Lucide Icons CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
-  <!-- Page Transition Overlay -->
-  <div id="page-transition" aria-hidden="true">
-    <div class="pt-panel-top"></div>
-    <div class="pt-panel-bottom"></div>
-    <div class="pt-shimmer"></div>
-    <div class="pt-logo-center">
-      <div class="pt-logo-ring-outer"></div>
-      <div class="pt-logo-bg"></div>
-      <span class="pt-logo-initials">HS</span>
-    </div>
-  </div>
-
-  <!-- Neural Mesh Background Canvas -->
-  <div class="canvas-container">
-    <canvas id="neural-canvas"></canvas>
-  </div>
-
-  <!-- Animated Floating Shapes -->
   <div class="ambient-shapes" aria-hidden="true">
     <div class="shape shape-1"></div>
     <div class="shape shape-2"></div>
@@ -53,39 +22,39 @@
     <div class="shape shape-4"></div>
   </div>
 
-  <!-- Glassmorphic Header / Navigation -->
+  <div id="page-transition" aria-hidden="true"></div>
+
   <header id="header">
     <div class="nav-container">
       <a href="index.html" class="logo">
         <span class="logo-monogram"><span class="logo-ring"></span><span class="logo-bg"></span><span class="logo-initials">HS</span></span>
+        <span class="logo-text">Hetvi Sheth</span>
       </a>
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
+        <a href="skills.html">Skills</a>
         <a href="projects.html">Projects</a>
         <a href="reports.html">Reports</a>
         <a href="certificates.html">Certificates</a>
-        <a href="resume.html">Resume</a>
+        <a href="resume.html" class="active">Resume</a>
         <a href="contact.html">Contact</a>
       </nav>
       <div class="nav-cta">
-        <a href="contact.html" class="btn btn-sm btn-outline">Let's Talk</a>
+        <a href="contact.html" class="btn btn-primary btn-sm">Let's Talk</a>
       </div>
-      <!-- Mobile Menu Button -->
-      <button class="mobile-menu-btn" aria-label="Toggle Menu">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
         <i data-lucide="menu"></i>
       </button>
     </div>
   </header>
 
-  <!-- Mobile Overlay Navigation -->
-  <div class="mobile-overlay">
-    <button class="close-menu-btn" aria-label="Close Menu">
-      <i data-lucide="x"></i>
-    </button>
+  <div class="mobile-overlay" id="mobile-overlay">
+    <button class="close-menu-btn" id="close-menu-btn" aria-label="Close menu"><i data-lucide="x"></i></button>
     <nav class="mobile-nav-links">
       <a href="index.html" class="mobile-link">Home</a>
       <a href="about.html" class="mobile-link">About</a>
+      <a href="skills.html" class="mobile-link">Skills</a>
       <a href="projects.html" class="mobile-link">Projects</a>
       <a href="reports.html" class="mobile-link">Reports</a>
       <a href="certificates.html" class="mobile-link">Certificates</a>
@@ -95,246 +64,296 @@
   </div>
 
   <main class="page-content">
-    <!-- Resume Section -->
-    <section class="section resume-section first-section">
+
+    <!-- Hero -->
+    <section class="resume-hero section-sm" id="resume-hero">
       <div class="container">
+        <div class="section-label reveal">Professional Profile</div>
+        <h1 class="reveal reveal-delay-1" style="font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 800; letter-spacing:-0.03em; max-width: 680px; margin-bottom: 1rem;">
+          Interactive <span class="gradient-text">Resume</span>
+        </h1>
+        <p class="section-desc reveal reveal-delay-2">
+          A recruiter-friendly, comprehensive view of my education, skills, projects, and achievements. Download the PDF for offline reference.
+        </p>
+      </div>
+    </section>
 
-        <div class="resume-action-header reveal">
-          <div class="section-header" style="margin-bottom: 0;">
-            <h2 class="section-title"><span class="number-prefix">01.</span> Resume</h2>
-            <div class="section-line"></div>
-          </div>
-          <a href="Hetvisheth_resume.pdf" target="_blank" download="Hetvisheth_resume.pdf"
-            class="btn btn-primary btn-sm">
-            <i data-lucide="download"></i>
-            <span>Download PDF Resume</span>
-          </a>
-        </div>
-
-        <!-- Resume grid -->
+    <section class="section" id="resume-main">
+      <div class="container">
         <div class="resume-layout">
-          <!-- Sidebar: Skills and competencies -->
-          <div class="resume-sidebar-card reveal">
-            <div class="resume-section-wrapper" style="margin-bottom: 2.5rem;">
-              <h3 class="resume-section-title"><i data-lucide="user"></i> Hetvi Chirag Sheth</h3>
-              <p style="font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--secondary); font-weight: 600;">
-                B.Tech - Computer Science &amp; Engineering
-              </p>
-              <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.5rem;">
-                Passionate Computer Science Engineering student specializing in Artificial Intelligence, Machine
-                Learning, Computer Vision, NLP, and Big Data Analytics. Experienced in developing real-world AI systems,
-                flood prediction models, and full-stack applications.
-              </p>
 
-              <div class="resume-contact-info"
-                style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem; border-top: 1px solid rgba(248, 250, 252, 0.05); padding-top: 1rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <i data-lucide="mail" style="width: 14px; height: 14px; color: var(--secondary);"></i>
-                  <a href="mailto:hetvi.c.sheth@navrachana.edu.in"
-                    style="color: var(--text-main);">hetvi.c.sheth@nuv.ac.in</a>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <i data-lucide="phone" style="width: 14px; height: 14px; color: var(--secondary);"></i>
-                  <a href="tel:+919924559139" style="color: var(--text-main);">+91 9924559139</a>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <i data-lucide="map-pin" style="width: 14px; height: 14px; color: var(--secondary);"></i>
-                  <span>Vadodara, Gujarat, India - 390023</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--secondary); flex-shrink: 0;" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-                  <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer"
-                    style="color: var(--text-main);">github.com/Hetvi16-05</a>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--secondary); flex-shrink: 0;" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg>
-                  <a href="https://linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer"
-                    style="color: var(--text-main);">linkedin.com/in/hetvi-sheth-4116a3346</a>
-                </div>
+          <!-- Sidebar -->
+          <aside class="resume-sidebar reveal-left">
+            <div class="resume-avatar">HS</div>
+            <div class="resume-name">Hetvi C. Sheth</div>
+            <div class="resume-role">AI & Data Analytics Enthusiast</div>
+
+            <div class="resume-contact-list">
+              <a href="mailto:shethhetvi11@gmail.com" class="resume-contact-item">
+                <i data-lucide="mail"></i>
+                shethhetvi11@gmail.com
+              </a>
+              <div class="resume-contact-item">
+                <i data-lucide="map-pin"></i>
+                Vadodara, Gujarat, India
+              </div>
+              <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="resume-contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                github.com/Hetvi16-05
+              </a>
+              <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" class="resume-contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg>
+                linkedin.com/in/hetvi-sheth
+              </a>
+            </div>
+
+            <!-- Core Skills -->
+            <div class="resume-section-title">
+              <i data-lucide="code-2"></i>
+              Core Skills
+            </div>
+            <div class="skill-bar-list" id="resume-skill-bars">
+              <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Python</span><span class="skill-bar-pct">92%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="92"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Machine Learning</span><span class="skill-bar-pct">85%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Data Analytics</span><span class="skill-bar-pct">88%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Deep Learning</span><span class="skill-bar-pct">80%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Full-Stack Dev</span><span class="skill-bar-pct">78%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="78"></div></div>
               </div>
             </div>
 
-            <div class="resume-section-wrapper" style="margin-bottom: 2.5rem;">
-              <h3 class="resume-section-title"><i data-lucide="cpu"></i> Competencies</h3>
-              <div class="skills-pills">
-                <span class="skill-pill">Machine Learning</span>
-                <span class="skill-pill">Data Analysis</span>
-                <span class="skill-pill">NLP Models</span>
-                <span class="skill-pill">Computer Vision</span>
-                <span class="skill-pill">Full Stack Development</span>
-                <span class="skill-pill">Big Data Pipelines</span>
+            <div style="margin-top: 1.75rem; border-top: 1px solid var(--border-soft); padding-top: 1.5rem;">
+              <div class="resume-section-title">
+                <i data-lucide="layers"></i>
+                Languages
               </div>
-            </div>
-
-            <div class="resume-section-wrapper">
-              <h3 class="resume-section-title"><i data-lucide="settings"></i> Languages &amp; Tools</h3>
-              <div class="skills-pills">
+              <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem;">
                 <span class="skill-pill">Python</span>
                 <span class="skill-pill">Java</span>
                 <span class="skill-pill">JavaScript</span>
-                <span class="skill-pill">React.js</span>
-                <span class="skill-pill">Node.js</span>
-                <span class="skill-pill">PyTorch</span>
-                <span class="skill-pill">TensorFlow</span>
+                <span class="skill-pill">C</span>
                 <span class="skill-pill">SQL</span>
-                <span class="skill-pill">MongoDB</span>
-                <span class="skill-pill">Git</span>
               </div>
             </div>
-          </div>
 
-          <!-- Main Timeline Content -->
-          <div class="resume-main-timeline">
-            <!-- Education timeline block -->
-            <div class="resume-timeline-block reveal reveal-delay-1">
-              <h3 class="resume-section-title"><i data-lucide="graduation-cap"></i> Education</h3>
-              <!-- 1. B.Tech -->
-              <div class="education-block"
-                style="margin-bottom: 2rem; border-bottom: 1px solid rgba(248, 250, 252, 0.05); padding-bottom: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-                  <div>
-                    <h4 style="font-size: 1.3rem; margin-bottom: 0.25rem;">Navrachana University</h4>
-                    <p style="color: var(--secondary); font-weight: 600; margin-bottom: 0.25rem;">B.Tech - Computer
-                      Science &amp; Engineering</p>
-                  </div>
-                  <span class="timeline-date" style="color: var(--text-muted); font-weight: 500;">2023 - 2027</span>
-                </div>
-                <div style="display: flex; gap: 0.75rem; align-items: center; margin-top: 0.5rem; margin-bottom: 0.25rem; flex-wrap: wrap;">
-                  <p style="color: var(--text-main); font-weight: 500; margin: 0;">CGPA: 8.54 / 10</p>
-                  <span class="status-pill backlog-clear">
-                    <span class="status-dot"></span>
-                    Live Backlog: 0
-                  </span>
-                </div>
-                <div class="progress-container">
-                  <div class="progress-bar" style="--progress-width: 85.4%;"></div>
-                </div>
-                <p style="font-size: 0.95rem; margin-bottom: 1rem;">
-                  Specializing in Artificial Intelligence, Machine Learning, Computer Vision, NLP, and Big Data
-                  Analytics. Experiencing practical project modeling across multiple hackathons.
-                </p>
+            <div style="margin-top: 1.25rem;">
+              <div class="resume-section-title">
+                <i data-lucide="brain-circuit"></i>
+                AI & ML
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem;">
+                <span class="skill-pill">TensorFlow</span>
+                <span class="skill-pill">PyTorch</span>
+                <span class="skill-pill">Scikit-learn</span>
+                <span class="skill-pill">YOLO</span>
+                <span class="skill-pill">LLMs</span>
+              </div>
+            </div>
 
-                <h5
-                  style="font-family: var(--font-display); font-size: 0.95rem; color: var(--secondary); margin-bottom: 0.5rem;">
-                  Focused Areas &amp; Coursework
-                </h5>
-                <div class="resume-coursework-list">
-                  <div class="coursework-item">
-                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
-                    <span>Artificial Intelligence</span>
-                  </div>
-                  <div class="coursework-item">
-                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
-                    <span>Data Science</span>
-                  </div>
-                  <div class="coursework-item">
-                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
-                    <span>Web Development</span>
-                  </div>
-                  <div class="coursework-item">
-                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
-                    <span>Database Management</span>
-                  </div>
-                  <div class="coursework-item">
-                    <i data-lucide="check" class="focus-icon" style="color: var(--primary);"></i>
-                    <span>Compiler Design</span>
+          </aside>
+
+          <!-- Main Resume Content -->
+          <div class="resume-main">
+
+            <!-- Download CTA -->
+            <div class="resume-download-cta reveal">
+              <h3>Ready to review my credentials?</h3>
+              <p>Download the full PDF resume for a complete view of my experience and skills.</p>
+              <a href="Hetvisheth_resume.pdf" class="btn btn-white btn-lg" download id="download-resume-btn">
+                <i data-lucide="download"></i>
+                Download PDF Resume
+              </a>
+            </div>
+
+            <!-- Summary -->
+            <div class="resume-block reveal reveal-delay-1">
+              <div class="resume-block-title">
+                <i data-lucide="user"></i>
+                Career Summary
+              </div>
+              <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+                B.Tech Computer Engineering student at Navrachana University with a 8.54 CGPA and a strong track record in AI, data science, and full-stack development. Diploma class topper (9.86/10) with research publication at SustainX 2026. Passionate about building production-grade AI systems — from multi-agent chatbots to real-time computer vision pipelines. Actively seeking AI/ML engineering internships to apply technical expertise in impactful product environments.
+              </p>
+            </div>
+
+            <!-- Education -->
+            <div class="resume-block reveal reveal-delay-2">
+              <div class="resume-block-title">
+                <i data-lucide="graduation-cap"></i>
+                Education
+              </div>
+
+              <div class="edu-block">
+                <div class="edu-block-year">2023 – 2027</div>
+                <div class="edu-block-content">
+                  <div class="edu-block-school">Navrachana University, Vadodara</div>
+                  <div class="edu-block-degree">B.Tech — Computer Science & Engineering</div>
+                  <div class="edu-block-detail">CGPA: <strong style="color: var(--teal);">8.54 / 10</strong> &nbsp;|&nbsp; <span style="color: var(--teal); font-size: 0.82rem;">Currently Enrolled</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" data-width="85"></div>
                   </div>
                 </div>
               </div>
 
-              <!-- 2. Diploma -->
-              <div class="education-block"
-                style="margin-bottom: 2rem; border-bottom: 1px solid rgba(248, 250, 252, 0.05); padding-bottom: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-                  <div>
-                    <h4 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Sigma Institute, Vadodara</h4>
-                    <p style="color: var(--secondary); font-weight: 600; margin-bottom: 0.25rem;">Diploma - Computer
-                      Engineering</p>
+              <div class="edu-block">
+                <div class="edu-block-year">2021 – 2023</div>
+                <div class="edu-block-content">
+                  <div class="edu-block-school">Sigma Institute of Engineering (GTU), Vadodara</div>
+                  <div class="edu-block-degree">Diploma — Computer Engineering</div>
+                  <div class="edu-block-detail">CGPA: <strong style="color: var(--teal);">9.86 / 10</strong> — Class Topper, All 6 Semesters</div>
+                  <div class="progress-track">
+                    <div class="progress-fill" data-width="99"></div>
                   </div>
-                  <span class="timeline-date" style="color: var(--text-muted); font-weight: 500;">2023</span>
                 </div>
-                <p style="color: var(--text-main); font-weight: 500; margin-top: 0.5rem; margin-bottom: 0.25rem;">GTU | CGPA: 9.86 / 10</p>
-                <div class="progress-container">
-                  <div class="progress-bar" style="--progress-width: 98.6%;"></div>
-                </div>
-                <p style="font-size: 0.95rem; margin-top: 0.5rem;">
-                  Graduated with Diploma Distinction with CGPA 9.86 and held top rank positions across all 6 semesters.
-                </p>
               </div>
 
-              <!-- 3. 10th Standard -->
-              <div class="education-block">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-                  <div>
-                    <h4 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Secondary School Education</h4>
-                    <p style="color: var(--secondary); font-weight: 600; margin-bottom: 0.25rem;">10th Grade</p>
-                  </div>
-                  <span class="timeline-date" style="color: var(--text-muted); font-weight: 500;">2021</span>
-                </div>
-                <p style="color: var(--text-main); font-weight: 500; margin-top: 0.5rem; margin-bottom: 0.25rem;">GSHSEB | Percentage: 76.83% (Percentile: 87.62)</p>
-                <div class="progress-container">
-                  <div class="progress-bar" style="--progress-width: 76.83%;"></div>
+              <div class="edu-block">
+                <div class="edu-block-year">Completed 2021</div>
+                <div class="edu-block-content">
+                  <div class="edu-block-school">GSHSEB Board</div>
+                  <div class="edu-block-degree">SSC — Secondary School Certificate</div>
+                  <div class="edu-block-detail">76.83% Overall — Percentile: 87.62</div>
                 </div>
               </div>
             </div>
 
-            <!-- Achievements block -->
-            <div class="resume-timeline-block reveal reveal-delay-2">
-              <h3 class="resume-section-title"><i data-lucide="trophy"></i> Key Achievements</h3>
-              <div class="timeline-list" style="border-left: none; padding-left: 0;">
-                <div class="timeline-item" style="margin-bottom: 2rem;">
-                  <span class="timeline-date">Hackathons</span>
-                  <h4 style="font-size: 1.15rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">Supplier Ranking Agent
-                    appreciated by Mesh Works</h4>
-                  <p style="font-size: 0.95rem;">
-                    Developed and demoed an automated regression-based ranking model utilizing live scraped web metrics,
-                    receiving recognition from industrial founders.
-                  </p>
+            <!-- Key Projects -->
+            <div class="resume-block reveal reveal-delay-3">
+              <div class="resume-block-title">
+                <i data-lucide="folder-open"></i>
+                Key Projects
+              </div>
+
+              <div class="achievement-list-item">
+                <div class="achievement-num">01</div>
+                <div>
+                  <div class="achievement-list-title">Saarthi AI — Personal AI Mentor</div>
+                  <div class="achievement-list-desc">Multi-agent chatbot with long-term vector memory using pgvector, Gemini LLM, and FastAPI. Adaptive learning roadmaps and JWT-secured multi-user sessions.</div>
+                  <div class="tech-tags" style="margin-top: 0.5rem;"><span class="tech-tag">FastAPI</span><span class="tech-tag">pgvector</span><span class="tech-tag">Gemini</span></div>
                 </div>
-                <div class="timeline-item" style="margin-bottom: 2rem;">
-                  <span class="timeline-date">Research Publication</span>
-                  <h4 style="font-size: 1.15rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">SustainX 2026 Paper
-                    Publication</h4>
-                  <p style="font-size: 0.95rem;">
-                    Co-authored and published a computer vision guided smart recycling paper based on YOLO
-                    classification models.
-                  </p>
+              </div>
+
+              <div class="achievement-list-item">
+                <div class="achievement-num">02</div>
+                <div>
+                  <div class="achievement-list-title">RAINWISE V3.1 — Real-Time Flood Detection</div>
+                  <div class="achievement-list-desc">SegFormer-B0 + YOLO-World pipeline achieving 98.89% detection accuracy. LSTM-based 6-hour forecasting. Optimized for Apple Silicon edge deployment.</div>
+                  <div class="tech-tags" style="margin-top: 0.5rem;"><span class="tech-tag">PyTorch</span><span class="tech-tag">SegFormer</span><span class="tech-tag">YOLO-World</span></div>
                 </div>
-                <div class="timeline-item">
-                  <span class="timeline-date">Competitive Hackathons</span>
-                  <h4 style="font-size: 1.15rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">Travia &amp; RAINWISE V3.1
-                    Sprint Prototypes</h4>
-                  <p style="font-size: 0.95rem;">
-                    Successfully programmed full-stack applications and edge-compatible computer vision algorithms
-                    within extreme timelines (e.g. 8-hour sprints).
-                  </p>
+              </div>
+
+              <div class="achievement-list-item">
+                <div class="achievement-num">03</div>
+                <div>
+                  <div class="achievement-list-title">Flood Prediction & Big Data Analytics</div>
+                  <div class="achievement-list-desc">TFT-powered forecasting with Kafka real-time streaming, Hadoop/Spark distributed processing, and Power BI dashboards. Published at SustainX 2026.</div>
+                  <div class="tech-tags" style="margin-top: 0.5rem;"><span class="tech-tag">TFT</span><span class="tech-tag">Kafka</span><span class="tech-tag">Spark</span><span class="tech-tag">Power BI</span></div>
+                </div>
+              </div>
+
+              <div class="achievement-list-item">
+                <div class="achievement-num">04</div>
+                <div>
+                  <div class="achievement-list-title">Hindi Transliteration Engine</div>
+                  <div class="achievement-list-desc">Seq2Seq + Attention neural network trained on 84K+ pairs for Hinglish → Devanagari conversion. 8 architectures evaluated. Beam search decoding deployed via FastAPI.</div>
+                  <div class="tech-tags" style="margin-top: 0.5rem;"><span class="tech-tag">TensorFlow</span><span class="tech-tag">Seq2Seq</span><span class="tech-tag">FastAPI</span></div>
                 </div>
               </div>
             </div>
+
+            <!-- Achievements -->
+            <div class="resume-block reveal reveal-delay-4">
+              <div class="resume-block-title">
+                <i data-lucide="trophy"></i>
+                Achievements & Recognition
+              </div>
+
+              <div class="achievement-list-item">
+                <div class="achievement-num">★</div>
+                <div>
+                  <div class="achievement-list-title">CEO Recognition — Mesh Works Hackathon</div>
+                  <div class="achievement-list-desc">AI Supplier Ranking Agent appreciated by the CEO of Mesh Works during live product demonstration at hackathon.</div>
+                </div>
+              </div>
+
+              <div class="achievement-list-item">
+                <div class="achievement-num">★</div>
+                <div>
+                  <div class="achievement-list-title">Research Publication — SustainX 2026</div>
+                  <div class="achievement-list-desc">Co-authored and published computer vision smart waste recycling research paper at the SustainX 2026 sustainability symposium.</div>
+                </div>
+              </div>
+
+              <div class="achievement-list-item">
+                <div class="achievement-num">★</div>
+                <div>
+                  <div class="achievement-list-title">Diploma Class Topper</div>
+                  <div class="achievement-list-desc">Graduated with 9.86/10 CGPA — top rank across all 6 semesters at Sigma Institute of Engineering (GTU).</div>
+                </div>
+              </div>
+
+              <div class="achievement-list-item">
+                <div class="achievement-num">★</div>
+                <div>
+                  <div class="achievement-list-title">7+ Professional Certifications</div>
+                  <div class="achievement-list-desc">IBM, AWS Academy (Machine Learning, Data Engineering), Cisco Networking Academy, Cognitive Class — spanning AI, ML, cloud, and IoT.</div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
-
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
   <footer>
-    <div class="container footer-container">
-      <p class="copyright">
-        &copy; 2026 Hetvi Sheth. All rights reserved.
-      </p>
-      <div class="footer-socials">
-        <a href="mailto:hetvi.c.sheth@navrachana.edu.in" aria-label="Email"><i data-lucide="mail"></i></a>
-        <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-        <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer"
-          aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg></a>
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">HS</div>
+          Hetvi Sheth
+        </div>
+        <nav class="footer-nav">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="skills.html">Skills</a>
+          <a href="projects.html">Projects</a>
+          <a href="certificates.html">Certificates</a>
+          <a href="resume.html">Resume</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <div class="footer-socials">
+          <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:shethhetvi11@gmail.com" class="footer-social-link" aria-label="Email">
+            <i data-lucide="mail"></i>
+          </a>
+        </div>
+        <div class="footer-divider"></div>
+        <p class="footer-copy">© 2026 Hetvi Sheth. Crafted with passion for AI & innovation.</p>
       </div>
     </div>
   </footer>
 
-  <!-- App Logic -->
   <script type="module" src="app.js"></script>
 </body>
-
 </html>

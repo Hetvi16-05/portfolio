@@ -2,50 +2,19 @@
 <html lang="en">
 
 <head>
-  <script>
-    const pageName = window.location.pathname.split('/').pop().replace('.html', '');
-    window.location.replace(`index.html?win=${pageName}`);
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Certificates | Hetvi Sheth AI & Full Stack Developer</title>
-  <meta name="description"
-    content="Professional certifications completed by Hetvi Sheth including IBM Data Science, AWS Machine Learning Foundations, Data Engineering, and Cisco IoT.">
+  <title>Certificates | Hetvi Sheth — AI & Data Analytics Portfolio</title>
+  <meta name="description" content="Professional certifications earned by Hetvi Sheth — IBM, AWS Academy, Cisco, and more. Explore the achievement constellation and credential timeline.">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Lucide Icons CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
-  <!-- Page Transition Overlay -->
-  <div id="page-transition" aria-hidden="true">
-    <div class="pt-panel-top"></div>
-    <div class="pt-panel-bottom"></div>
-    <div class="pt-shimmer"></div>
-    <div class="pt-logo-center">
-      <div class="pt-logo-ring-outer"></div>
-      <div class="pt-logo-bg"></div>
-      <span class="pt-logo-initials">HS</span>
-    </div>
-  </div>
-
-  <!-- Neural Mesh Background Canvas -->
-  <div class="canvas-container">
-    <canvas id="neural-canvas"></canvas>
-  </div>
-
-  <!-- Animated Floating Shapes -->
   <div class="ambient-shapes" aria-hidden="true">
     <div class="shape shape-1"></div>
     <div class="shape shape-2"></div>
@@ -53,39 +22,39 @@
     <div class="shape shape-4"></div>
   </div>
 
-  <!-- Glassmorphic Header / Navigation -->
+  <div id="page-transition" aria-hidden="true"></div>
+
   <header id="header">
     <div class="nav-container">
       <a href="index.html" class="logo">
         <span class="logo-monogram"><span class="logo-ring"></span><span class="logo-bg"></span><span class="logo-initials">HS</span></span>
+        <span class="logo-text">Hetvi Sheth</span>
       </a>
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
+        <a href="skills.html">Skills</a>
         <a href="projects.html">Projects</a>
         <a href="reports.html">Reports</a>
-        <a href="certificates.html">Certificates</a>
+        <a href="certificates.html" class="active">Certificates</a>
         <a href="resume.html">Resume</a>
         <a href="contact.html">Contact</a>
       </nav>
       <div class="nav-cta">
-        <a href="contact.html" class="btn btn-sm btn-outline">Let's Talk</a>
+        <a href="contact.html" class="btn btn-primary btn-sm">Let's Talk</a>
       </div>
-      <!-- Mobile Menu Button -->
-      <button class="mobile-menu-btn" aria-label="Toggle Menu">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
         <i data-lucide="menu"></i>
       </button>
     </div>
   </header>
 
-  <!-- Mobile Overlay Navigation -->
-  <div class="mobile-overlay">
-    <button class="close-menu-btn" aria-label="Close Menu">
-      <i data-lucide="x"></i>
-    </button>
+  <div class="mobile-overlay" id="mobile-overlay">
+    <button class="close-menu-btn" id="close-menu-btn" aria-label="Close menu"><i data-lucide="x"></i></button>
     <nav class="mobile-nav-links">
       <a href="index.html" class="mobile-link">Home</a>
       <a href="about.html" class="mobile-link">About</a>
+      <a href="skills.html" class="mobile-link">Skills</a>
       <a href="projects.html" class="mobile-link">Projects</a>
       <a href="reports.html" class="mobile-link">Reports</a>
       <a href="certificates.html" class="mobile-link">Certificates</a>
@@ -95,226 +64,259 @@
   </div>
 
   <main class="page-content">
-    <!-- Certificates Section -->
-    <section class="section certificates-section first-section">
-      <div class="container">
-        <div class="section-header reveal">
-          <h2 class="section-title"><span class="number-prefix">01.</span> Professional Credentials</h2>
-          <div class="section-line"></div>
-        </div>
 
-        <p class="section-desc reveal reveal-delay-1">
-          A validation of engineering skills, specialized training, and practical expertise completed through industry
-          leader programs.
+    <!-- Hero -->
+    <section class="certificates-hero section-sm" id="certificates-hero">
+      <div class="container">
+        <div class="section-label reveal">Professional Credentials</div>
+        <h1 class="reveal reveal-delay-1" style="font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 800; letter-spacing:-0.03em; max-width: 680px; margin-bottom: 1rem;">
+          Achievement <span class="gradient-text">Constellation</span>
+        </h1>
+        <p class="section-desc reveal reveal-delay-2">
+          A visual map of certifications completed through IBM, AWS Academy, Cisco, and industry programs — each a node in my learning journey.
+        </p>
+      </div>
+    </section>
+
+    <!-- Constellation Canvas Section -->
+    <section class="section-sm" style="background: var(--bg-soft);" id="constellation-section">
+      <div class="container">
+        <div class="constellation-wrapper reveal">
+          <canvas id="constellation-canvas" aria-label="Interactive certification constellation map"></canvas>
+          <div class="constellation-hint">Hover over nodes to explore each certification</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certificate Cards Grid -->
+    <section class="section" id="certificates-grid-section">
+      <div class="container">
+        <div class="section-label reveal">All Credentials</div>
+        <h2 class="section-title reveal reveal-delay-1">Professional Certifications</h2>
+        <p class="section-desc reveal reveal-delay-2">
+          Validated expertise across AI fundamentals, data science, cloud computing, and networking — from leading industry organizations.
         </p>
 
         <div class="certificates-grid">
+
           <!-- Cert 1: Python for Data Science - IBM -->
-          <div class="certificate-card reveal">
-            <div class="certificate-card-inner">
-              <div>
-                <div class="certificate-header">
-                  <div class="cert-logo-wrapper">
-                    <i data-lucide="award"></i>
-                  </div>
-                  <span class="certificate-badge">A Grade</span>
-                </div>
-                <h3 class="certificate-title">Python for Data Science</h3>
-                <p class="certificate-org">IBM</p>
-                <p class="certificate-desc">
-                  Completed IBM Python for Data Science certification covering Python programming, data handling, basic
-                  analytics, and problem-solving. Developed understanding of Python syntax, libraries, and data
-                  manipulation techniques used in analytics.
-                </p>
-                <div style="margin-top: 1.5rem;">
-                  <a href="pythonfordatascience_IBM.pdf" target="_blank" class="btn btn-sm btn-outline btn-full">
-                    <i data-lucide="external-link"></i>
-                    <span>View Certificate</span>
-                  </a>
-                </div>
-              </div>
+          <div class="certificate-card reveal" id="cert-ibm-python">
+            <div class="cert-header">
+              <div class="cert-icon"><i data-lucide="award"></i></div>
+              <span class="cert-badge">A Grade</span>
+            </div>
+            <h3 class="cert-title">Python for Data Science</h3>
+            <p class="cert-org">IBM</p>
+            <p class="cert-desc">
+              Comprehensive IBM certification covering Python programming, data handling, analytical libraries, and problem-solving for data science applications. Developed proficiency in Python syntax, Pandas, NumPy, and data manipulation.
+            </p>
+            <div class="cert-footer">
+              <a href="pythonfordatascience_IBM.pdf" target="_blank" class="btn btn-outline btn-sm btn-full" id="cert-link-ibm-python">
+                <i data-lucide="external-link"></i>
+                <span>View Certificate</span>
+              </a>
             </div>
           </div>
 
-          <!-- Cert 2: Python 101 for Data Science - Cognitive Class -->
-          <div class="certificate-card reveal reveal-delay-1">
-            <div class="certificate-card-inner">
-              <div>
-                <div class="certificate-header">
-                  <div class="cert-logo-wrapper">
-                    <i data-lucide="book-open"></i>
-                  </div>
-                  <span class="certificate-badge">Passing Grade</span>
-                </div>
-                <h3 class="certificate-title">Python 101 for Data Science</h3>
-                <p class="certificate-org">Cognitive Class (IBM Network)</p>
-                <p class="certificate-desc">
-                  Completed Python 101 powered by IBM Developer Skills Network. Learned Python fundamentals including
-                  variables, loops, functions, data structures, and introductory data science concepts.
-                </p>
-                <div style="margin-top: 1.5rem;">
-                  <a href="PythonforDatascience_cognitiveclass.pdf" target="_blank"
-                    class="btn btn-sm btn-outline btn-full">
-                    <i data-lucide="external-link"></i>
-                    <span>View Certificate</span>
-                  </a>
-                </div>
-              </div>
+          <!-- Cert 2: Python 101 - Cognitive Class -->
+          <div class="certificate-card reveal reveal-delay-1" id="cert-cognitive-python">
+            <div class="cert-header">
+              <div class="cert-icon" style="background: var(--sky-light); color: var(--sky);"><i data-lucide="book-open"></i></div>
+              <span class="cert-badge" style="color: var(--sky); background: var(--sky-light);">Passing Grade</span>
+            </div>
+            <h3 class="cert-title">Python 101 for Data Science</h3>
+            <p class="cert-org">Cognitive Class (IBM Network)</p>
+            <p class="cert-desc">
+              Completed Python 101 powered by IBM Developer Skills Network. Covered Python fundamentals including variables, loops, functions, data structures, and introductory data science concepts.
+            </p>
+            <div class="cert-footer">
+              <a href="PythonforDatascience_cognitiveclass.pdf" target="_blank" class="btn btn-outline btn-sm btn-full" id="cert-link-cognitive">
+                <i data-lucide="external-link"></i>
+                <span>View Certificate</span>
+              </a>
             </div>
           </div>
 
-          <!-- Cert 3: AWS Academy ML Foundations -->
-          <div class="certificate-card reveal">
-            <div class="certificate-card-inner">
-              <div>
-                <div class="certificate-header">
-                  <div class="cert-logo-wrapper">
-                    <i data-lucide="cloud"></i>
-                  </div>
-                  <span class="certificate-badge">20 Hours</span>
-                </div>
-                <h3 class="certificate-title">Machine Learning Foundations</h3>
-                <p class="certificate-org">AWS Academy Graduate</p>
-                <p class="certificate-desc">
-                  Completed ML Foundations training covering machine learning concepts, supervised/unsupervised
-                  learning, AWS AI/ML services, model evaluation, and practical cloud-based machine learning workflows.
-                </p>
-                <div style="margin-top: 1.5rem;">
-                  <a href="AWSmachinelearning.pdf" target="_blank" class="btn btn-sm btn-outline btn-full">
-                    <i data-lucide="external-link"></i>
-                    <span>View Certificate</span>
-                  </a>
-                </div>
-              </div>
+          <!-- Cert 3: AWS ML Foundations -->
+          <div class="certificate-card reveal reveal-delay-2" id="cert-aws-ml">
+            <div class="cert-header">
+              <div class="cert-icon" style="background: var(--teal-light); color: var(--teal);"><i data-lucide="cloud"></i></div>
+              <span class="cert-badge" style="color: var(--teal); background: var(--teal-light);">20 Hours</span>
+            </div>
+            <h3 class="cert-title">Machine Learning Foundations</h3>
+            <p class="cert-org">AWS Academy Graduate</p>
+            <p class="cert-desc">
+              Completed AWS Academy ML Foundations training covering machine learning concepts, supervised and unsupervised learning, AWS AI/ML services, model evaluation, and cloud-based ML workflows.
+            </p>
+            <div class="cert-footer">
+              <a href="AWSmachinelearning.pdf" target="_blank" class="btn btn-outline btn-sm btn-full" id="cert-link-aws-ml">
+                <i data-lucide="external-link"></i>
+                <span>View Certificate</span>
+              </a>
             </div>
           </div>
 
           <!-- Cert 4: AI Fundamentals - IBM SkillsBuild -->
-          <div class="certificate-card reveal reveal-delay-1">
-            <div class="certificate-card-inner">
-              <div>
-                <div class="certificate-header">
-                  <div class="cert-logo-wrapper">
-                    <i data-lucide="brain"></i>
-                  </div>
-                  <span class="certificate-badge">Completed</span>
-                </div>
-                <h3 class="certificate-title">Artificial Intelligence Fundamentals</h3>
-                <p class="certificate-org">IBM SkillsBuild</p>
-                <p class="certificate-desc">
-                  Completed the Artificial Intelligence Fundamentals certification. Gained knowledge of AI concepts,
-                  machine learning basics, ethical AI practices, automation, and industry applications.
-                </p>
-                <div style="margin-top: 1.5rem;">
-                  <a href="FundamentalodAI_IBM.pdf" target="_blank" class="btn btn-sm btn-outline btn-full">
-                    <i data-lucide="external-link"></i>
-                    <span>View Certificate</span>
-                  </a>
-                </div>
-              </div>
+          <div class="certificate-card reveal" id="cert-ibm-ai">
+            <div class="cert-header">
+              <div class="cert-icon" style="background: var(--purple-light); color: var(--purple);"><i data-lucide="brain"></i></div>
+              <span class="cert-badge" style="color: var(--purple); background: var(--purple-light);">Completed</span>
+            </div>
+            <h3 class="cert-title">Artificial Intelligence Fundamentals</h3>
+            <p class="cert-org">IBM SkillsBuild</p>
+            <p class="cert-desc">
+              Certified in AI Fundamentals through IBM SkillsBuild. Gained knowledge of AI concepts, machine learning basics, ethical AI practices, automation, and industry applications of AI systems.
+            </p>
+            <div class="cert-footer">
+              <a href="FundamentalodAI_IBM.pdf" target="_blank" class="btn btn-outline btn-sm btn-full" id="cert-link-ibm-ai">
+                <i data-lucide="external-link"></i>
+                <span>View Certificate</span>
+              </a>
             </div>
           </div>
 
-          <!-- Cert 5: AWS Academy Data Engineering -->
-          <div class="certificate-card reveal">
-            <div class="certificate-card-inner">
-              <div>
-                <div class="certificate-header">
-                  <div class="cert-logo-wrapper">
-                    <i data-lucide="database"></i>
-                  </div>
-                  <span class="certificate-badge">40 Hours</span>
-                </div>
-                <h3 class="certificate-title">Data Engineering</h3>
-                <p class="certificate-org">AWS Academy Graduate</p>
-                <p class="certificate-desc">
-                  Completed AWS Academy Data Engineering training focused on data pipelines, cloud data processing,
-                  storage services, ETL workflows, and data engineering practices using AWS.
-                </p>
-                <div style="margin-top: 1.5rem;">
-                  <a href="AWSDataengineering.pdf" target="_blank" class="btn btn-sm btn-outline btn-full">
-                    <i data-lucide="external-link"></i>
-                    <span>View Certificate</span>
-                  </a>
-                </div>
-              </div>
+          <!-- Cert 5: AWS Data Engineering -->
+          <div class="certificate-card reveal reveal-delay-1" id="cert-aws-de">
+            <div class="cert-header">
+              <div class="cert-icon" style="background: var(--teal-light); color: var(--teal);"><i data-lucide="database"></i></div>
+              <span class="cert-badge" style="color: var(--teal); background: var(--teal-light);">40 Hours</span>
+            </div>
+            <h3 class="cert-title">Data Engineering</h3>
+            <p class="cert-org">AWS Academy Graduate</p>
+            <p class="cert-desc">
+              Completed AWS Academy Data Engineering training covering data pipelines, cloud-scale data processing, storage services, ETL workflows, and best practices for data engineering on AWS infrastructure.
+            </p>
+            <div class="cert-footer">
+              <a href="AWSDataengineering.pdf" target="_blank" class="btn btn-outline btn-sm btn-full" id="cert-link-aws-de">
+                <i data-lucide="external-link"></i>
+                <span>View Certificate</span>
+              </a>
             </div>
           </div>
 
           <!-- Cert 6: Data Analysis with Python - Cognitive Class -->
-          <div class="certificate-card reveal reveal-delay-1">
-            <div class="certificate-card-inner">
-              <div>
-                <div class="certificate-header">
-                  <div class="cert-logo-wrapper">
-                    <i data-lucide="bar-chart-3"></i>
-                  </div>
-                  <span class="certificate-badge">Passing Grade</span>
-                </div>
-                <h3 class="certificate-title">Data Analysis with Python</h3>
-                <p class="certificate-org">Cognitive Class (IBM Network)</p>
-                <p class="certificate-desc">
-                  Completed Data Analysis with Python. Learned data visualization, NumPy, Pandas, data preprocessing,
-                  and analytical model building for extracting insights from datasets.
-                </p>
-                <div style="margin-top: 1.5rem;">
-                  <a href="dataanalysisforpython_cognitiveclass.pdf" target="_blank"
-                    class="btn btn-sm btn-outline btn-full">
-                    <i data-lucide="external-link"></i>
-                    <span>View Certificate</span>
-                  </a>
-                </div>
-              </div>
+          <div class="certificate-card reveal reveal-delay-2" id="cert-cognitive-data">
+            <div class="cert-header">
+              <div class="cert-icon" style="background: var(--sky-light); color: var(--sky);"><i data-lucide="bar-chart-3"></i></div>
+              <span class="cert-badge" style="color: var(--sky); background: var(--sky-light);">Passing Grade</span>
+            </div>
+            <h3 class="cert-title">Data Analysis with Python</h3>
+            <p class="cert-org">Cognitive Class (IBM Network)</p>
+            <p class="cert-desc">
+              Completed Data Analysis with Python certification. Learned data visualization, NumPy, Pandas, data preprocessing, and analytical model building for extracting meaningful insights from datasets.
+            </p>
+            <div class="cert-footer">
+              <a href="dataanalysisforpython_cognitiveclass.pdf" target="_blank" class="btn btn-outline btn-sm btn-full" id="cert-link-cognitive-data">
+                <i data-lucide="external-link"></i>
+                <span>View Certificate</span>
+              </a>
             </div>
           </div>
 
           <!-- Cert 7: Intro to IoT - Cisco -->
-          <div class="certificate-card reveal">
-            <div class="certificate-card-inner">
-              <div>
-                <div class="certificate-header">
-                  <div class="cert-logo-wrapper">
-                    <i data-lucide="cpu"></i>
-                  </div>
-                  <span class="certificate-badge">Completed</span>
-                </div>
-                <h3 class="certificate-title">Introduction to IoT</h3>
-                <p class="certificate-org">Cisco Networking Academy</p>
-                <p class="certificate-desc">
-                  Completed Cisco Networking Academy Introduction to Internet of Things. Learned IoT architectures,
-                  digital transformation, intelligent networking, automation, and cybersecurity requirements.
-                </p>
-                <div style="margin-top: 1.5rem;">
-                  <a href="introductiontoIot_IBM.pdf" target="_blank" class="btn btn-sm btn-outline btn-full">
-                    <i data-lucide="external-link"></i>
-                    <span>View Certificate</span>
-                  </a>
-                </div>
-              </div>
+          <div class="certificate-card reveal" id="cert-cisco-iot">
+            <div class="cert-header">
+              <div class="cert-icon" style="background: var(--lavender-light); color: var(--lavender);"><i data-lucide="cpu"></i></div>
+              <span class="cert-badge">Completed</span>
             </div>
+            <h3 class="cert-title">Introduction to IoT</h3>
+            <p class="cert-org">Cisco Networking Academy</p>
+            <p class="cert-desc">
+              Completed Cisco's Introduction to IoT certification. Learned IoT architectures, digital transformation, intelligent networking, automation principles, and cybersecurity requirements for connected systems.
+            </p>
+            <div class="cert-footer">
+              <a href="introductiontoIot_IBM.pdf" target="_blank" class="btn btn-outline btn-sm btn-full" id="cert-link-cisco">
+                <i data-lucide="external-link"></i>
+                <span>View Certificate</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Certification Timeline -->
+    <section class="section-sm" style="background: var(--bg-soft); padding-bottom: 5rem;" id="cert-timeline-section">
+      <div class="container">
+        <div class="section-label reveal" style="justify-content: center;">Credential Journey</div>
+        <h2 class="section-title reveal reveal-delay-1" style="text-align: center;">Timeline</h2>
+
+        <div class="cert-timeline reveal reveal-delay-2">
+          <div class="cert-timeline-item">
+            <div class="cert-timeline-dot"></div>
+            <div class="cert-timeline-label">2023</div>
+            <div class="cert-timeline-name">Introduction to IoT</div>
+          </div>
+          <div class="cert-timeline-item">
+            <div class="cert-timeline-dot"></div>
+            <div class="cert-timeline-label">2024</div>
+            <div class="cert-timeline-name">Python 101 for Data Science</div>
+          </div>
+          <div class="cert-timeline-item">
+            <div class="cert-timeline-dot"></div>
+            <div class="cert-timeline-label">2024</div>
+            <div class="cert-timeline-name">AI Fundamentals — IBM</div>
+          </div>
+          <div class="cert-timeline-item">
+            <div class="cert-timeline-dot"></div>
+            <div class="cert-timeline-label">2025</div>
+            <div class="cert-timeline-name">Python for Data Science — IBM</div>
+          </div>
+          <div class="cert-timeline-item">
+            <div class="cert-timeline-dot"></div>
+            <div class="cert-timeline-label">2025</div>
+            <div class="cert-timeline-name">AWS ML Foundations</div>
+          </div>
+          <div class="cert-timeline-item">
+            <div class="cert-timeline-dot"></div>
+            <div class="cert-timeline-label">2025</div>
+            <div class="cert-timeline-name">AWS Data Engineering</div>
+          </div>
+          <div class="cert-timeline-item">
+            <div class="cert-timeline-dot"></div>
+            <div class="cert-timeline-label">2026</div>
+            <div class="cert-timeline-name">Data Analysis with Python</div>
           </div>
         </div>
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
   <footer>
-    <div class="container footer-container">
-      <p class="copyright">
-        &copy; 2026 Hetvi Sheth. All rights reserved.
-      </p>
-      <div class="footer-socials">
-        <a href="mailto:hetvi.c.sheth@navrachana.edu.in" aria-label="Email"><i data-lucide="mail"></i></a>
-        <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-        <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer"
-          aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg></a>
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">HS</div>
+          Hetvi Sheth
+        </div>
+        <nav class="footer-nav">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="skills.html">Skills</a>
+          <a href="projects.html">Projects</a>
+          <a href="certificates.html">Certificates</a>
+          <a href="resume.html">Resume</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <div class="footer-socials">
+          <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:shethhetvi11@gmail.com" class="footer-social-link" aria-label="Email">
+            <i data-lucide="mail"></i>
+          </a>
+        </div>
+        <div class="footer-divider"></div>
+        <p class="footer-copy">© 2026 Hetvi Sheth. Crafted with passion for AI & innovation.</p>
       </div>
     </div>
   </footer>
 
-  <!-- App Logic -->
   <script type="module" src="app.js"></script>
 </body>
-
 </html>

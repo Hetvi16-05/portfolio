@@ -2,50 +2,19 @@
 <html lang="en">
 
 <head>
-  <script>
-    const pageName = window.location.pathname.split('/').pop().replace('.html', '');
-    window.location.replace(`index.html?win=${pageName}`);
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects | Hetvi Sheth AI & Full Stack Developer</title>
-  <meta name="description"
-    content="View the AI, Data Science, NLP, and Full Stack Web development projects built by Hetvi Sheth.">
+  <title>Projects | Hetvi Sheth — AI & Data Analytics Portfolio</title>
+  <meta name="description" content="Interactive case studies of AI, data science, NLP, and full-stack projects built by Hetvi Sheth — from problem to impact.">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Lucide Icons CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
-  <!-- Page Transition Overlay -->
-  <div id="page-transition" aria-hidden="true">
-    <div class="pt-panel-top"></div>
-    <div class="pt-panel-bottom"></div>
-    <div class="pt-shimmer"></div>
-    <div class="pt-logo-center">
-      <div class="pt-logo-ring-outer"></div>
-      <div class="pt-logo-bg"></div>
-      <span class="pt-logo-initials">HS</span>
-    </div>
-  </div>
-
-  <!-- Neural Mesh Background Canvas -->
-  <div class="canvas-container">
-    <canvas id="neural-canvas"></canvas>
-  </div>
-
-  <!-- Animated Floating Shapes -->
   <div class="ambient-shapes" aria-hidden="true">
     <div class="shape shape-1"></div>
     <div class="shape shape-2"></div>
@@ -53,39 +22,39 @@
     <div class="shape shape-4"></div>
   </div>
 
-  <!-- Glassmorphic Header / Navigation -->
+  <div id="page-transition" aria-hidden="true"></div>
+
   <header id="header">
     <div class="nav-container">
       <a href="index.html" class="logo">
         <span class="logo-monogram"><span class="logo-ring"></span><span class="logo-bg"></span><span class="logo-initials">HS</span></span>
+        <span class="logo-text">Hetvi Sheth</span>
       </a>
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
-        <a href="projects.html">Projects</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html" class="active">Projects</a>
         <a href="reports.html">Reports</a>
         <a href="certificates.html">Certificates</a>
         <a href="resume.html">Resume</a>
         <a href="contact.html">Contact</a>
       </nav>
       <div class="nav-cta">
-        <a href="contact.html" class="btn btn-sm btn-outline">Let's Talk</a>
+        <a href="contact.html" class="btn btn-primary btn-sm">Let's Talk</a>
       </div>
-      <!-- Mobile Menu Button -->
-      <button class="mobile-menu-btn" aria-label="Toggle Menu">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
         <i data-lucide="menu"></i>
       </button>
     </div>
   </header>
 
-  <!-- Mobile Overlay Navigation -->
-  <div class="mobile-overlay">
-    <button class="close-menu-btn" aria-label="Close Menu">
-      <i data-lucide="x"></i>
-    </button>
+  <div class="mobile-overlay" id="mobile-overlay">
+    <button class="close-menu-btn" id="close-menu-btn" aria-label="Close menu"><i data-lucide="x"></i></button>
     <nav class="mobile-nav-links">
       <a href="index.html" class="mobile-link">Home</a>
       <a href="about.html" class="mobile-link">About</a>
+      <a href="skills.html" class="mobile-link">Skills</a>
       <a href="projects.html" class="mobile-link">Projects</a>
       <a href="reports.html" class="mobile-link">Reports</a>
       <a href="certificates.html" class="mobile-link">Certificates</a>
@@ -95,95 +64,120 @@
   </div>
 
   <main class="page-content">
-    <!-- Projects Section -->
-    <section class="section projects-section first-section">
-      <div class="container">
-        <div class="section-header reveal">
-          <h2 class="section-title"><span class="number-prefix">01.</span> Featured Projects</h2>
-          <div class="section-line"></div>
-        </div>
 
-        <p class="section-desc reveal reveal-delay-1">
-          A collection of systems designed to solve real-world problems using machine learning, big data engineering,
-          and full-stack web architectures.
+    <!-- Hero -->
+    <section class="projects-hero section-sm" id="projects-hero">
+      <div class="container">
+        <div class="section-label reveal">Case Studies</div>
+        <h1 class="reveal reveal-delay-1" style="font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 800; letter-spacing:-0.03em; max-width: 680px; margin-bottom: 1rem;">
+          Projects That Tell a <span class="gradient-text">Complete Story</span>
+        </h1>
+        <p class="section-desc reveal reveal-delay-2">
+          Each project unfolds through 6 stages — Problem → Dataset → Approach → Technology → Results → Impact. Click each tab to explore the full narrative.
         </p>
 
-        <!-- Projects Category Filter Bar -->
-        <div class="projects-filter stagger-children reveal reveal-delay-1">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="fullstack">Full Stack & AI</button>
-          <button class="filter-btn" data-filter="aiagent">AI Chatbot & Agents</button>
-          <button class="filter-btn" data-filter="datascience">Data Science & ML</button>
-          <button class="filter-btn" data-filter="computervision">Computer Vision</button>
-          <button class="filter-btn" data-filter="bigdata">Big Data & AI</button>
-          <button class="filter-btn" data-filter="nlp">NLP & DL</button>
-          <button class="filter-btn" data-filter="iot">IoT & CV</button>
+        <!-- Filter Bar -->
+        <div class="filter-bar stagger-children reveal reveal-delay-3" id="filter-bar" role="group" aria-label="Filter projects by category">
+          <button class="filter-btn active" data-filter="all" id="filter-all">All</button>
+          <button class="filter-btn" data-filter="aiagent" id="filter-aiagent">AI & Agents</button>
+          <button class="filter-btn" data-filter="fullstack" id="filter-fullstack">Full Stack</button>
+          <button class="filter-btn" data-filter="datascience" id="filter-datascience">Data Science & ML</button>
+          <button class="filter-btn" data-filter="computervision" id="filter-cv">Computer Vision</button>
+          <button class="filter-btn" data-filter="bigdata" id="filter-bigdata">Big Data</button>
+          <button class="filter-btn" data-filter="nlp" id="filter-nlp">NLP & DL</button>
+          <button class="filter-btn" data-filter="iot" id="filter-iot">IoT & CV</button>
         </div>
+      </div>
+    </section>
 
-        <!-- Projects Carousel -->
-        <div class="projects-carousel reveal-scale reveal-delay-2" id="projects-carousel">
-          <button class="carousel-btn carousel-prev" aria-label="Previous projects">
-            <i data-lucide="chevron-left"></i>
-          </button>
+    <!-- Projects Grid -->
+    <section class="section-sm" id="projects-grid-section">
+      <div class="container">
+        <div class="projects-grid" id="projects-grid">
 
-          <div class="carousel-viewport">
-            <div class="carousel-track projects-grid">
-          <!-- Project 1: AI Chatbot — Saarthi AI -->
-          <div class="project-card reveal" data-category="aiagent" data-image="https://raw.githubusercontent.com/Hetvi16-05/Personal-AI-Assistant/main/assets/chat.png">
-            <div class="project-card-inner">
-              <div class="project-header">
-                <i data-lucide="bot" class="project-icon"></i>
+          <!-- ======= PROJECT 1: Saarthi AI ======= -->
+          <article class="project-card reveal" data-category="aiagent" id="proj-saarthi">
+            <div class="project-card-top">
+              <div class="project-card-header">
+                <div class="project-icon-wrap"><i data-lucide="bot"></i></div>
                 <div class="project-links">
-                  <a href="https://github.com/Hetvi16-05/Personal-AI-Assistant" target="_blank" rel="noopener noreferrer"
-                    aria-label="GitHub Repository"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+                  <a href="https://github.com/Hetvi16-05/Personal-AI-Assistant" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub Repository">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                  </a>
                 </div>
               </div>
-              <span class="project-category">AI Chatbot & Agents</span>
-              <h3 class="project-title">Saarthi AI — Personal AI Chatbot</h3>
-              <p class="project-text">
-                A production-grade personal AI mentor with long-term vector memory, multi-agent orchestration,
-                dynamic task ranking, and automated learning roadmaps with interactive analytics.
-              </p>
-              <ul class="project-features">
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Semantic chat memory via pgvector</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Multi-agent planner &amp; recommendation engine</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Goal roadmaps &amp; milestone tracking</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> JWT auth with multi-user isolation</li>
-              </ul>
-              <div class="project-tech">
-                <span class="tech-tag">FastAPI</span>
-                <span class="tech-tag">Streamlit</span>
-                <span class="tech-tag">Gemini</span>
-                <span class="tech-tag">Supabase</span>
-                <span class="tech-tag">pgvector</span>
+              <div class="project-category-badge">AI Chatbot & Agents</div>
+              <h2 class="project-title">Saarthi AI — Personal AI Mentor</h2>
+              <p class="project-desc">A production-grade personal AI mentor with long-term vector memory, multi-agent orchestration, and automated learning roadmaps.</p>
+            </div>
+
+            <div class="project-stages">
+              <div class="stage-tabs" role="tablist" aria-label="Project stages">
+                <button class="stage-tab active" data-tab="problem" role="tab">Problem</button>
+                <button class="stage-tab" data-tab="dataset" role="tab">Dataset</button>
+                <button class="stage-tab" data-tab="approach" role="tab">Approach</button>
+                <button class="stage-tab" data-tab="tech" role="tab">Technology</button>
+                <button class="stage-tab" data-tab="results" role="tab">Results</button>
+                <button class="stage-tab" data-tab="impact" role="tab">Impact</button>
+              </div>
+              <div class="stage-panels">
+                <div class="stage-panel active" data-panel="problem"><p>Students lack personalized, persistent AI guidance that remembers their learning history and adapts over time. Generic chatbots forget context after every session.</p></div>
+                <div class="stage-panel" data-panel="dataset"><p>Custom user interaction logs, learning path templates, and semantic embeddings derived from 100K+ educational Q&A pairs stored in a pgvector-powered vector database.</p></div>
+                <div class="stage-panel" data-panel="approach"><p>Designed a multi-agent pipeline: a Planner agent orchestrates tasks, a Memory agent queries vector store for context, and a Learning agent generates adaptive roadmaps using Gemini LLM.</p></div>
+                <div class="stage-panel" data-panel="tech"><p>FastAPI backend · Streamlit frontend · Gemini API · Supabase (pgvector) · PostgreSQL · JWT authentication · Python 3.11</p></div>
+                <div class="stage-panel" data-panel="results"><p>Multi-user isolation with secure JWT sessions. Sub-second semantic memory retrieval. Adaptive learning roadmaps updated dynamically based on user progress milestones.</p></div>
+                <div class="stage-panel" data-panel="impact"><p>Demonstrates production-ready agentic AI architecture. Applicable to personalized education platforms and corporate knowledge management systems.</p></div>
               </div>
             </div>
-          </div>
 
-          <!-- Project 2: Travia -->
-          <div class="project-card reveal" data-category="fullstack" data-image="/images/travia_hero.png">
-            <div class="project-card-inner">
-              <div class="project-header">
-                <i data-lucide="compass" class="project-icon"></i>
+            <div class="project-card-footer">
+              <div class="tech-tags">
+                <span class="tech-tag">FastAPI</span>
+                <span class="tech-tag">Gemini</span>
+                <span class="tech-tag">pgvector</span>
+                <span class="tech-tag">Streamlit</span>
+                <span class="tech-tag">PostgreSQL</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- ======= PROJECT 2: Travia ======= -->
+          <article class="project-card reveal reveal-delay-1" data-category="fullstack" id="proj-travia">
+            <div class="project-card-top">
+              <div class="project-card-header">
+                <div class="project-icon-wrap" style="background: var(--sky-light); color: var(--sky);"><i data-lucide="compass"></i></div>
                 <div class="project-links">
-                  <a href="https://github.com/Hetvi16-05/Travel" target="_blank" rel="noopener noreferrer"
-                    aria-label="GitHub Repository"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+                  <a href="https://github.com/Hetvi16-05/Travel" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                  </a>
                 </div>
               </div>
-              <span class="project-category">Full Stack & AI</span>
-              <h3 class="project-title">Travia — AI Travel Planning</h3>
-              <p class="project-text">
-                An AI-powered travel planning platform designed during a hackathon to generate personalized itineraries,
-                integrate dynamic map visualizations, and manage user sessions securely.
-              </p>
-              <ul class="project-features">
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> AI-powered itinerary generation</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Interactive map visualization (Leaflet)
-                </li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Secure authentication (JWT)</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Responsive multi-user database</li>
-              </ul>
-              <div class="project-tech">
+              <div class="project-category-badge" style="color: var(--sky);">Full Stack & AI</div>
+              <h2 class="project-title">Travia — AI Travel Planning Platform</h2>
+              <p class="project-desc">AI-powered travel platform generating personalized itineraries with interactive map visualization and secure multi-user authentication.</p>
+            </div>
+
+            <div class="project-stages">
+              <div class="stage-tabs" role="tablist">
+                <button class="stage-tab active" data-tab="problem">Problem</button>
+                <button class="stage-tab" data-tab="dataset">Dataset</button>
+                <button class="stage-tab" data-tab="approach">Approach</button>
+                <button class="stage-tab" data-tab="tech">Technology</button>
+                <button class="stage-tab" data-tab="results">Results</button>
+                <button class="stage-tab" data-tab="impact">Impact</button>
+              </div>
+              <div class="stage-panels">
+                <div class="stage-panel active" data-panel="problem"><p>Travelers spend hours manually researching destinations, budgets, and routes. There's no unified tool that personalizes plans intelligently and visualizes routes on a live map.</p></div>
+                <div class="stage-panel" data-panel="dataset"><p>Real-time travel data from public APIs (places, weather, routes). User preferences and session data stored in PostgreSQL. Leaflet tiles for map rendering.</p></div>
+                <div class="stage-panel" data-panel="approach"><p>Built during an 8-hour hackathon. React frontend calls Node.js REST API which invokes LLM for itinerary generation. Leaflet renders dynamic map routes in real time.</p></div>
+                <div class="stage-panel" data-panel="tech"><p>React.js · Node.js · Express · PostgreSQL · JWT authentication · Leaflet.js · LLM integration · Responsive CSS</p></div>
+                <div class="stage-panel" data-panel="results"><p>Complete full-stack application delivered in 8 hours. Secure JWT multi-user sessions. AI generates structured day-by-day itineraries with budget breakdowns.</p></div>
+                <div class="stage-panel" data-panel="impact"><p>Demonstrated ability to architect and deliver production-quality full-stack systems under extreme time constraints. Recognized in hackathon shortlist.</p></div>
+              </div>
+            </div>
+
+            <div class="project-card-footer">
+              <div class="tech-tags">
                 <span class="tech-tag">React</span>
                 <span class="tech-tag">Node.js</span>
                 <span class="tech-tag">PostgreSQL</span>
@@ -191,62 +185,45 @@
                 <span class="tech-tag">Leaflet</span>
               </div>
             </div>
-          </div>
+          </article>
 
-          <!-- Project 2: AI Supplier Ranking -->
-          <div class="project-card reveal reveal-delay-1" data-category="datascience" data-image="/images/supplier_hero.png">
-            <div class="project-card-inner">
-              <div class="project-header">
-                <i data-lucide="award" class="project-icon"></i>
+          <!-- ======= PROJECT 3: RAINWISE ======= -->
+          <article class="project-card reveal" data-category="computervision" id="proj-rainwise">
+            <div class="project-card-top">
+              <div class="project-card-header">
+                <div class="project-icon-wrap" style="background: var(--teal-light); color: var(--teal);"><i data-lucide="cloud-rain"></i></div>
                 <div class="project-links">
-                  <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer"
-                    aria-label="GitHub Repository"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+                  <a href="https://github.com/Hetvi16-05/rainwise" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                  </a>
                 </div>
               </div>
-              <span class="project-category">Data Science & ML</span>
-              <h3 class="project-title">AI Supplier Ranking Agent</h3>
-              <p class="project-text">
-                An intelligent supplier evaluation and ranking platform employing regression models trained on live
-                web-scraped data to optimize supply chain decision-making.
-              </p>
-              <ul class="project-features">
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Regression-based scoring models</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Real-time web scraping pipeline</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Verification reliability algorithm</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Appreciated by CEO of Mesh Works</li>
-              </ul>
-              <div class="project-tech">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">Machine Learning</span>
-                <span class="tech-tag">Web Scraping</span>
-                <span class="tech-tag">Regression Models</span>
+              <div class="project-category-badge" style="color: var(--teal);">Computer Vision & DL</div>
+              <h2 class="project-title">RAINWISE V3.1 — Real-Time Flood Detection</h2>
+              <p class="project-desc">Real-time flood segmentation and multi-threat detection system using deep learning, achieving 98.89% accuracy optimized for edge devices.</p>
+            </div>
+
+            <div class="project-stages">
+              <div class="stage-tabs" role="tablist">
+                <button class="stage-tab active" data-tab="problem">Problem</button>
+                <button class="stage-tab" data-tab="dataset">Dataset</button>
+                <button class="stage-tab" data-tab="approach">Approach</button>
+                <button class="stage-tab" data-tab="tech">Technology</button>
+                <button class="stage-tab" data-tab="results">Results</button>
+                <button class="stage-tab" data-tab="impact">Impact</button>
+              </div>
+              <div class="stage-panels">
+                <div class="stage-panel active" data-panel="problem"><p>Flood disasters cause massive loss of life due to delayed detection. Existing monitoring systems are slow, single-purpose, and not deployable on affordable edge hardware.</p></div>
+                <div class="stage-panel" data-panel="dataset"><p>Custom flood imagery dataset (aerial + ground). Annotated segmentation masks for SegFormer training. Weather time-series data for LSTM forecasting (5+ years of historical records).</p></div>
+                <div class="stage-panel" data-panel="approach"><p>Three-component pipeline: SegFormer-B0 for pixel-level flood segmentation, YOLO-World for zero-shot multi-threat detection, and LSTM for 6-hour ahead forecasting.</p></div>
+                <div class="stage-panel" data-panel="tech"><p>PyTorch · SegFormer-B0 · YOLO-World · SigLIP · LSTM · OpenCV · Apple Silicon optimization (MPS) · Python</p></div>
+                <div class="stage-panel" data-panel="results"><p>98.89% detection precision. Real-time inference on Apple Silicon. Multi-threat detection (vehicles, people, infrastructure) without retraining. LSTM forecasts flood risk 6 hours ahead.</p></div>
+                <div class="stage-panel" data-panel="impact"><p>Deployable on low-cost edge devices for disaster early warning. Presented at university research showcase. Applicable to smart city infrastructure and climate resilience planning.</p></div>
               </div>
             </div>
-          </div>
 
-          <!-- Project 3: RAINWISE V3.1 -->
-          <div class="project-card reveal" data-category="computervision" data-image="/images/rainwise_hero.png">
-            <div class="project-card-inner">
-              <div class="project-header">
-                <i data-lucide="cloud-rain" class="project-icon"></i>
-                <div class="project-links">
-                  <a href="https://github.com/Hetvi16-05/rainwise" target="_blank" rel="noopener noreferrer"
-                    aria-label="GitHub Repository"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-                </div>
-              </div>
-              <span class="project-category">Computer Vision & DL</span>
-              <h3 class="project-title">RAINWISE V3.1</h3>
-              <p class="project-text">
-                A computer-vision and deep-learning system designed for real-time flood segmentation, zero-shot threat
-                detection, and short-term forecasting on edge devices.
-              </p>
-              <ul class="project-features">
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Flood segmentation (SegFormer-B0)</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Zero-shot detection (YOLO-World)</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Time-series prediction (LSTM)</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> 98.89% detection accuracy</li>
-              </ul>
-              <div class="project-tech">
+            <div class="project-card-footer">
+              <div class="tech-tags">
                 <span class="tech-tag">PyTorch</span>
                 <span class="tech-tag">SegFormer</span>
                 <span class="tech-tag">YOLO-World</span>
@@ -254,64 +231,91 @@
                 <span class="tech-tag">OpenCV</span>
               </div>
             </div>
-          </div>
+          </article>
 
-          <!-- Project 4: Flood Prediction & Big Data -->
-          <div class="project-card reveal reveal-delay-1" data-category="bigdata" data-image="/images/flood_hero.png">
-            <div class="project-card-inner">
-              <div class="project-header">
-                <i data-lucide="waves" class="project-icon"></i>
+          <!-- ======= PROJECT 4: Flood Big Data ======= -->
+          <article class="project-card reveal reveal-delay-1" data-category="bigdata" id="proj-flood">
+            <div class="project-card-top">
+              <div class="project-card-header">
+                <div class="project-icon-wrap" style="background: var(--purple-light); color: var(--purple);"><i data-lucide="waves"></i></div>
                 <div class="project-links">
-                  <a href="https://github.com/Hetvi16-05/flood-monitoring-ai" target="_blank" rel="noopener noreferrer"
-                    aria-label="GitHub Repository"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+                  <a href="https://github.com/Hetvi16-05/flood-monitoring-ai" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                  </a>
                 </div>
               </div>
-              <span class="project-category">Big Data & AI</span>
-              <h3 class="project-title">Flood Prediction &amp; Big Data</h3>
-              <p class="project-text">
-                An AI-based forecasting and processing pipeline powered by distributed big data tools and Temporal
-                Fusion Transformers for real-time risk alerts.
-              </p>
-              <ul class="project-features">
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Time-series forecasting (TFT)</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Distributed pipelines (Hadoop &amp; Spark)
-                </li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Real-time data streaming (Kafka)</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Tableau &amp; Power BI visualization</li>
-              </ul>
-              <div class="project-tech">
-                <span class="tech-tag">TensorFlow</span>
-                <span class="tech-tag">Hadoop</span>
-                <span class="tech-tag">Spark</span>
-                <span class="tech-tag">Kafka</span>
-                <span class="tech-tag">MongoDB</span>
+              <div class="project-category-badge" style="color: var(--purple);">Big Data & AI</div>
+              <h2 class="project-title">Flood Prediction & Big Data Analytics</h2>
+              <p class="project-desc">Distributed AI forecasting pipeline using TFT models, real-time Kafka streaming, and Hadoop/Spark for large-scale flood risk modeling.</p>
+            </div>
+
+            <div class="project-stages">
+              <div class="stage-tabs" role="tablist">
+                <button class="stage-tab active" data-tab="problem">Problem</button>
+                <button class="stage-tab" data-tab="dataset">Dataset</button>
+                <button class="stage-tab" data-tab="approach">Approach</button>
+                <button class="stage-tab" data-tab="tech">Technology</button>
+                <button class="stage-tab" data-tab="results">Results</button>
+                <button class="stage-tab" data-tab="impact">Impact</button>
+              </div>
+              <div class="stage-panels">
+                <div class="stage-panel active" data-panel="problem"><p>Traditional flood prediction systems process data in batches, causing dangerous delays. No unified system combines real-time streaming with long-horizon AI forecasting and interactive dashboards.</p></div>
+                <div class="stage-panel" data-panel="dataset"><p>5+ years of weather time-series from weather APIs. River gauge sensor readings streamed via Kafka. Geographic data stored in MongoDB. 2M+ data points for model training.</p></div>
+                <div class="stage-panel" data-panel="approach"><p>Kafka ingests real-time weather streams → Spark processes and featurizes → TFT model predicts 24-hour flood risk → MongoDB stores results → Power BI & Tableau dashboards visualize.</p></div>
+                <div class="stage-panel" data-panel="tech"><p>TensorFlow (TFT) · Apache Kafka · Apache Hadoop · Apache Spark · MongoDB · Power BI · Tableau · Python</p></div>
+                <div class="stage-panel" data-panel="results"><p>Real-time risk updates every 30 seconds. 24-hour ahead flood probability forecasting. Interactive Power BI dashboards for decision makers. Scalable to 10M+ data points.</p></div>
+                <div class="stage-panel" data-panel="impact"><p>Demonstrates enterprise-scale big data architecture for disaster management. Published findings at SustainX 2026. Blueprint applicable to any real-time environmental monitoring system.</p></div>
               </div>
             </div>
-          </div>
 
-          <!-- Project 5: Hindi Transliteration Engine -->
-          <div class="project-card reveal" data-category="nlp" data-image="/images/transliteration_hero.png">
-            <div class="project-card-inner">
-              <div class="project-header">
-                <i data-lucide="languages" class="project-icon"></i>
+            <div class="project-card-footer">
+              <div class="tech-tags">
+                <span class="tech-tag">TensorFlow</span>
+                <span class="tech-tag">Kafka</span>
+                <span class="tech-tag">Hadoop</span>
+                <span class="tech-tag">Spark</span>
+                <span class="tech-tag">Power BI</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- ======= PROJECT 5: Hindi Transliteration ======= -->
+          <article class="project-card reveal" data-category="nlp" id="proj-transliteration">
+            <div class="project-card-top">
+              <div class="project-card-header">
+                <div class="project-icon-wrap" style="background: var(--lavender-light); color: var(--lavender);"><i data-lucide="languages"></i></div>
                 <div class="project-links">
-                  <a href="https://github.com/Hetvi16-05/Transliterator" target="_blank" rel="noopener noreferrer"
-                    aria-label="GitHub Repository"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+                  <a href="https://github.com/Hetvi16-05/Transliterator" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                  </a>
                 </div>
               </div>
-              <span class="project-category">NLP & Deep Learning</span>
-              <h3 class="project-title">Hindi Transliteration Engine</h3>
-              <p class="project-text">
-                An NLP-based deep learning transliteration system converting Hinglish text into Hindi script utilizing
-                Seq2Seq architectures and custom decoding.
-              </p>
-              <ul class="project-features">
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Seq2Seq + Attention architectures</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Trained on 84,000+ text pairs</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Metrics evaluation (CER, WER, BLEU)</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> FastAPI &amp; custom frontend</li>
-              </ul>
-              <div class="project-tech">
+              <div class="project-category-badge">NLP & Deep Learning</div>
+              <h2 class="project-title">Hindi Transliteration Engine</h2>
+              <p class="project-desc">Seq2Seq neural network converting Hinglish text to Devanagari script. Trained on 84K+ pairs with attention mechanism and beam search decoding.</p>
+            </div>
+
+            <div class="project-stages">
+              <div class="stage-tabs" role="tablist">
+                <button class="stage-tab active" data-tab="problem">Problem</button>
+                <button class="stage-tab" data-tab="dataset">Dataset</button>
+                <button class="stage-tab" data-tab="approach">Approach</button>
+                <button class="stage-tab" data-tab="tech">Technology</button>
+                <button class="stage-tab" data-tab="results">Results</button>
+                <button class="stage-tab" data-tab="impact">Impact</button>
+              </div>
+              <div class="stage-panels">
+                <div class="stage-panel active" data-panel="problem"><p>Millions of Hindi speakers type in Hinglish (Roman script) but need content in Devanagari. Existing tools rely on dictionaries and lack NLP-based contextual accuracy.</p></div>
+                <div class="stage-panel" data-panel="dataset"><p>84,000+ Hinglish → Devanagari text pairs from custom curated corpus. Character-level tokenization. 80/10/10 train-validation-test split with balanced phoneme distribution.</p></div>
+                <div class="stage-panel" data-panel="approach"><p>8 deep learning architectures evaluated: LSTM Seq2Seq with Luong attention, Transformer encoder-decoder, and hybrid models. Final model uses beam search with width=5 for output.</p></div>
+                <div class="stage-panel" data-panel="tech"><p>TensorFlow · Keras · FastAPI REST API · Custom HTML/CSS frontend · NumPy · Matplotlib (visualization) · Python 3.10</p></div>
+                <div class="stage-panel" data-panel="results"><p>Best model evaluated on CER (Character Error Rate), WER (Word Error Rate), and BLEU score. Deployed via FastAPI with real-time inference. Sub-200ms response time.</p></div>
+                <div class="stage-panel" data-panel="impact"><p>Useful for digital inclusion of Hindi speakers. Demonstrates end-to-end NLP pipeline from data preparation to model deployment. Extensible to other Indic language pairs.</p></div>
+              </div>
+            </div>
+
+            <div class="project-card-footer">
+              <div class="tech-tags">
                 <span class="tech-tag">TensorFlow</span>
                 <span class="tech-tag">NLP</span>
                 <span class="tech-tag">Seq2Seq</span>
@@ -319,125 +323,139 @@
                 <span class="tech-tag">Beam Search</span>
               </div>
             </div>
-          </div>
+          </article>
 
-          <!-- Project 6: GreenSort -->
-          <div class="project-card reveal reveal-delay-1" data-category="iot" data-image="/images/greensort_hero.png">
-            <div class="project-card-inner">
-              <div class="project-header">
-                <i data-lucide="recycle" class="project-icon"></i>
+          <!-- ======= PROJECT 6: GreenSort ======= -->
+          <article class="project-card reveal reveal-delay-1" data-category="iot" id="proj-greensort">
+            <div class="project-card-top">
+              <div class="project-card-header">
+                <div class="project-icon-wrap" style="background: var(--teal-light); color: var(--teal);"><i data-lucide="recycle"></i></div>
                 <div class="project-links">
-                  <a href="https://github.com/snehadpatel/greensort" target="_blank" rel="noopener noreferrer"
-                    aria-label="GitHub Repository"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+                  <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                  </a>
                 </div>
               </div>
-              <span class="project-category">IoT & Computer Vision</span>
-              <h3 class="project-title">GreenSort — Smart Waste</h3>
-              <p class="project-text">
-                An AI and IoT-based waste classification and sorting system using computer vision algorithms connected
-                to microcontroller hardware actions.
-              </p>
-              <ul class="project-features">
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> YOLO &amp; Random Forest classification
-                </li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Raspberry Pi &amp; servo-motor sorting
-                </li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Approximately 75% sorting accuracy</li>
-                <li><i data-lucide="check-circle-2" class="feature-icon"></i> Published paper at SustainX 2026</li>
-              </ul>
-              <div class="project-tech">
-                <span class="tech-tag">YOLO</span>
-                <span class="tech-tag">Arduino</span>
-                <span class="tech-tag">Raspberry Pi</span>
-                <span class="tech-tag">IoT</span>
-                <span class="tech-tag">OpenCV</span>
+              <div class="project-category-badge" style="color: var(--teal);">IoT & Computer Vision</div>
+              <h2 class="project-title">GreenSort — Smart Waste Management</h2>
+              <p class="project-desc">AI + IoT waste classification system using YOLO and Random Forest, connected to Raspberry Pi servo-motor sorting hardware. Published at SustainX 2026.</p>
+            </div>
+
+            <div class="project-stages">
+              <div class="stage-tabs" role="tablist">
+                <button class="stage-tab active" data-tab="problem">Problem</button>
+                <button class="stage-tab" data-tab="dataset">Dataset</button>
+                <button class="stage-tab" data-tab="approach">Approach</button>
+                <button class="stage-tab" data-tab="tech">Technology</button>
+                <button class="stage-tab" data-tab="results">Results</button>
+                <button class="stage-tab" data-tab="impact">Impact</button>
+              </div>
+              <div class="stage-panels">
+                <div class="stage-panel active" data-panel="problem"><p>Manual waste sorting is inefficient, expensive, and error-prone. Most waste ends in landfills due to improper sorting at source, causing severe environmental damage.</p></div>
+                <div class="stage-panel" data-panel="dataset"><p>Custom photographed waste dataset: 4 categories (plastic, metal, paper, organic). 3,000+ images with bounding box annotations. Data augmentation applied for class balance.</p></div>
+                <div class="stage-panel" data-panel="approach"><p>Camera captures waste item → YOLO detects and classifies → Random Forest validates class → Raspberry Pi GPIO controls servo motors to physically sort the item into correct bin.</p></div>
+                <div class="stage-panel" data-panel="tech"><p>YOLO (custom trained) · Random Forest (Scikit-learn) · OpenCV · Raspberry Pi 4 · Arduino · Servo motor control · Python</p></div>
+                <div class="stage-panel" data-panel="results"><p>~75% sorting accuracy across 4 waste categories. Real-time inference at 15 FPS on Raspberry Pi. Automated sorting triggers servo motors within 0.3 seconds of detection.</p></div>
+                <div class="stage-panel" data-panel="impact"><p>Research paper published at SustainX 2026 symposium. Demonstrates bridge between AI computer vision and physical IoT actuators. Scalable to smart city waste infrastructure.</p></div>
               </div>
             </div>
-          </div>
-            </div>
-          </div>
 
-          <button class="carousel-btn carousel-next" aria-label="Next projects">
-            <i data-lucide="chevron-right"></i>
-          </button>
-
-          <div class="carousel-footer">
-            <div class="carousel-dots" role="tablist" aria-label="Project slides"></div>
-            <div class="carousel-progress">
-              <div class="carousel-progress-bar"></div>
+            <div class="project-card-footer">
+              <div class="tech-tags">
+                <span class="tech-tag">YOLO</span>
+                <span class="tech-tag">Raspberry Pi</span>
+                <span class="tech-tag">OpenCV</span>
+                <span class="tech-tag">IoT</span>
+                <span class="tech-tag">Arduino</span>
+              </div>
             </div>
-          </div>
+          </article>
+
+          <!-- ======= PROJECT 7: AI Supplier Ranking ======= -->
+          <article class="project-card reveal" data-category="datascience" id="proj-supplier">
+            <div class="project-card-top">
+              <div class="project-card-header">
+                <div class="project-icon-wrap" style="background: var(--sky-light); color: var(--sky);"><i data-lucide="trending-up"></i></div>
+                <div class="project-links">
+                  <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                  </a>
+                </div>
+              </div>
+              <div class="project-category-badge" style="color: var(--sky);">Data Science & ML</div>
+              <h2 class="project-title">AI Supplier Ranking Agent</h2>
+              <p class="project-desc">Regression-based supplier evaluation tool using live web-scraped data. Appreciated by CEO of Mesh Works during hackathon demo.</p>
+            </div>
+
+            <div class="project-stages">
+              <div class="stage-tabs" role="tablist">
+                <button class="stage-tab active" data-tab="problem">Problem</button>
+                <button class="stage-tab" data-tab="dataset">Dataset</button>
+                <button class="stage-tab" data-tab="approach">Approach</button>
+                <button class="stage-tab" data-tab="tech">Technology</button>
+                <button class="stage-tab" data-tab="results">Results</button>
+                <button class="stage-tab" data-tab="impact">Impact</button>
+              </div>
+              <div class="stage-panels">
+                <div class="stage-panel active" data-panel="problem"><p>Supply chain managers spend days manually evaluating suppliers across price, reliability, quality, and delivery metrics. The process is inconsistent and difficult to scale.</p></div>
+                <div class="stage-panel" data-panel="dataset"><p>Real-time web-scraped supplier data (pricing, reviews, delivery history). Engineered features: reliability score, quality index, price competitiveness, market presence. 500+ supplier profiles.</p></div>
+                <div class="stage-panel" data-panel="approach"><p>Web scraping pipeline collects live data → Feature engineering creates composite metrics → Regression model scores suppliers → Custom verification algorithm cross-validates ranking reliability.</p></div>
+                <div class="stage-panel" data-panel="tech"><p>Python · Scikit-learn (Regression) · BeautifulSoup/Requests (scraping) · Pandas · NumPy · Flask/FastAPI · Data visualization</p></div>
+                <div class="stage-panel" data-panel="results"><p>Automated supplier evaluation reducing research time by 80%. Custom verification algorithm reduces ranking errors. Real-time updates as new data is scraped. Top 10 supplier shortlisting in seconds.</p></div>
+                <div class="stage-panel" data-panel="impact"><p>Appreciated by CEO of Mesh Works during live hackathon demonstration. Applicable to procurement automation in manufacturing, retail, and logistics industries.</p></div>
+              </div>
+            </div>
+
+            <div class="project-card-footer">
+              <div class="tech-tags">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Scikit-learn</span>
+                <span class="tech-tag">Web Scraping</span>
+                <span class="tech-tag">Regression</span>
+                <span class="tech-tag">Pandas</span>
+              </div>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
   <footer>
-    <div class="container footer-container">
-      <p class="copyright">
-        &copy; 2026 Hetvi Sheth. All rights reserved.
-      </p>
-      <div class="footer-socials">
-        <a href="mailto:hetvi.c.sheth@navrachana.edu.in" aria-label="Email"><i data-lucide="mail"></i></a>
-        <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-        <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer"
-          aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg></a>
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">HS</div>
+          Hetvi Sheth
+        </div>
+        <nav class="footer-nav">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="skills.html">Skills</a>
+          <a href="projects.html">Projects</a>
+          <a href="certificates.html">Certificates</a>
+          <a href="resume.html">Resume</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <div class="footer-socials">
+          <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:shethhetvi11@gmail.com" class="footer-social-link" aria-label="Email">
+            <i data-lucide="mail"></i>
+          </a>
+        </div>
+        <div class="footer-divider"></div>
+        <p class="footer-copy">© 2026 Hetvi Sheth. Crafted with passion for AI & innovation.</p>
       </div>
     </div>
   </footer>
 
-  <!-- Project Detail Side Panel (Drawer) -->
-  <div id="project-drawer" class="project-drawer">
-    <div class="drawer-overlay"></div>
-    <div class="drawer-content">
-      <button class="drawer-close" aria-label="Close panel">
-        <i data-lucide="x"></i>
-      </button>
-      
-      <!-- Drawer Header Banner Image -->
-      <div class="drawer-header-banner">
-        <img id="drawer-banner-img" src="" alt="Project Banner">
-        <div class="drawer-banner-overlay"></div>
-        <div class="drawer-banner-meta">
-          <span id="drawer-category" class="badge">Category</span>
-          <h2 id="drawer-title" class="drawer-title">Project Title</h2>
-        </div>
-      </div>
-
-      <div class="drawer-body">
-        <div class="drawer-section">
-          <h3>Overview</h3>
-          <p id="drawer-desc">Project description goes here...</p>
-        </div>
-
-        <div class="drawer-section">
-          <h3>Key Features</h3>
-          <ul id="drawer-features" class="drawer-features-list">
-            <!-- Dynamically populated -->
-          </ul>
-        </div>
-
-        <div class="drawer-section">
-          <h3>Technologies Used</h3>
-          <div id="drawer-tech" class="skills-pills">
-            <!-- Dynamically populated -->
-          </div>
-        </div>
-
-        <div class="drawer-actions">
-          <a id="drawer-github-link" href="#" target="_blank" rel="noopener noreferrer"
-            class="btn btn-primary btn-full">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-            <span>View Source Code</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- App Logic -->
   <script type="module" src="app.js"></script>
 </body>
-
 </html>
