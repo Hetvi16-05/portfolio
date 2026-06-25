@@ -1068,7 +1068,7 @@ p  { color: var(--text-secondary); line-height: 1.8; }
    STATS SECTION
    ========================================================================== */
 .stats-section {
-  padding: 5rem 0;
+  padding: 2.5rem 0;
   position: relative;
   z-index: 3;
 }
@@ -1142,12 +1142,12 @@ p  { color: var(--text-secondary); line-height: 1.8; }
    FEATURED PROJECTS (Homepage)
    ========================================================================== */
 .featured-projects {
-  padding: 6rem 0;
+  padding: 3rem 0;
   position: relative;
   z-index: 3;
 }
 
-.section-header { margin-bottom: 3.5rem; }
+.section-header { margin-bottom: 2rem; }
 
 .featured-grid {
   display: grid;
@@ -1319,7 +1319,7 @@ p  { color: var(--text-secondary); line-height: 1.8; }
 /* ==========================================================================
    JOURNEY PATH (Homepage)
    ========================================================================== */
-.journey-section { padding: 5rem 0; position: relative; z-index: 3; }
+.journey-section { padding: 3rem 0; position: relative; z-index: 3; }
 
 .journey-path-container {
   max-width: 800px;
@@ -1726,7 +1726,7 @@ p  { color: var(--text-secondary); line-height: 1.8; }
 }
 
 /* Timeline */
-.timeline-section { padding: 6rem 0; position: relative; z-index: 3; }
+.timeline-section { padding: 3rem 0; position: relative; z-index: 3; }
 
 .timeline {
   position: relative;
@@ -1802,7 +1802,7 @@ p  { color: var(--text-secondary); line-height: 1.8; }
 }
 
 /* Skills section */
-.skills-section { padding: 5rem 0; position: relative; z-index: 3; }
+.skills-section { padding: 2.5rem 0; position: relative; z-index: 3; }
 
 .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 
@@ -2176,7 +2176,7 @@ footer {
   .featured-grid { grid-template-columns: 1fr; }
   .projects-grid-new { grid-template-columns: 1fr; }
   .hero-name { font-size: clamp(2.5rem, 10vw, 3.5rem); }
-  .section { padding: 5rem 0; }
+  .section { padding: 2.5rem 0; }
   .about-stats { grid-template-columns: 1fr 1fr; }
   .social-row { flex-direction: column; }
 }
