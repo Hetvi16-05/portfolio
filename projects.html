@@ -194,20 +194,20 @@
             </div>
           </article>
 
-          <!-- 3. Hindi Transliteration -->
+          <!-- 3. Stroke Risk Prediction Engine -->
           <article class="proj-card reveal" data-category="ai">
             <div class="proj-card-collapsed">
-              <div class="proj-icon" style="background:var(--cyan-dim); color:var(--cyan)"><i data-lucide="languages"></i></div>
+              <div class="proj-icon" style="background:var(--cyan-dim); color:var(--cyan)"><i data-lucide="activity"></i></div>
               <div class="proj-header-text">
-                <div class="proj-badge" style="color:var(--cyan)">NLP &amp; Deep Learning</div>
-                <h3 class="proj-title">Hinglish to Devanagari Engine</h3>
+                <div class="proj-badge" style="color:var(--cyan)">Machine Learning</div>
+                <h3 class="proj-title">Stroke Risk Prediction Engine</h3>
               </div>
               <button class="proj-expand-btn" aria-label="Expand project"><i data-lucide="chevron-down"></i></button>
             </div>
             
             <div class="proj-card-body">
               <p class="proj-desc-text">
-                A highly accurate transliteration system that converts romanized Hindi (Hinglish) into native Devanagari script. Built from scratch using sequence-to-sequence deep learning architectures.
+                Developed an end-to-end ML pipeline with advanced hyperparameter tuning and SMOTE data imputation, handling class imbalances for medical-grade accuracy.
               </p>
               
               <div class="proj-stages-wrap">
@@ -218,23 +218,23 @@
                 </div>
                 <div class="proj-stage-panels">
                   <div class="proj-stage-panel active" data-panel="problem">
-                    Curated and preprocessed a massive parallel corpus of <strong>84,000+ Hinglish-Devanagari text pairs</strong>, handling spelling variations and phonetic ambiguities.
+                    Processed highly imbalanced healthcare datasets, engineering features for demographic and health factors, and applied SMOTE for synthetic minority oversampling.
                   </div>
                   <div class="proj-stage-panel" data-panel="arch">
-                    Implemented an Encoder-Decoder <strong>Seq2Seq</strong> model with <strong>Attention mechanism</strong> in TensorFlow. Utilized beam search decoding for optimal character prediction.
+                    Built and evaluated multiple classification models (Random Forest, XGBoost, SVM) with rigorous cross-validation and hyperparameter tuning using GridSearch.
                   </div>
                   <div class="proj-stage-panel" data-panel="impact">
-                    Significantly outperformed baseline dictionary lookup methods, correctly predicting complex phonetics with high accuracy. Exposed as an API via FastAPI.
+                    Achieved robust recall and precision metrics crucial for medical diagnosis, reducing false negatives and outperforming baseline heuristic models.
                   </div>
                 </div>
               </div>
 
               <div class="proj-footer-row">
                 <div class="tech-tags">
-                  <span class="tech-tag">TensorFlow</span>
-                  <span class="tech-tag">Keras</span>
-                  <span class="tech-tag">Seq2Seq</span>
-                  <span class="tech-tag">NLP</span>
+                  <span class="tech-tag">Scikit-Learn</span>
+                  <span class="tech-tag">XGBoost</span>
+                  <span class="tech-tag">Pandas</span>
+                  <span class="tech-tag">SMOTE</span>
                 </div>
                 <a href="#" class="proj-link-btn" onclick="event.preventDefault()">
                   GitHub <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
