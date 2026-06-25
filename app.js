@@ -329,9 +329,10 @@ function initHeroAnimations(reduced) {
     return;
   }
 
-  // Always animate header independently so it doesn't break on other pages
+  // Always ensure header is visible immediately
   if (header) {
-    gsap.from(header, { y: -80, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+    header.style.opacity = '1';
+    header.style.transform = 'none';
   }
 
   // Split hero name into character spans

@@ -348,8 +348,8 @@ ul, ol { list-style: none; }
   padding: 0 2rem;
 }
 
-.section { padding: 7rem 0; }
-.section-sm { padding: 4rem 0; }
+.section { padding: 4rem 0; }
+.section-sm { padding: 2rem 0; }
 
 /* ==========================================================================
    TYPOGRAPHY
@@ -739,12 +739,12 @@ p  { color: var(--text-secondary); line-height: 1.8; }
    HERO SECTION
    ========================================================================== */
 .hero {
-  min-height: 100vh;
+  min-height: 70vh;
   display: flex;
   align-items: center;
   position: relative;
   z-index: 3;
-  padding: 7rem 0 4rem;
+  padding: 8rem 0 3rem;
 }
 
 .hero-container {
