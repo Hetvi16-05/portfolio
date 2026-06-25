@@ -36,6 +36,16 @@ function initLoadingScreen(reduced) {
     return;
   }
 
+  // Only show loader once per session
+  const hasSeenLoader = sessionStorage.getItem('hasSeenLoader');
+  if (reduced || hasSeenLoader) {
+    loader.style.display = 'none';
+    afterLoad(reduced);
+    return;
+  }
+  
+  sessionStorage.setItem('hasSeenLoader', 'true');
+
   const bar = document.getElementById('loader-bar');
   const loaderName = document.getElementById('loader-name');
   const loaderSub = document.getElementById('loader-sub');
@@ -309,23 +319,30 @@ function initSpotlight() {
 // 7. HERO GSAP ANIMATIONS
 // ==========================================================================
 function initHeroAnimations(reduced) {
+  const header = document.getElementById('header');
+
   if (reduced) {
-    // Just show everything
+    if (header) { header.style.opacity = '1'; header.style.transform = 'none'; }
     document.querySelectorAll('#hero-badge, #hero-role, #hero-bio, #hero-ctas, #hero-socials, #scroll-indicator, #hero-card').forEach(el => {
       if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
     });
     return;
   }
 
+  // Always animate header independently so it doesn't break on other pages
+  if (header) {
+    gsap.from(header, { y: -80, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+  }
+
   // Split hero name into character spans
-  splitNameChars();
+  const nameEl = document.getElementById('hero-name');
+  if (nameEl) {
+    splitNameChars();
 
-  const tl = gsap.timeline({ delay: 0.2 });
-
-  tl.from('#header', { y: -80, opacity: 0, duration: 0.8, ease: 'power3.out' })
+    const tl = gsap.timeline({ delay: 0.4 });
 
     // Badge
-    .to('#hero-badge', { opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.5)' }, '-=0.3')
+    tl.to('#hero-badge', { opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.5)' })
 
     // Name characters stagger
     .from('.hero-name .char', {
@@ -358,6 +375,7 @@ function initHeroAnimations(reduced) {
       duration: 1,
       ease: 'back.out(1.4)',
     }, '-=1.2');
+  }
 }
 
 function splitNameChars() {
