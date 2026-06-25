@@ -14,55 +14,55 @@
   --font-body:    'Inter', system-ui, sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 
-  /* Space Dark Palette */
-  --bg-deep:    #080B12;
-  --bg-dark:    #0F172A;
-  --bg-card:    rgba(15, 23, 42, 0.7);
-  --bg-glass:   rgba(255, 255, 255, 0.03);
-  --bg-surface: rgba(15, 23, 42, 0.9);
+  /* Space Light Palette (Apple/Vercel) */
+  --bg-deep:    #F8FAFC;
+  --bg-dark:    #F1F5F9;
+  --bg-card:    rgba(255, 255, 255, 0.7);
+  --bg-glass:   rgba(255, 255, 255, 0.5);
+  --bg-surface: rgba(255, 255, 255, 0.9);
 
   /* Accent Colors */
-  --blue:        #3B82F6;
-  --blue-dim:    rgba(59, 130, 246, 0.15);
-  --blue-glow:   rgba(59, 130, 246, 0.4);
-  --purple:      #8B5CF6;
-  --purple-dim:  rgba(139, 92, 246, 0.15);
-  --purple-glow: rgba(139, 92, 246, 0.4);
-  --cyan:        #06B6D4;
-  --cyan-dim:    rgba(6, 182, 212, 0.15);
-  --cyan-glow:   rgba(6, 182, 212, 0.4);
-  --pink:        #EC4899;
-  --green:       #10B981;
+  --blue:        #2563EB;
+  --blue-dim:    rgba(37, 99, 235, 0.15);
+  --blue-glow:   rgba(37, 99, 235, 0.4);
+  --purple:      #7C3AED;
+  --purple-dim:  rgba(124, 58, 237, 0.15);
+  --purple-glow: rgba(124, 58, 237, 0.4);
+  --cyan:        #0891B2;
+  --cyan-dim:    rgba(8, 145, 178, 0.15);
+  --cyan-glow:   rgba(8, 145, 178, 0.4);
+  --pink:        #DB2777;
+  --green:       #059669;
 
   /* Text */
-  --text:           #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted:     #475569;
+  --text:           #0F172A;
+  --text-secondary: #334155;
+  --text-muted:     #64748B;
 
   /* Borders */
-  --border:        rgba(255, 255, 255, 0.07);
-  --border-bright: rgba(255, 255, 255, 0.15);
-  --border-active: rgba(139, 92, 246, 0.5);
+  --border:        rgba(0, 0, 0, 0.08);
+  --border-bright: rgba(0, 0, 0, 0.15);
+  --border-active: rgba(124, 58, 237, 0.5);
 
   /* Glass */
-  --glass-bg:     rgba(15, 23, 42, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg:     rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
   --glass-blur:   blur(24px);
 
   /* Gradients */
-  --grad-primary:   linear-gradient(135deg, #3B82F6, #8B5CF6);
-  --grad-hero:      linear-gradient(135deg, #8B5CF6, #06B6D4);
-  --grad-text:      linear-gradient(135deg, #F8FAFC 0%, #94A3B8 100%);
-  --grad-blue-cyan: linear-gradient(135deg, #3B82F6, #06B6D4);
-  --grad-glow:      radial-gradient(circle at center, rgba(139,92,246,0.15), transparent 70%);
+  --grad-primary:   linear-gradient(135deg, #2563EB, #7C3AED);
+  --grad-hero:      linear-gradient(135deg, #7C3AED, #0891B2);
+  --grad-text:      linear-gradient(135deg, #0F172A 0%, #334155 100%);
+  --grad-blue-cyan: linear-gradient(135deg, #2563EB, #0891B2);
+  --grad-glow:      radial-gradient(circle at center, rgba(124,58,237,0.15), transparent 70%);
 
   /* Shadows */
-  --shadow-sm:     0 2px 8px rgba(0,0,0,0.3);
-  --shadow-md:     0 8px 32px rgba(0,0,0,0.4);
-  --shadow-lg:     0 20px 60px rgba(0,0,0,0.5);
-  --shadow-purple: 0 0 40px rgba(139,92,246,0.3);
-  --shadow-blue:   0 0 40px rgba(59,130,246,0.3);
-  --shadow-cyan:   0 0 40px rgba(6,182,212,0.3);
+  --shadow-sm:     0 2px 8px rgba(0,0,0,0.05);
+  --shadow-md:     0 8px 32px rgba(0,0,0,0.08);
+  --shadow-lg:     0 20px 60px rgba(0,0,0,0.12);
+  --shadow-purple: 0 0 40px rgba(124,58,237,0.15);
+  --shadow-blue:   0 0 40px rgba(37,99,235,0.15);
+  --shadow-cyan:   0 0 40px rgba(8,145,178,0.15);
 
   /* Transitions */
   --ease:      cubic-bezier(0.16, 1, 0.3, 1);
@@ -555,11 +555,11 @@ p  { color: var(--text-secondary); line-height: 1.8; }
 }
 
 #header.scrolled {
-  background: rgba(8, 11, 18, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 4px 32px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.05);
 }
 
 .nav-container {
@@ -680,7 +680,7 @@ p  { color: var(--text-secondary); line-height: 1.8; }
   position: fixed;
   inset: 0;
   z-index: 999;
-  background: rgba(8,11,18,0.97);
+  background: rgba(248, 250, 252, 0.97);
   backdrop-filter: blur(20px);
   flex-direction: column;
   align-items: center;
