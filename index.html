@@ -1,90 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hetvi Sheth | AI & Data Analytics Portfolio</title>
-  <meta name="description" content="Hetvi Sheth — AI, Data Analytics, and Software Engineering enthusiast. B.Tech Computer Engineering student at Navrachana University. Explore my projects, certifications, and journey.">
-
-  <!-- Open Graph -->
+  <meta name="description" content="Hetvi Sheth — AI, Data Analytics, and Full-Stack Developer. B.Tech Computer Engineering at Navrachana University. Explore projects, certifications, and journey.">
   <meta property="og:title" content="Hetvi Sheth | AI & Data Analytics Portfolio">
-  <meta property="og:description" content="Premium portfolio of Hetvi Sheth — AI, Data Analytics and Full-Stack Developer.">
+  <meta property="og:description" content="Premium portfolio — AI, Data Analytics, Full-Stack Developer.">
   <meta property="og:type" content="website">
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <!-- Lucide Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
-
-  <style>
-    /* Home-page only additions */
-    .hero { min-height: 100vh; display: flex; align-items: center; }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 4rem;
-      align-items: center;
-      width: 100%;
-    }
-    .hero-visual {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .hero-floating-card {
-      background: white;
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-lg);
-      padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow-md);
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      transition: transform var(--t-normal);
-      animation: floatCard 6s ease-in-out infinite;
-    }
-    .hero-floating-card:nth-child(2) { animation-delay: 2s; }
-    .hero-floating-card:nth-child(3) { animation-delay: 4s; }
-    @keyframes floatCard {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    .hfc-icon {
-      width: 44px; height: 44px;
-      border-radius: var(--radius-md);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .hfc-icon i { width: 20px; height: 20px; }
-    .hfc-title { font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; color: var(--text-primary); }
-    .hfc-sub { font-size: 0.78rem; color: var(--text-muted); }
-    @media (max-width: 1024px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .hero-visual { display: none; }
-    }
-  </style>
 </head>
 
 <body>
-  <!-- Ambient Background Shapes -->
-  <div class="ambient-shapes" aria-hidden="true">
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-    <div class="shape shape-3"></div>
-    <div class="shape shape-4"></div>
+
+  <!-- =========== LOADING SCREEN =========== -->
+  <div id="loader">
+    <div class="loader-inner">
+      <div class="loader-terminal" id="loader-terminal">
+        <div class="loader-line" id="ll-0">
+          <span>> Initializing neural network...</span>
+          <span class="loader-check" id="lc-0" style="opacity:0">✓</span>
+        </div>
+        <div class="loader-line" id="ll-1">
+          <span>> Loading AI models...</span>
+          <span class="loader-check" id="lc-1" style="opacity:0">✓</span>
+        </div>
+        <div class="loader-line" id="ll-2">
+          <span>> Establishing connections...</span>
+          <span class="loader-check" id="lc-2" style="opacity:0">✓</span>
+        </div>
+        <div class="loader-line" id="ll-3">
+          <span>> Rendering portfolio...</span>
+          <span class="loader-check" id="lc-3" style="opacity:0">✓</span>
+        </div>
+      </div>
+      <div class="loader-name" id="loader-name">HETVI SHETH</div>
+      <div class="loader-sub" id="loader-sub">AI · Data Analytics · Full-Stack</div>
+      <div class="loader-bar-track">
+        <div class="loader-bar-fill" id="loader-bar"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Page Transition -->
+  <!-- =========== CUSTOM CURSOR =========== -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- =========== BACKGROUND LAYERS =========== -->
+  <canvas id="star-canvas"></canvas>
+  <div class="noise-overlay"></div>
+  <div class="grid-overlay"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora-blob aurora-1"></div>
+    <div class="aurora-blob aurora-2"></div>
+    <div class="aurora-blob aurora-3"></div>
+  </div>
+  <div id="spotlight" aria-hidden="true"></div>
+
+  <!-- =========== PAGE TRANSITION =========== -->
   <div id="page-transition" aria-hidden="true"></div>
 
-  <!-- Navigation -->
+  <!-- =========== NAV =========== -->
   <header id="header">
     <div class="nav-container">
       <a href="index.html" class="logo">
@@ -95,16 +75,14 @@
         </span>
         <span class="logo-text">Hetvi Sheth</span>
       </a>
-
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="index.html" class="active">Home</a>
         <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
         <a href="contact.html">Contact</a>
       </nav>
-
       <div class="nav-cta">
-        <a href="contact.html" class="btn btn-primary btn-sm">Let's Talk</a>
+        <a href="contact.html" class="btn-primary btn-sm magnetic" id="nav-cta">Let's Talk</a>
       </div>
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
         <i data-lucide="menu"></i>
@@ -127,92 +105,100 @@
 
   <main>
 
-    <!-- ===================== HERO ===================== -->
+    <!-- =========== HERO =========== -->
     <section class="hero" id="hero">
       <div class="hero-container">
         <div class="hero-grid">
 
-          <!-- Left: Text -->
-          <div class="hero-content">
-            <div class="hero-eyebrow reveal">
-              <span class="hero-eyebrow-dot"></span>
-              <span class="hero-eyebrow-text">Open to Internships & Collaborations</span>
+          <!-- LEFT: Text -->
+          <div class="hero-content" id="hero-content">
+
+            <div class="badge-glow hero-badge" id="hero-badge" style="opacity:0">
+              <span class="pulse-dot"></span>
+              Open to Internships &amp; Collaborations
             </div>
 
-            <h1 class="hero-title reveal reveal-delay-1">
-              Hi, I'm<br>
-              <span class="hero-title-gradient">Hetvi Sheth</span>
+            <h1 class="hero-name" id="hero-name" aria-label="Hetvi Sheth">
+              <!-- Characters injected by JS for stagger animation -->
+              Hetvi&nbsp;<span class="gradient-text">Sheth</span>
             </h1>
 
-            <div class="hero-role-wrapper reveal reveal-delay-2">
+            <div class="hero-role" id="hero-role" style="opacity:0">
               <span class="hero-role-prefix">I build</span>
-              <span class="hero-role-text" id="hero-role-text">AI Systems</span>
+              <span id="hero-role-text">AI Systems</span>
               <span class="hero-role-cursor" aria-hidden="true"></span>
             </div>
 
-            <p class="hero-desc reveal reveal-delay-3">
-              B.Tech Computer Engineering student at Navrachana University, specializing in Artificial Intelligence, Data Analytics, NLP, and Full-Stack Development. I turn complex data into meaningful insights and intelligent systems.
+            <p class="hero-bio" id="hero-bio" style="opacity:0">
+              B.Tech Computer Engineering student at <strong>Navrachana University</strong>, specializing in
+              <strong>Artificial Intelligence</strong>, <strong>Data Analytics</strong>, NLP, and Full-Stack Development.
+              I turn complex data into meaningful insights and intelligent systems.
             </p>
 
-            <div class="hero-actions reveal reveal-delay-4">
-              <a href="projects.html" class="btn btn-primary btn-lg" id="hero-cta-projects">
+            <div class="hero-ctas" id="hero-ctas" style="opacity:0">
+              <a href="projects.html" class="btn-primary magnetic" id="hero-cta-projects">
                 <i data-lucide="folder-open"></i>
                 View My Work
               </a>
-              <a href="Hetvisheth_resume.pdf" class="btn btn-outline btn-lg" download id="hero-cta-resume">
-                <i data-lucide="download"></i>
-                Download Resume
+              <a href="contact.html" class="btn-outline magnetic" id="hero-cta-contact">
+                <i data-lucide="send"></i>
+                Let's Talk
               </a>
             </div>
 
-            <div class="hero-social-links reveal reveal-delay-5">
-              <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="GitHub">
+            <div class="hero-socials" id="hero-socials" style="opacity:0">
+              <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="hero-social-link magnetic" aria-label="GitHub">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
               </a>
-              <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/in/hetvi-sheth-4116a3346" target="_blank" rel="noopener noreferrer" class="hero-social-link magnetic" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9" rx="1"/><circle cx="4" cy="4" r="2"/></svg>
               </a>
-              <a href="mailto:shethhetvi11@gmail.com" class="hero-social-link" aria-label="Email">
+              <a href="mailto:shethhetvi11@gmail.com" class="hero-social-link magnetic" aria-label="Email">
                 <i data-lucide="mail"></i>
               </a>
             </div>
 
-            <div class="scroll-indicator reveal reveal-delay-5" style="margin-top: 3rem;" aria-label="Scroll down">
-              <div class="scroll-line"></div>
-              <div class="scroll-mouse">
-                <div class="scroll-dot"></div>
-              </div>
+            <div class="scroll-indicator" id="scroll-indicator" style="opacity:0">
+              <div class="scroll-mouse"><div class="scroll-dot"></div></div>
               <span>Scroll to explore</span>
             </div>
+
           </div>
 
-          <!-- Right: Floating Cards -->
+          <!-- RIGHT: 3D Glass Card -->
           <div class="hero-visual" aria-hidden="true">
-            <div class="hero-floating-card">
-              <div class="hfc-icon" style="background: var(--lavender-light); color: var(--lavender);">
-                <i data-lucide="brain-circuit"></i>
+            <div class="hero-card tilt-card" id="hero-card" style="opacity:0; transform: translateX(60px)">
+              <div class="card-avatar">HS</div>
+              <div class="card-name">Hetvi Sheth</div>
+              <div class="card-title">AI · Data · Full-Stack</div>
+              <div class="card-status">
+                <span class="status-dot"></span>
+                Available for Opportunities
               </div>
-              <div>
-                <div class="hfc-title">AI & Machine Learning</div>
-                <div class="hfc-sub">TensorFlow · PyTorch · LLMs</div>
+
+              <div class="card-stats">
+                <div class="card-stat">
+                  <span class="card-stat-num">7+</span>
+                  <span class="card-stat-lbl">Projects</span>
+                </div>
+                <div class="card-stat">
+                  <span class="card-stat-num">7</span>
+                  <span class="card-stat-lbl">Certs</span>
+                </div>
+                <div class="card-stat">
+                  <span class="card-stat-num">20+</span>
+                  <span class="card-stat-lbl">Tools</span>
+                </div>
               </div>
-            </div>
-            <div class="hero-floating-card">
-              <div class="hfc-icon" style="background: var(--sky-light); color: var(--sky);">
-                <i data-lucide="bar-chart-3"></i>
-              </div>
-              <div>
-                <div class="hfc-title">Data Analytics</div>
-                <div class="hfc-sub">Power BI · Pandas · SQL</div>
-              </div>
-            </div>
-            <div class="hero-floating-card">
-              <div class="hfc-icon" style="background: var(--teal-light); color: var(--teal);">
-                <i data-lucide="code-2"></i>
-              </div>
-              <div>
-                <div class="hfc-title">Full-Stack Dev</div>
-                <div class="hfc-sub">React · FastAPI · Node.js</div>
+
+              <div class="floating-badges">
+                <span class="fbadge" style="--dur:4s;--del:0s">Python</span>
+                <span class="fbadge" style="--dur:5s;--del:0.5s">TensorFlow</span>
+                <span class="fbadge" style="--dur:4.5s;--del:1s">React</span>
+                <span class="fbadge" style="--dur:6s;--del:0.2s">FastAPI</span>
+                <span class="fbadge" style="--dur:5s;--del:0.8s">SQL</span>
+                <span class="fbadge" style="--dur:4s;--del:1.5s">GSAP</span>
+                <span class="fbadge" style="--dur:5.5s;--del:0.3s">PyTorch</span>
               </div>
             </div>
           </div>
@@ -221,35 +207,27 @@
       </div>
     </section>
 
-    <!-- ===================== STATS ===================== -->
-    <section class="stats-section" id="stats" aria-label="Quick statistics">
+    <!-- =========== STATS =========== -->
+    <section class="stats-section" id="stats">
       <div class="container">
-        <div class="stats-grid stagger-children">
+        <div class="stats-grid">
           <div class="stat-item reveal">
-            <div class="stat-icon stat-icon-lavender">
-              <i data-lucide="folder-open"></i>
-            </div>
-            <div class="stat-number" data-target="6" id="stat-projects">0</div>
+            <div class="stat-icon stat-icon-purple"><i data-lucide="folder-open"></i></div>
+            <div class="stat-number" data-target="7" id="stat-projects">0</div>
             <div class="stat-label">Projects Built</div>
           </div>
           <div class="stat-item reveal reveal-delay-1">
-            <div class="stat-icon stat-icon-sky">
-              <i data-lucide="award"></i>
-            </div>
+            <div class="stat-icon stat-icon-blue"><i data-lucide="award"></i></div>
             <div class="stat-number" data-target="7" id="stat-certs">0</div>
-            <div class="stat-label">Certifications Earned</div>
+            <div class="stat-label">Certifications</div>
           </div>
           <div class="stat-item reveal reveal-delay-2">
-            <div class="stat-icon stat-icon-teal">
-              <i data-lucide="cpu"></i>
-            </div>
+            <div class="stat-icon stat-icon-cyan"><i data-lucide="cpu"></i></div>
             <div class="stat-number" data-target="20" id="stat-tech">0</div>
-            <div class="stat-label">Technologies Learned</div>
+            <div class="stat-label">Technologies</div>
           </div>
           <div class="stat-item reveal reveal-delay-3">
-            <div class="stat-icon stat-icon-purple">
-              <i data-lucide="git-commit-horizontal"></i>
-            </div>
+            <div class="stat-icon stat-icon-green"><i data-lucide="git-commit-horizontal"></i></div>
             <div class="stat-number" data-target="500" id="stat-commits">0</div>
             <div class="stat-label">GitHub Contributions</div>
           </div>
@@ -257,87 +235,79 @@
       </div>
     </section>
 
-    <!-- ===================== JOURNEY PATH ===================== -->
-    <section class="journey-section" id="journey" aria-label="Learning journey path">
+    <!-- =========== JOURNEY PATH =========== -->
+    <section class="journey-section" id="journey">
       <div class="container">
-        <div class="journey-header reveal">
-          <div class="section-label">My Path</div>
-          <h2 class="section-title">The Journey at a Glance</h2>
-          <p class="section-desc">A connected roadmap of everything I've built, learned, and aspire towards.</p>
+        <div style="text-align:center;" class="reveal">
+          <div class="section-label" style="justify-content:center">My Path</div>
+          <h2 style="margin-bottom:0.75rem">The Journey at a Glance</h2>
+          <p class="section-desc" style="margin:0 auto">A connected roadmap of everything I've built, learned, and aspire towards.</p>
         </div>
-
-        <div class="journey-path-container">
-          <svg class="journey-svg" id="journey-svg" viewBox="0 0 700 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <div class="journey-path-container reveal reveal-delay-2">
+          <svg class="journey-svg" id="journey-svg" viewBox="0 0 700 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
             <defs>
               <linearGradient id="journeyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" style="stop-color:#8B5CF6"/>
-                <stop offset="50%" style="stop-color:#0EA5E9"/>
-                <stop offset="100%" style="stop-color:#14B8A6"/>
+                <stop offset="50%" style="stop-color:#3B82F6"/>
+                <stop offset="100%" style="stop-color:#06B6D4"/>
               </linearGradient>
             </defs>
-
-            <!-- Curved connecting path -->
             <path class="journey-path-line" id="journey-path-line"
-              d="M 60 80 Q 160 30 240 80 Q 320 130 420 80 Q 500 30 570 80 Q 630 130 650 80" />
-
-            <!-- Node: Home -->
+              d="M 60 70 Q 160 30 240 70 Q 320 110 420 70 Q 500 30 570 70 Q 620 90 640 70"/>
             <g class="journey-node-group">
-              <circle class="journey-node-circle active" cx="60" cy="80" r="14"/>
-              <text class="journey-node-label" x="60" y="112" font-size="11">Home</text>
+              <circle class="journey-node-circle active" cx="60" cy="70" r="13"/>
+              <text class="journey-node-label" x="60" y="100" font-size="10">Home</text>
             </g>
-            <!-- Node: About -->
             <g class="journey-node-group">
-              <circle class="journey-node-circle" cx="240" cy="80" r="14"/>
-              <text class="journey-node-label" x="240" y="112" font-size="11">About</text>
+              <circle class="journey-node-circle" cx="240" cy="70" r="13"/>
+              <text class="journey-node-label" x="240" y="100" font-size="10">About</text>
             </g>
-            <!-- Node: Projects -->
             <g class="journey-node-group">
-              <circle class="journey-node-circle" cx="420" cy="80" r="14"/>
-              <text class="journey-node-label" x="420" y="112" font-size="11">Projects</text>
+              <circle class="journey-node-circle" cx="420" cy="70" r="13"/>
+              <text class="journey-node-label" x="420" y="100" font-size="10">Projects</text>
             </g>
-            <!-- Node: Contact -->
             <g class="journey-node-group">
-              <circle class="journey-node-circle" cx="640" cy="80" r="14"/>
-              <text class="journey-node-label" x="640" y="112" font-size="11">Contact</text>
+              <circle class="journey-node-circle" cx="640" cy="70" r="13"/>
+              <text class="journey-node-label" x="640" y="100" font-size="10">Contact</text>
             </g>
           </svg>
         </div>
       </div>
     </section>
 
-    <!-- ===================== FEATURED PROJECTS ===================== -->
-    <section class="featured-projects" id="featured-projects" aria-label="Featured projects">
+    <!-- =========== FEATURED PROJECTS =========== -->
+    <section class="featured-projects" id="featured-projects">
       <div class="container">
-        <div class="section-header">
-          <div class="section-label reveal">Featured Work</div>
-          <h2 class="section-title reveal reveal-delay-1">Projects That Define Me</h2>
+        <div class="section-header reveal">
+          <div class="section-label">Featured Work</div>
+          <h2 class="reveal reveal-delay-1">Projects That Define Me</h2>
           <p class="section-desc reveal reveal-delay-2">A curated selection of AI, data, and full-stack systems built to solve real problems.</p>
         </div>
 
         <div class="featured-grid">
 
-          <a href="projects.html" class="featured-card reveal" id="featured-saarthi">
+          <a href="projects.html" class="featured-card tilt-card reveal" id="featured-saarthi">
             <div class="featured-card-icon">
               <i data-lucide="bot"></i>
             </div>
-            <div class="featured-card-category">AI Chatbot & Agents</div>
+            <div class="featured-card-category">AI Chatbot &amp; Agents</div>
             <h3 class="featured-card-title">Saarthi AI — Personal AI Mentor</h3>
-            <p class="featured-card-desc">A production-grade personal AI mentor with long-term vector memory, multi-agent orchestration, and automated learning roadmaps.</p>
+            <p class="featured-card-desc">Production-grade personal AI mentor with long-term vector memory, multi-agent orchestration, and automated learning roadmaps.</p>
             <div class="tech-tags">
               <span class="tech-tag">FastAPI</span>
-              <span class="tech-tag">pgvector</span>
               <span class="tech-tag">Gemini</span>
+              <span class="tech-tag">pgvector</span>
               <span class="tech-tag">Streamlit</span>
             </div>
           </a>
 
-          <a href="projects.html" class="featured-card reveal reveal-delay-1" id="featured-rainwise">
-            <div class="featured-card-icon" style="background: var(--sky-light); color: var(--sky);">
+          <a href="projects.html" class="featured-card tilt-card reveal reveal-delay-1" id="featured-rainwise">
+            <div class="featured-card-icon" style="background: var(--blue-dim); color: var(--blue);">
               <i data-lucide="cloud-rain"></i>
             </div>
-            <div class="featured-card-category" style="color: var(--sky);">Computer Vision & DL</div>
+            <div class="featured-card-category" style="color: var(--blue);">Computer Vision &amp; DL</div>
             <h3 class="featured-card-title">RAINWISE V3.1 — Flood Detection</h3>
-            <p class="featured-card-desc">Real-time flood segmentation with SegFormer-B0, zero-shot threat detection with YOLO-World. Achieved 98.89% detection accuracy.</p>
+            <p class="featured-card-desc">Real-time flood segmentation with SegFormer-B0, zero-shot threat detection with YOLO-World. 98.89% detection accuracy.</p>
             <div class="tech-tags">
               <span class="tech-tag">PyTorch</span>
               <span class="tech-tag">SegFormer</span>
@@ -346,11 +316,11 @@
             </div>
           </a>
 
-          <a href="projects.html" class="featured-card reveal reveal-delay-2" id="featured-transliteration">
-            <div class="featured-card-icon" style="background: var(--teal-light); color: var(--teal);">
+          <a href="projects.html" class="featured-card tilt-card reveal reveal-delay-2" id="featured-transliteration">
+            <div class="featured-card-icon" style="background: var(--cyan-dim); color: var(--cyan);">
               <i data-lucide="languages"></i>
             </div>
-            <div class="featured-card-category" style="color: var(--teal);">NLP & Deep Learning</div>
+            <div class="featured-card-category" style="color: var(--cyan);">NLP &amp; Deep Learning</div>
             <h3 class="featured-card-title">Hindi Transliteration Engine</h3>
             <p class="featured-card-desc">Seq2Seq + Attention architecture for Hinglish to Devanagari conversion. Trained on 84,000+ text pairs with beam search decoding.</p>
             <div class="tech-tags">
@@ -363,18 +333,18 @@
 
         </div>
 
-        <div class="featured-cta reveal">
-          <a href="projects.html" class="btn btn-outline btn-lg" id="all-projects-link">
+        <div style="text-align:center;" class="reveal">
+          <a href="projects.html" class="btn-outline magnetic" id="all-projects-link">
             <i data-lucide="arrow-right"></i>
-            Explore All Projects
+            Explore All 7 Projects
           </a>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SKILLS TICKER ===================== -->
+    <!-- =========== SKILLS TICKER =========== -->
     <div class="ticker-section" aria-hidden="true">
-      <div style="display: flex; overflow: hidden;">
+      <div style="display:flex; overflow:hidden;">
         <div class="ticker-wrapper">
           <div class="ticker-item">
             <span class="ticker-text">Python</span><span class="ticker-sep"></span>
@@ -389,6 +359,8 @@
             <span class="ticker-text">Power BI</span><span class="ticker-sep"></span>
             <span class="ticker-text">PyTorch</span><span class="ticker-sep"></span>
             <span class="ticker-text">Big Data</span><span class="ticker-sep"></span>
+            <span class="ticker-text">GSAP</span><span class="ticker-sep"></span>
+            <span class="ticker-text">Three.js</span><span class="ticker-sep"></span>
           </div>
           <div class="ticker-item" aria-hidden="true">
             <span class="ticker-text">Python</span><span class="ticker-sep"></span>
@@ -403,27 +375,29 @@
             <span class="ticker-text">Power BI</span><span class="ticker-sep"></span>
             <span class="ticker-text">PyTorch</span><span class="ticker-sep"></span>
             <span class="ticker-text">Big Data</span><span class="ticker-sep"></span>
+            <span class="ticker-text">GSAP</span><span class="ticker-sep"></span>
+            <span class="ticker-text">Three.js</span><span class="ticker-sep"></span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ===================== MINI CTA ===================== -->
-    <section style="padding: 6rem 0; background: white;" aria-label="Call to action">
-      <div class="container" style="text-align: center;">
-        <div class="section-label reveal" style="justify-content: center;">Let's Connect</div>
-        <h2 class="section-title reveal reveal-delay-1" style="max-width: 600px; margin: 0 auto 1rem;">
-          Interested in working together?
+    <!-- =========== CTA =========== -->
+    <section class="cta-section" id="cta">
+      <div class="container">
+        <div class="section-label reveal" style="justify-content:center">Let's Connect</div>
+        <h2 class="reveal reveal-delay-1" style="max-width:600px; margin:0 auto 1rem; text-align:center">
+          Interested in working <span class="gradient-text">together?</span>
         </h2>
-        <p class="section-desc reveal reveal-delay-2" style="margin: 0 auto 2.5rem; text-align: center;">
-          I'm always open to discussing internships, AI/ML collaborations, or innovative ideas. Don't hesitate to reach out.
+        <p class="section-desc reveal reveal-delay-2" style="margin:0 auto 2.5rem; text-align:center">
+          I'm always open to discussing internships, AI/ML collaborations, or innovative ideas.
         </p>
-        <div class="reveal reveal-delay-3" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a href="contact.html" class="btn btn-primary btn-lg" id="cta-contact">
+        <div class="reveal reveal-delay-3" style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <a href="contact.html" class="btn-primary magnetic" id="cta-contact">
             <i data-lucide="send"></i>
             Get In Touch
           </a>
-          <a href="about.html" class="btn btn-outline btn-lg" id="cta-about">
+          <a href="about.html" class="btn-outline magnetic" id="cta-about">
             <i data-lucide="user"></i>
             Learn About Me
           </a>
@@ -433,7 +407,7 @@
 
   </main>
 
-  <!-- Footer -->
+  <!-- =========== FOOTER =========== -->
   <footer>
     <div class="container">
       <div class="footer-container">
@@ -441,14 +415,12 @@
           <div class="footer-logo-mark">HS</div>
           Hetvi Sheth
         </div>
-
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="index.html">Home</a>
           <a href="about.html">About</a>
           <a href="projects.html">Projects</a>
           <a href="contact.html">Contact</a>
         </nav>
-
         <div class="footer-socials">
           <a href="https://github.com/Hetvi16-05" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
@@ -460,14 +432,12 @@
             <i data-lucide="mail"></i>
           </a>
         </div>
-
-        <div class="footer-divider"></div>
-        <p class="footer-copy">© 2026 Hetvi Sheth. Crafted with passion for AI & innovation.</p>
       </div>
+      <div class="footer-divider"></div>
+      <p class="footer-copy">© 2026 Hetvi Sheth. Built with passion for AI &amp; innovation.</p>
     </div>
   </footer>
 
   <script type="module" src="app.js"></script>
 </body>
-
 </html>
