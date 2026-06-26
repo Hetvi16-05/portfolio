@@ -113,6 +113,7 @@ function afterLoad(reduced) {
   initSkillBars();
   initContactForm();
   initProjectFilters();
+  initAboutNameAnimation(reduced);
 }
 
 // ==========================================================================
@@ -346,7 +347,7 @@ function initHeroAnimations(reduced) {
     tl.to('#hero-badge', { opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.5)' })
 
     // Name characters stagger
-    .from('.hero-name .char', {
+    .from('#hero-name .char', {
       opacity: 0,
       y: 70,
       rotateX: -90,
@@ -379,10 +380,8 @@ function initHeroAnimations(reduced) {
   }
 }
 
-function splitNameChars() {
-  const nameEl = document.getElementById('hero-name');
+function splitNameCharsEl(nameEl) {
   if (!nameEl) return;
-
   const html = nameEl.innerHTML;
   // Wrap each plain text letter in a span.char, leave existing spans untouched
   nameEl.innerHTML = html.replace(/(Hetvi)/g, (match) =>
@@ -395,6 +394,29 @@ function splitNameChars() {
     gradSpan.innerHTML = text.split('').map(c =>
       `<span class="char" style="display:inline-block; color:inherit; -webkit-text-fill-color:inherit">${c}</span>`
     ).join('');
+  }
+}
+
+function splitNameChars() {
+  splitNameCharsEl(document.getElementById('hero-name'));
+}
+
+function initAboutNameAnimation(reduced) {
+  const aboutNameEl = document.getElementById('about-name');
+  if (!aboutNameEl) return;
+
+  if (!reduced) {
+    splitNameCharsEl(aboutNameEl);
+    
+    gsap.to(aboutNameEl.querySelectorAll('.char'), {
+      scrollTrigger: { trigger: aboutNameEl, start: 'top 85%' },
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      stagger: 0.035,
+      duration: 0.65,
+      ease: 'back.out(2)'
+    });
   }
 }
 
