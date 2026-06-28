@@ -774,15 +774,31 @@ function initContactForm() {
     if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '0.7'; }
     if (btnText) btnText.textContent = 'Sending...';
 
-    await new Promise(r => setTimeout(r, 1500));
-
-    if (btnText) btnText.textContent = 'Message Sent! ✓';
-    submitBtn.style.opacity = '1';
-    showFeedback('success', '✓ Thank you! I\'ll get back to you within 24 hours.');
-    form.reset();
-
-    // Confetti burst
-    launchConfetti();
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        headers: {
+          'Accept': 'application/json'
+        },
+        body: new FormData(form)
+      });
+      
+      if (response.ok) {
+        if (btnText) btnText.textContent = 'Message Sent! ✓';
+        submitBtn.style.opacity = '1';
+        showFeedback('success', '✓ Thank you! I\'ll get back to you within 24 hours.');
+        form.reset();
+        
+        // Confetti burst
+        launchConfetti();
+      } else {
+        throw new Error('Form submission failed.');
+      }
+    } catch (error) {
+      if (btnText) btnText.textContent = 'Send Message';
+      submitBtn.style.opacity = '1';
+      showFeedback('error', '⚠️ Oops! There was a problem submitting your form.');
+    }
 
     setTimeout(() => {
       if (submitBtn) { submitBtn.disabled = false; }
