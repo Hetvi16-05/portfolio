@@ -3099,3 +3099,7 @@ p {
   35%, 100% { opacity: 0; transform: translateY(-20px); }
 }
 
+.ani-card-1 { animation-delay: 0s; }
+.ani-card-2 { animation-delay: 3s; }
+.ani-card-3 { animation-delay: 6s; }
+
