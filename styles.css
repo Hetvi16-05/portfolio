@@ -3062,5 +3062,40 @@ p {
   gap: 1.5rem;
   min-width: 300px;
   position: relative;
-  height: 250px; /* Space for absolute positioning if needed, or just let them stack. Oh wait, the prompt says "show everything one by one card on first only and repeat this nimation". If they are stacked, they will just appear one by one. */
+  height: 150px;
 }
+
+.info-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: showCards 9s infinite;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.info-card h3 {
+  margin-top: 0;
+  color: var(--cyan);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.info-card p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+@keyframes showCards {
+  0%, 10% { opacity: 0; transform: translateY(20px); }
+  15%, 30% { opacity: 1; transform: translateY(0); }
+  35%, 100% { opacity: 0; transform: translateY(-20px); }
+}
+
