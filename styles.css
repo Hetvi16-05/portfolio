@@ -3009,3 +3009,6 @@ p {
 }
 /* Animation 1 */
 .stat-item:hover { transform: translateY(-5px) scale(1.05); transition: transform 0.4s var(--ease); }
+
+/* Animation 2 */
+.nav-links a:hover { color: var(--cyan); text-shadow: 0 0 8px var(--cyan-glow); transition: all 0.3s ease; }
