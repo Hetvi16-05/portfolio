@@ -3045,14 +3045,19 @@ p {
 }
 .intro-video-wrapper {
   flex: 1;
-  min-width: 300px;
-  border-radius: 12px;
+  min-width: 280px;
+  max-width: 380px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,0.1);
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   position: relative;
 }
 .intro-photo {
   width: 100%;
+  height: 100%;
   display: block;
   object-fit: cover;
   animation: slowPan 15s ease-in-out infinite alternate;
