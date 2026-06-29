@@ -3026,3 +3026,6 @@ p {
 /* Animation 6 */
 @keyframes pulseGlow { 0% { text-shadow: 0 0 5px var(--purple-glow); } 50% { text-shadow: 0 0 20px var(--purple-glow); } 100% { text-shadow: 0 0 5px var(--purple-glow); } }
 .footer-name { animation: pulseGlow 2.5s infinite; }
+
+/* Animation 7 */
+.hero-card:hover { box-shadow: 0 0 30px var(--purple-glow); transition: box-shadow 0.4s ease; }
