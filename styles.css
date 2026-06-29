@@ -3015,3 +3015,6 @@ p {
 
 /* Animation 3 */
 .featured-card:hover { transform: scale(1.02) translateY(-5px); transition: transform 0.4s var(--ease); }
+
+/* Animation 4 */
+.tech-tag:hover { background: var(--cyan-glow); color: #fff; transition: background 0.3s ease, color 0.3s ease; }
