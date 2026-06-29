@@ -3018,3 +3018,7 @@ p {
 
 /* Animation 4 */
 .tech-tag:hover { background: var(--cyan-glow); color: #fff; transition: background 0.3s ease, color 0.3s ease; }
+
+/* Animation 5 */
+@keyframes floatSoft { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+.stat-icon { animation: floatSoft 3s ease-in-out infinite; }
