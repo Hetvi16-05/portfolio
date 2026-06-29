@@ -3007,3 +3007,5 @@ p {
     display: none;
   }
 }
+/* Animation 1 */
+.stat-item:hover { transform: translateY(-5px) scale(1.05); transition: transform 0.4s var(--ease); }
