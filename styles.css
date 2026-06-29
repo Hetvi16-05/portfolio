@@ -3032,3 +3032,35 @@ p {
 
 /* Animation 8 */
 .featured-card-title:hover { text-shadow: 0 0 12px var(--cyan-glow); transition: text-shadow 0.3s ease; }
+
+/* Intro Video Section Layout */
+.intro-video-section {
+  padding: 4rem 2rem;
+}
+.intro-flex {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.intro-video-wrapper {
+  flex: 1;
+  min-width: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  position: relative;
+}
+.intro-video {
+  width: 100%;
+  display: block;
+}
+.intro-info-cards {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 300px;
+  position: relative;
+  height: 250px; /* Space for absolute positioning if needed, or just let them stack. Oh wait, the prompt says "show everything one by one card on first only and repeat this nimation". If they are stacked, they will just appear one by one. */
+}
