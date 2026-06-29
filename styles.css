@@ -3029,3 +3029,6 @@ p {
 
 /* Animation 7 */
 .hero-card:hover { box-shadow: 0 0 30px var(--purple-glow); transition: box-shadow 0.4s ease; }
+
+/* Animation 8 */
+.featured-card-title:hover { text-shadow: 0 0 12px var(--cyan-glow); transition: text-shadow 0.3s ease; }
