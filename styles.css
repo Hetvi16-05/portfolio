@@ -3022,3 +3022,7 @@ p {
 /* Animation 5 */
 @keyframes floatSoft { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
 .stat-icon { animation: floatSoft 3s ease-in-out infinite; }
+
+/* Animation 6 */
+@keyframes pulseGlow { 0% { text-shadow: 0 0 5px var(--purple-glow); } 50% { text-shadow: 0 0 20px var(--purple-glow); } 100% { text-shadow: 0 0 5px var(--purple-glow); } }
+.footer-name { animation: pulseGlow 2.5s infinite; }
