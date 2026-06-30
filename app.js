@@ -99,6 +99,85 @@ function initLoadingScreen(reduced) {
 // 2. AFTER LOAD — trigger all site animations
 // ==========================================================================
 function afterLoad(reduced) {
+  const introContainer = document.getElementById('intro-presentation');
+  
+  if (introContainer) {
+    introContainer.style.display = 'flex';
+    initIntroSequence(reduced);
+  } else {
+    launchSite(reduced);
+  }
+}
+
+function initIntroSequence(reduced) {
+  const slides = document.querySelectorAll('.intro-slide');
+  const container = document.getElementById('intro-presentation');
+  const progressBar = document.getElementById('intro-progress');
+  if (!slides.length) {
+    launchSite(reduced);
+    return;
+  }
+
+  let currentSlide = 0;
+  let autoTimer;
+  const slideDuration = 7000; // 7 seconds per slide
+
+  function showSlide(index) {
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === index);
+    });
+    
+    // Reset progress bar
+    if (progressBar) {
+      progressBar.style.transition = 'none';
+      progressBar.style.width = '0%';
+      // Force reflow
+      void progressBar.offsetWidth;
+      progressBar.style.transition = `width ${slideDuration}ms linear`;
+      progressBar.style.width = '100%';
+    }
+  }
+
+  function nextSlide() {
+    clearTimeout(autoTimer);
+    currentSlide++;
+    
+    if (currentSlide >= slides.length) {
+      // End of presentation
+      if (progressBar) {
+        progressBar.style.width = '100%';
+      }
+      gsap.to(container, {
+        opacity: 0,
+        duration: 0.8,
+        onComplete: () => {
+          container.style.display = 'none';
+          launchSite(reduced);
+        }
+      });
+      document.removeEventListener('click', handleUserClick);
+    } else {
+      showSlide(currentSlide);
+      autoTimer = setTimeout(nextSlide, slideDuration);
+    }
+  }
+
+  function handleUserClick(e) {
+    if (container.contains(e.target)) {
+      nextSlide();
+    }
+  }
+
+  // Start sequence
+  showSlide(0);
+  autoTimer = setTimeout(nextSlide, slideDuration);
+  document.addEventListener('click', handleUserClick);
+}
+
+// ==========================================================================
+// 2b. LAUNCH SITE — trigger all site animations
+// ==========================================================================
+function launchSite(reduced) {
   initLenis();
   initStarField(reduced);
   initHeroAnimations(reduced);
