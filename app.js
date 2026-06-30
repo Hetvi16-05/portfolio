@@ -737,12 +737,15 @@ function renderDynamicProjects() {
   container.innerHTML = '';
   
   let cardsHtml = '';
-  window.githubProjects.forEach((proj) => {
+  window.githubProjects.forEach((proj, i) => {
     // Generate tech tags HTML
     const tagsHtml = proj.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('');
+    
+    // First card gets active-slide by default
+    const activeClass = i === 0 ? 'active-slide' : '';
 
     cardsHtml += `
-      <article class="proj-card" data-category="${proj.category}" style="cursor: pointer; transform: none; opacity: 1;" onclick="window.location.href='project-details.html?id=${proj.repoId}'">
+      <article class="proj-card ${activeClass}" data-category="${proj.category}" onclick="window.location.href='project-details.html?id=${proj.repoId}'">
         <div class="proj-card-collapsed" style="border-bottom: none; padding-bottom: 0;">
           <div class="proj-icon"><i data-lucide="${proj.icon}"></i></div>
           <div class="proj-header-text">
@@ -766,12 +769,24 @@ function renderDynamicProjects() {
     `;
   });
   
-  // Duplicate cards for seamless looping
-  container.innerHTML = `<div class="projects-carousel-track">${cardsHtml}${cardsHtml}</div>`;
+  container.innerHTML = cardsHtml;
   
   // Re-initialize Lucide icons for dynamically added elements
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
+  }
+  
+  // Setup Slider Logic
+  const cards = container.querySelectorAll('.proj-card');
+  if (cards.length > 1) {
+    let currentIndex = 0;
+    
+    // Interval to loop cards
+    setInterval(() => {
+      cards[currentIndex].classList.remove('active-slide');
+      currentIndex = (currentIndex + 1) % cards.length;
+      cards[currentIndex].classList.add('active-slide');
+    }, 4000); // changes every 4 seconds
   }
 }
 
