@@ -2063,8 +2063,10 @@ p {
 
 .projects-grid-new {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 1.75rem;
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  margin: 0 auto;
+  gap: 2rem;
   padding: 1rem 0;
 }
 
