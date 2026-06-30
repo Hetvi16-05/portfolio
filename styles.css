@@ -393,6 +393,14 @@ ol {
   z-index: 20;
 }
 
+@keyframes blinkIndicator {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.intro-indicator span {
+  animation: blinkIndicator 2s infinite;
+}
+
 .intro-progress-bar {
   width: 200px;
   height: 2px;
