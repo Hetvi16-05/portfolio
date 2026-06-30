@@ -178,6 +178,7 @@ function initIntroSequence(reduced) {
 // 2b. LAUNCH SITE — trigger all site animations
 // ==========================================================================
 function launchSite(reduced) {
+  renderDynamicProjects(); // MUST RUN BEFORE ANIMATIONS
   initLenis();
   initStarField(reduced);
   initHeroAnimations(reduced);
@@ -187,7 +188,6 @@ function launchSite(reduced) {
   initJourneyPath();
   initTiltCards();
   initMagneticButtons();
-  renderDynamicProjects();
   initRippleButtons();
   initSkillBars();
   initContactForm();
