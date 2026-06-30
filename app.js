@@ -741,22 +741,21 @@ function renderDynamicProjects() {
     // Generate tech tags HTML
     const tagsHtml = proj.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('');
     
-    // First card gets active-slide by default
-    const activeClass = i === 0 ? 'active-slide' : '';
+    const delayClass = `reveal-delay-${(i % 3) + 1}`;
 
     cardsHtml += `
-      <article class="proj-card ${activeClass}" data-category="${proj.category}" onclick="window.location.href='project-details.html?id=${proj.repoId}'">
+      <a href="project-details.html?id=${proj.repoId}" class="proj-card reveal ${delayClass}" data-category="${proj.category}">
         <div class="proj-card-collapsed" style="border-bottom: none; padding-bottom: 0;">
           <div class="proj-icon"><i data-lucide="${proj.icon}"></i></div>
           <div class="proj-header-text">
             <div class="proj-badge">${proj.badge}</div>
             <h3 class="proj-title">${proj.title}</h3>
           </div>
-          <button class="proj-expand-btn" aria-label="Go to project" style="transform: rotate(-45deg);"><i data-lucide="arrow-right"></i></button>
+          <button class="proj-expand-btn" aria-label="Go to project" style="transform: rotate(-45deg); pointer-events: none;"><i data-lucide="arrow-right"></i></button>
         </div>
         
         <div class="proj-card-body" style="display: block; padding-top: 1rem; border-top: none;">
-          <p class="proj-desc-text" style="margin-bottom: 1.5rem;">
+          <p class="proj-desc-text" style="margin-bottom: 1.5rem; color: var(--text-muted);">
             ${proj.shortDesc}
           </p>
           <div class="proj-footer-row" style="margin-top: auto; border-top: 1px solid var(--border); padding-top: 1rem;">
@@ -765,7 +764,7 @@ function renderDynamicProjects() {
             </div>
           </div>
         </div>
-      </article>
+      </a>
     `;
   });
   
@@ -774,19 +773,6 @@ function renderDynamicProjects() {
   // Re-initialize Lucide icons for dynamically added elements
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
-  }
-  
-  // Setup Slider Logic
-  const cards = container.querySelectorAll('.proj-card');
-  if (cards.length > 1) {
-    let currentIndex = 0;
-    
-    // Interval to loop cards
-    setInterval(() => {
-      cards[currentIndex].classList.remove('active-slide');
-      currentIndex = (currentIndex + 1) % cards.length;
-      cards[currentIndex].classList.add('active-slide');
-    }, 4000); // changes every 4 seconds
   }
 }
 
