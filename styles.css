@@ -251,6 +251,150 @@ ol {
 }
 
 /* ==========================================================================
+   INTRO PRESENTATION
+   ========================================================================== */
+#intro-presentation {
+  position: fixed;
+  inset: 0;
+  z-index: 9900;
+  background: var(--bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.intro-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s var(--ease), visibility 0.8s;
+}
+
+.intro-slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+}
+
+.intro-slide.active .intro-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.intro-bg-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.3) blur(4px);
+  z-index: -1;
+}
+
+.intro-content {
+  max-width: 800px;
+  padding: 2rem;
+  text-align: center;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.intro-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.5rem;
+}
+
+.intro-bio {
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: var(--text-secondary);
+}
+
+.intro-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.intro-skill {
+  padding: 0.8rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--r-full);
+  font-family: var(--font-mono);
+  color: var(--cyan);
+  font-size: 1rem;
+}
+
+.intro-projects-list {
+  text-align: left;
+  font-size: 1.2rem;
+  line-height: 2.5;
+  color: var(--text-secondary);
+  display: inline-block;
+}
+.intro-projects-list li::before {
+  content: '>';
+  color: var(--purple);
+  margin-right: 10px;
+  font-family: var(--font-mono);
+}
+.intro-projects-list strong {
+  color: var(--text);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.gallery-grid img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+}
+
+.intro-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  z-index: 20;
+}
+
+.intro-progress-bar {
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 10px auto 0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.intro-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--cyan);
+  transition: width linear;
+}
+
+/* ==========================================================================
    CUSTOM CURSOR
    ========================================================================== */
 #cursor-dot {
