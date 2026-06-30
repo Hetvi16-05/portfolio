@@ -262,6 +262,7 @@ ol {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  cursor: none;
 }
 
 .intro-slide {
