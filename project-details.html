@@ -159,15 +159,15 @@
         document.getElementById('project-title').innerHTML = projMeta.title + ' <span class="gradient-text">Project</span>';
         
         // Render badges
-        const badgeHtml = \`
+        const badgeHtml = `
           <div class="proj-badge" style="background: var(--bg-hover); border: 1px solid var(--border); display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0.8rem; border-radius: 100px; font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;">
-            <i data-lucide="\${projMeta.icon}" style="width:14px; height:14px;"></i> \${projMeta.badge}
+            <i data-lucide="${projMeta.icon}" style="width:14px; height:14px;"></i> ${projMeta.badge}
           </div>
-        \`;
+        `;
         document.getElementById('project-meta-container').innerHTML = badgeHtml;
         
         // Render tags
-        const tagsHtml = projMeta.tags.map(t => \`<span class="tech-tag">\${t}</span>\`).join('');
+        const tagsHtml = projMeta.tags.map(t => `<span class="tech-tag">${t}</span>`).join('');
         document.getElementById('project-tags-container').innerHTML = tagsHtml;
         
         // Show link
