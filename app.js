@@ -736,14 +736,13 @@ function renderDynamicProjects() {
 
   container.innerHTML = '';
   
-  window.githubProjects.forEach((proj, i) => {
-    const delayClass = `reveal-delay-${(i % 3) + 1}`;
-    
+  let cardsHtml = '';
+  window.githubProjects.forEach((proj) => {
     // Generate tech tags HTML
     const tagsHtml = proj.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('');
 
-    const html = `
-      <article class="proj-card reveal ${delayClass}" data-category="${proj.category}" style="cursor: pointer;" onclick="window.location.href='project-details.html?id=${proj.repoId}'">
+    cardsHtml += `
+      <article class="proj-card" data-category="${proj.category}" style="cursor: pointer; transform: none; opacity: 1;" onclick="window.location.href='project-details.html?id=${proj.repoId}'">
         <div class="proj-card-collapsed" style="border-bottom: none; padding-bottom: 0;">
           <div class="proj-icon"><i data-lucide="${proj.icon}"></i></div>
           <div class="proj-header-text">
@@ -765,8 +764,10 @@ function renderDynamicProjects() {
         </div>
       </article>
     `;
-    container.insertAdjacentHTML('beforeend', html);
   });
+  
+  // Duplicate cards for seamless looping
+  container.innerHTML = `<div class="projects-carousel-track">${cardsHtml}${cardsHtml}</div>`;
   
   // Re-initialize Lucide icons for dynamically added elements
   if (typeof lucide !== 'undefined') {

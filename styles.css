@@ -2062,12 +2062,30 @@ p {
 }
 
 .projects-grid-new {
-  display: grid;
-  grid-template-columns: 1fr;
+  height: 75vh;
+  overflow: hidden;
+  position: relative;
   max-width: 800px;
   margin: 0 auto;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+
+.projects-carousel-track {
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
   padding: 1rem 0;
+  animation: scrollVertical 40s linear infinite;
+}
+
+.projects-carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollVertical {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-50% - 1rem)); }
 }
 
 .proj-card {
