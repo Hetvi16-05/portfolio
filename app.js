@@ -734,6 +734,7 @@ function renderDynamicProjects() {
   const container = document.getElementById('dynamic-projects-grid');
   if (!container || !window.githubProjects) return;
 
+  container.className = 'projects-accordion reveal';
   container.innerHTML = '';
   
   let cardsHtml = '';
@@ -741,29 +742,27 @@ function renderDynamicProjects() {
     // Generate tech tags HTML
     const tagsHtml = proj.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('');
     
-    const delayClass = `reveal-delay-${(i % 3) + 1}`;
-
     cardsHtml += `
-      <a href="project-details.html?id=${proj.repoId}" class="proj-card reveal ${delayClass}" data-category="${proj.category}">
-        <div class="proj-card-collapsed" style="border-bottom: none; padding-bottom: 0;">
-          <div class="proj-icon"><i data-lucide="${proj.icon}"></i></div>
-          <div class="proj-header-text">
-            <div class="proj-badge">${proj.badge}</div>
-            <h3 class="proj-title">${proj.title}</h3>
-          </div>
-          <button class="proj-expand-btn" aria-label="Go to project" style="transform: rotate(-45deg); pointer-events: none;"><i data-lucide="arrow-right"></i></button>
+      <a href="project-details.html?id=${proj.repoId}" class="accordion-item" data-category="${proj.category}">
+        
+        <!-- The collapsed vertical strip -->
+        <div class="accordion-strip">
+          <div class="accordion-vertical-title">${proj.title}</div>
+          <div class="accordion-icon"><i data-lucide="${proj.icon}"></i></div>
         </div>
         
-        <div class="proj-card-body" style="display: block; padding-top: 1rem; border-top: none;">
-          <p class="proj-desc-text" style="margin-bottom: 1.5rem; color: var(--text-muted);">
-            ${proj.shortDesc}
-          </p>
-          <div class="proj-footer-row" style="margin-top: auto; border-top: 1px solid var(--border); padding-top: 1rem;">
-            <div class="tech-tags">
-              ${tagsHtml}
-            </div>
+        <!-- The expanded content -->
+        <div class="accordion-content">
+          <div class="proj-badge" style="background: var(--bg-hover); border: 1px solid var(--border); padding: 0.3rem 0.8rem; border-radius: 100px; font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;">
+            ${proj.badge}
+          </div>
+          <h3>${proj.title}</h3>
+          <p>${proj.shortDesc}</p>
+          <div class="tech-tags" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            ${tagsHtml}
           </div>
         </div>
+        
       </a>
     `;
   });
