@@ -376,7 +376,7 @@ function initCursor() {
   lerpRing();
 
   // Hover states
-  const interactive = 'a, button, .magnetic, .proj-card, .featured-card, .tilt-card, .filter-btn, .social-btn';
+  const interactive = 'a, button, .magnetic, .proj-card, .featured-card, .tilt-card, .filter-btn, .social-btn, #intro-presentation';
   document.querySelectorAll(interactive).forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('is-hovering'));
     el.addEventListener('mouseleave', () => ring.classList.remove('is-hovering'));
