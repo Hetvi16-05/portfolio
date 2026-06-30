@@ -959,17 +959,20 @@ p {
 
 .hero-bg-text {
   position: absolute;
-  top: 15%;
-  left: 50%;
-  font-size: clamp(8rem, 15vw, 20rem);
+  top: 25%;
+  left: 32%;
+  font-size: clamp(2rem, 4vw, 4rem);
   font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); /* Made more visible */
-  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.03);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+  text-shadow: 0 0 40px rgba(8, 145, 178, 0.3), 0 0 80px rgba(124, 58, 237, 0.2);
+  white-space: normal;
+  line-height: 1.1;
   z-index: -1;
   pointer-events: none;
-  animation: floatRotate 20s infinite ease-in-out;
+  animation: floatRotate 15s infinite ease-in-out;
   transform-origin: center;
+  letter-spacing: 0.1em;
 }
 
 @keyframes floatRotate {
