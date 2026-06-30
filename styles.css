@@ -343,6 +343,14 @@ ol {
   color: var(--text-secondary);
   display: inline-block;
 }
+.intro-projects-list li {
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: default;
+}
+.intro-projects-list li:hover {
+  transform: translateX(10px);
+  color: var(--cyan);
+}
 .intro-projects-list li::before {
   content: '>';
   color: var(--purple);
