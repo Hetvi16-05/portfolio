@@ -187,7 +187,7 @@ function launchSite(reduced) {
   initJourneyPath();
   initTiltCards();
   initMagneticButtons();
-  initProjectCards();
+  renderDynamicProjects();
   initRippleButtons();
   initSkillBars();
   initContactForm();
@@ -730,46 +730,48 @@ function initRippleButtons() {
 // ==========================================================================
 // 15. PROJECT CARDS (expand/collapse accordion)
 // ==========================================================================
-function initProjectCards() {
-  document.querySelectorAll('.proj-card').forEach(card => {
-    const collapsed = card.querySelector('.proj-card-collapsed');
-    if (!collapsed) return;
+function renderDynamicProjects() {
+  const container = document.getElementById('dynamic-projects-grid');
+  if (!container || !window.githubProjects) return;
 
-    const toggle = () => {
-      const isExpanded = card.classList.contains('expanded');
+  container.innerHTML = '';
+  
+  window.githubProjects.forEach((proj, i) => {
+    const delayClass = `reveal-delay-${(i % 3) + 1}`;
+    
+    // Generate tech tags HTML
+    const tagsHtml = proj.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('');
 
-      // Close all
-      document.querySelectorAll('.proj-card.expanded').forEach(c => {
-        if (c !== card) c.classList.remove('expanded');
-      });
-
-      card.classList.toggle('expanded', !isExpanded);
-
-      if (!isExpanded) {
-        setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
-      }
-    };
-
-    collapsed.addEventListener('click', toggle);
-
-    // Stage tabs
-    card.querySelectorAll('.proj-stage-tab').forEach(tab => {
-      tab.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const target = tab.dataset.tab;
-        card.querySelectorAll('.proj-stage-tab').forEach(t => t.classList.remove('active'));
-        card.querySelectorAll('.proj-stage-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        const panel = card.querySelector(`.proj-stage-panel[data-panel="${target}"]`);
-        if (panel) panel.classList.add('active');
-      });
-    });
-
-    // Prevent GitHub link from toggling
-    card.querySelectorAll('.proj-link-btn').forEach(link => {
-      link.addEventListener('click', e => e.stopPropagation());
-    });
+    const html = `
+      <article class="proj-card reveal ${delayClass}" data-category="${proj.category}" style="cursor: pointer;" onclick="window.location.href='project-details.html?id=${proj.repoId}'">
+        <div class="proj-card-collapsed" style="border-bottom: none; padding-bottom: 0;">
+          <div class="proj-icon"><i data-lucide="${proj.icon}"></i></div>
+          <div class="proj-header-text">
+            <div class="proj-badge">${proj.badge}</div>
+            <h3 class="proj-title">${proj.title}</h3>
+          </div>
+          <button class="proj-expand-btn" aria-label="Go to project" style="transform: rotate(-45deg);"><i data-lucide="arrow-right"></i></button>
+        </div>
+        
+        <div class="proj-card-body" style="display: block; padding-top: 1rem; border-top: none;">
+          <p class="proj-desc-text" style="margin-bottom: 1.5rem;">
+            ${proj.shortDesc}
+          </p>
+          <div class="proj-footer-row" style="margin-top: auto; border-top: 1px solid var(--border); padding-top: 1rem;">
+            <div class="tech-tags">
+              ${tagsHtml}
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+    container.insertAdjacentHTML('beforeend', html);
   });
+  
+  // Re-initialize Lucide icons for dynamically added elements
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
 }
 
 // ==========================================================================
