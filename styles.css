@@ -320,6 +320,33 @@ ol {
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
 }
 
+.intro-split {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  text-align: left;
+}
+@media (max-width: 768px) {
+  .intro-split {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+}
+
+.intro-profile-img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--purple);
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+}
+
+.intro-text-container {
+  flex: 1;
+}
+
 .intro-title {
   font-size: clamp(2.5rem, 5vw, 4rem);
   background: var(--grad-primary);
