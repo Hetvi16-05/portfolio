@@ -3374,3 +3374,14 @@ p {
     grid-template-columns: 1fr;
   }
 }
+
+.intro-skill {
+  transition: all 0.3s ease;
+}
+.intro-skill:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.6);
+  transform: translateY(-3px);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
