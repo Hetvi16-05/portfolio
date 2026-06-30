@@ -372,6 +372,13 @@ ol {
   object-fit: cover;
   border-radius: var(--r-lg);
   border: 1px solid var(--border);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.gallery-grid img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  position: relative;
 }
 
 .intro-indicator {
