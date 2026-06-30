@@ -2063,8 +2063,9 @@ p {
 
 .projects-accordion {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 75vh;
+  height: auto;
   min-height: 500px;
   max-width: 1200px;
   margin: 0 auto;
@@ -2073,13 +2074,14 @@ p {
 }
 
 .accordion-item {
-  flex: 1;
+  height: 100px;
+  flex: none;
   position: relative;
   background: rgba(15, 23, 42, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: var(--r-xl);
   overflow: hidden;
-  transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1), background 0.6s ease, border-color 0.4s ease;
+  transition: height 0.6s cubic-bezier(0.25, 1, 0.5, 1), background 0.6s ease, border-color 0.4s ease;
   cursor: pointer;
   text-decoration: none;
   backdrop-filter: blur(20px);
@@ -2087,25 +2089,25 @@ p {
 }
 
 .projects-accordion:hover .accordion-item {
-  flex: 0.5; /* shrink unhovered items */
+  height: 80px; /* shrink unhovered items */
 }
 
 .projects-accordion .accordion-item:hover {
-  flex: 8; /* expand hovered item */
+  height: 380px; /* expand hovered item */
   background: rgba(25, 30, 50, 0.9);
   border-color: rgba(139, 92, 246, 0.5);
   box-shadow: 0 10px 40px rgba(139, 92, 246, 0.15);
 }
 
-/* The vertical strip (visible when collapsed) */
+/* The horizontal strip (visible when collapsed) */
 .accordion-strip {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
-  padding-bottom: 2rem;
+  justify-content: flex-start;
+  padding: 0 2rem;
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
@@ -2115,14 +2117,14 @@ p {
 }
 
 .accordion-icon {
-  margin-bottom: 2rem;
+  margin-bottom: 0;
+  margin-right: 1.5rem;
   color: var(--text-muted);
 }
 
 .accordion-vertical-title {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transform: rotate(180deg);
+  writing-mode: horizontal-tb;
+  transform: none;
   white-space: nowrap;
   font-family: var(--font-outfit);
   font-weight: 600;
@@ -2177,41 +2179,7 @@ p {
   max-width: 400px;
 }
 
-/* Mobile Fallback */
-@media (max-width: 900px) {
-  .projects-accordion {
-    flex-direction: column;
-    height: auto;
-  }
-  .accordion-item {
-    flex: none;
-    height: 100px;
-    transition: height 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  .projects-accordion:hover .accordion-item {
-    height: 80px;
-  }
-  .projects-accordion .accordion-item:hover {
-    height: 350px;
-  }
-  .accordion-strip {
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: 0 2rem;
-    align-items: center;
-  }
-  .accordion-icon {
-    margin-bottom: 0;
-    margin-right: 1.5rem;
-  }
-  .accordion-vertical-title {
-    writing-mode: horizontal-tb;
-    transform: none;
-  }
-  .accordion-content {
-    min-width: 100%;
-  }
-}
+/* No Mobile Fallback needed since it's already stacked vertically */
 
 .proj-card:nth-child(4):not(.expanded) {
   animation-delay: 0.4s;

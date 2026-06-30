@@ -150,23 +150,25 @@ const githubProjects = [
     `
   },
   {
-    repoId: "quickdraw-test",
-    title: "QuickDraw Test",
-    category: "ai",
-    icon: "pen-tool",
-    badge: "Computer Vision",
-    shortDesc: "Testing and implementing models based on the QuickDraw dataset for drawing recognition.",
-    tags: ["Machine Learning", "Vision"],
-    link: "https://github.com/Hetvi16-05/quickdraw-test",
+    repoId: "Travel",
+    title: "Travel App (Travia)",
+    category: "fullstack",
+    icon: "map",
+    badge: "Web Development",
+    shortDesc: "A modern, responsive travel destination and booking platform featuring stunning UI and seamless UX.",
+    tags: ["React", "JavaScript", "TailwindCSS"],
+    link: "https://github.com/Hetvi16-05/Travel",
     fullDetails: `
       <h2>Project Overview</h2>
-      <p>An experimental implementation testing neural network models against Google's QuickDraw dataset. The goal is to rapidly and accurately recognize user-drawn doodles.</p>
+      <p>Travia is a highly interactive frontend application designed to inspire travelers and streamline the booking process. The platform features curated destination guides, rich imagery, and a smooth user experience.</p>
       <h2>Key Features</h2>
       <ul>
-        <li><strong>Dataset Handling:</strong> Efficiently loading and processing large volumes of image data.</li>
-        <li><strong>Model Training:</strong> Utilizing Convolutional Neural Networks (CNNs) for optimal image recognition.</li>
-        <li><strong>Performance Evaluation:</strong> Detailed metrics on accuracy and loss across different model architectures.</li>
+        <li><strong>Modern UI/UX:</strong> Implemented with React and styled using TailwindCSS for rapid, responsive design.</li>
+        <li><strong>Live Deployment:</strong> Deployed on Vercel for high performance and global edge delivery.</li>
+        <li><strong>Interactive Elements:</strong> Smooth scroll, dynamic routing, and highly polished micro-interactions.</li>
       </ul>
+      <h2>Live Demo</h2>
+      <p>Check out the live application here: <a href="https://travia-tawny.vercel.app" target="_blank" style="color: var(--primary);">travia-tawny.vercel.app</a></p>
     `
   }
 ];
