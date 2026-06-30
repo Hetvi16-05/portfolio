@@ -7,7 +7,19 @@ const githubProjects = [
     badge: "AI Chatbot & Agents",
     shortDesc: "An intelligent personal assistant powered by modern AI, deployed with continuous context memory capabilities.",
     tags: ["Python", "AI", "LLMs"],
-    link: "https://github.com/Hetvi16-05/Personal-AI-Assistant"
+    link: "https://github.com/Hetvi16-05/Personal-AI-Assistant",
+    fullDetails: `
+      <h2>Project Overview</h2>
+      <p>This Personal AI Assistant was developed to provide continuous, context-aware conversational capabilities. Unlike standard chatbots, this system leverages advanced Large Language Models (LLMs) combined with a persistent memory architecture.</p>
+      <h2>Key Features</h2>
+      <ul>
+        <li><strong>Contextual Memory:</strong> Remembers user preferences and past conversations.</li>
+        <li><strong>Seamless Integration:</strong> Built with Python for rapid deployment and easy API integrations.</li>
+        <li><strong>Natural Language Processing:</strong> High accuracy intent recognition and response generation.</li>
+      </ul>
+      <h2>Technical Stack</h2>
+      <p>Developed entirely in Python utilizing state-of-the-art NLP libraries and APIs. The architecture focuses on low-latency responses and high reliability.</p>
+    `
   },
   {
     repoId: "flood-monitoring-ai",
@@ -17,7 +29,17 @@ const githubProjects = [
     badge: "Computer Vision",
     shortDesc: "Real-time flood detection system leveraging computer vision to analyze environmental anomalies.",
     tags: ["Python", "TensorFlow", "OpenCV"],
-    link: "https://github.com/Hetvi16-05/flood-monitoring-ai"
+    link: "https://github.com/Hetvi16-05/flood-monitoring-ai",
+    fullDetails: `
+      <h2>Project Overview</h2>
+      <p>The Flood Monitoring AI is a critical environmental tracking system. By leveraging computer vision and real-time camera feeds, it can detect water level anomalies and predict potential flooding events before they become disasters.</p>
+      <h2>Key Features</h2>
+      <ul>
+        <li><strong>Real-time Detection:</strong> Analyzes video feeds using OpenCV.</li>
+        <li><strong>Predictive Analytics:</strong> Uses TensorFlow models to forecast water level trends.</li>
+        <li><strong>Alert System:</strong> Automated early warning triggers for emergency response.</li>
+      </ul>
+    `
   },
   {
     repoId: "rainwise",
@@ -27,7 +49,13 @@ const githubProjects = [
     badge: "Predictive Modeling",
     shortDesc: "Advanced weather prediction and rainfall estimation models designed for high accuracy forecasting.",
     tags: ["Python", "Machine Learning", "Data Science"],
-    link: "https://github.com/Hetvi16-05/rainwise"
+    link: "https://github.com/Hetvi16-05/rainwise",
+    fullDetails: `
+      <h2>Project Overview</h2>
+      <p>RAINWISE is an advanced meteorological modeling tool. It ingests complex atmospheric data to provide highly accurate rainfall estimations and weather predictions, outperforming standard forecasting models in specific localized regions.</p>
+      <h2>Methodology</h2>
+      <p>By utilizing extensive historical datasets and machine learning algorithms, the model identifies non-linear patterns in weather behavior. Data preprocessing and feature engineering were critical components of this project.</p>
+    `
   },
   {
     repoId: "Customer-Churn-Analytics",
@@ -37,7 +65,17 @@ const githubProjects = [
     badge: "Data Analytics",
     shortDesc: "Comprehensive data analysis and modeling to predict and mitigate customer churn rates.",
     tags: ["Jupyter Notebook", "Pandas", "Scikit-learn"],
-    link: "https://github.com/Hetvi16-05/Customer-Churn-Analytics"
+    link: "https://github.com/Hetvi16-05/Customer-Churn-Analytics",
+    fullDetails: `
+      <h2>Project Overview</h2>
+      <p>Customer retention is vital for business success. This analytics project dives deep into user behavior data to identify the key indicators of customer churn.</p>
+      <h2>Key Features</h2>
+      <ul>
+        <li><strong>Exploratory Data Analysis:</strong> Uncovering hidden trends using Pandas and Matplotlib.</li>
+        <li><strong>Predictive Modeling:</strong> Implementing Scikit-learn algorithms (Random Forest, Logistic Regression) to predict at-risk customers.</li>
+        <li><strong>Actionable Insights:</strong> Providing data-driven recommendations to improve retention strategies.</li>
+      </ul>
+    `
   },
   {
     repoId: "Data_analytics",
@@ -47,7 +85,13 @@ const githubProjects = [
     badge: "Data Analytics",
     shortDesc: "A collection of data analytics projects and visualizations exploring various datasets.",
     tags: ["Python", "Data Analysis", "Visualization"],
-    link: "https://github.com/Hetvi16-05/Data_analytics"
+    link: "https://github.com/Hetvi16-05/Data_analytics",
+    fullDetails: `
+      <h2>Project Overview</h2>
+      <p>A comprehensive portfolio showcasing a variety of data analytics techniques. This repository serves as a sandbox for exploring different datasets, cleaning messy data, and creating compelling visualizations.</p>
+      <h2>Tools Used</h2>
+      <p>Extensive use of Python's data science stack including Pandas, NumPy, Seaborn, and Matplotlib. The visualizations are designed to communicate complex data narratives clearly and effectively.</p>
+    `
   },
   {
     repoId: "Transliterator",
@@ -57,7 +101,17 @@ const githubProjects = [
     badge: "NLP",
     shortDesc: "A Natural Language Processing tool for translating and transliterating complex script data.",
     tags: ["Python", "NLP", "Machine Learning"],
-    link: "https://github.com/Hetvi16-05/Transliterator"
+    link: "https://github.com/Hetvi16-05/Transliterator",
+    fullDetails: `
+      <h2>Project Overview</h2>
+      <p>Transliterator is an NLP-driven application designed to accurately convert text between different complex scripts and languages. It bridges communication gaps by providing high-fidelity transliteration.</p>
+      <h2>Technical Highlights</h2>
+      <ul>
+        <li>Sequence-to-sequence machine learning models.</li>
+        <li>Handling of diverse linguistic nuances and character sets.</li>
+        <li>Optimized for speed and accuracy in text processing.</li>
+      </ul>
+    `
   },
   {
     repoId: "BakeMyDay_website",
@@ -67,7 +121,17 @@ const githubProjects = [
     badge: "Web Development",
     shortDesc: "A full-featured responsive website built for a bakery business, encompassing UI design and functionality.",
     tags: ["HTML", "CSS", "JavaScript"],
-    link: "https://github.com/Hetvi16-05/BakeMyDay_website"
+    link: "https://github.com/Hetvi16-05/BakeMyDay_website",
+    fullDetails: `
+      <h2>Project Overview</h2>
+      <p>Bake My Day is a fully responsive, visually appealing e-commerce frontend built for a local bakery. It emphasizes user experience, modern design aesthetics, and smooth interactions.</p>
+      <h2>Key Features</h2>
+      <ul>
+        <li><strong>Responsive Design:</strong> Looks perfect on mobile, tablet, and desktop.</li>
+        <li><strong>Interactive UI:</strong> Smooth animations and transitions using Vanilla JavaScript.</li>
+        <li><strong>Performance:</strong> Highly optimized assets and lightweight code for fast loading times.</li>
+      </ul>
+    `
   },
   {
     repoId: "ComplierDesign",
@@ -77,7 +141,13 @@ const githubProjects = [
     badge: "Systems Programming",
     shortDesc: "Core compiler design implementations detailing lexical analysis and parsing.",
     tags: ["HTML", "Systems", "Parsing"],
-    link: "https://github.com/Hetvi16-05/ComplierDesign"
+    link: "https://github.com/Hetvi16-05/ComplierDesign",
+    fullDetails: `
+      <h2>Project Overview</h2>
+      <p>An in-depth exploration into the core of systems programming. This project details the implementation of foundational compiler stages, specifically focusing on lexical analysis and syntax parsing.</p>
+      <h2>Methodology</h2>
+      <p>The project demonstrates the practical application of automata theory and formal languages, building a robust pipeline that translates source code into abstract syntax trees.</p>
+    `
   },
   {
     repoId: "quickdraw-test",
@@ -87,7 +157,17 @@ const githubProjects = [
     badge: "Computer Vision",
     shortDesc: "Testing and implementing models based on the QuickDraw dataset for drawing recognition.",
     tags: ["Machine Learning", "Vision"],
-    link: "https://github.com/Hetvi16-05/quickdraw-test"
+    link: "https://github.com/Hetvi16-05/quickdraw-test",
+    fullDetails: `
+      <h2>Project Overview</h2>
+      <p>An experimental implementation testing neural network models against Google's QuickDraw dataset. The goal is to rapidly and accurately recognize user-drawn doodles.</p>
+      <h2>Key Features</h2>
+      <ul>
+        <li><strong>Dataset Handling:</strong> Efficiently loading and processing large volumes of image data.</li>
+        <li><strong>Model Training:</strong> Utilizing Convolutional Neural Networks (CNNs) for optimal image recognition.</li>
+        <li><strong>Performance Evaluation:</strong> Detailed metrics on accuracy and loss across different model architectures.</li>
+      </ul>
+    `
   }
 ];
 

@@ -7,20 +7,10 @@
   <meta name="description" content="Project Details - Hetvi Sheth Portfolio">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  
-  <!-- marked.js for Markdown parsing -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  
-  <!-- DOMPurify for sanitizing HTML (security best practice) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
-  
-  <!-- Highlight.js for code blocks -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script src="projects-data.js"></script>
 </head>
 
@@ -188,51 +178,22 @@
         if (typeof lucide !== 'undefined') lucide.createIcons();
       }
 
-      // 3. Fetch README from GitHub
+      // 3. Inject full details directly from data
       const container = document.getElementById('markdown-container');
-      try {
-        const username = "Hetvi16-05";
-        // Attempt to fetch from 'main' branch first
-        let res = await fetch(\`https://raw.githubusercontent.com/\${username}/\${repoId}/main/README.md\`);
-        
-        // If 'main' fails, try 'master'
-        if (!res.ok) {
-          res = await fetch(\`https://raw.githubusercontent.com/\${username}/\${repoId}/master/README.md\`);
-        }
-
-        if (!res.ok) {
-          throw new Error('README not found');
-        }
-
-        const markdownText = await res.text();
-        
-        // Configure marked.js with highlight.js
-        marked.setOptions({
-          highlight: function(code, lang) {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            return hljs.highlight(code, { language }).value;
-          },
-          gfm: true,
-          breaks: true
-        });
-
-        // Parse markdown and sanitize
-        const rawHtml = marked.parse(markdownText);
-        const cleanHtml = DOMPurify.sanitize(rawHtml);
-        
-        // Inject and highlight
-        container.innerHTML = cleanHtml;
-        
-      } catch (error) {
-        container.innerHTML = \`
+      
+      if (projMeta.fullDetails) {
+        container.innerHTML = projMeta.fullDetails;
+      } else {
+        container.innerHTML = `
           <div style="text-align: center; color: var(--text-muted);">
-            <i data-lucide="alert-circle" style="width:40px;height:40px;margin-bottom:1rem;opacity:0.5;"></i>
-            <h3>No README found</h3>
-            <p>We couldn't fetch a README.md file for this repository.</p>
+            <i data-lucide="info" style="width:40px;height:40px;margin-bottom:1rem;opacity:0.5;"></i>
+            <h3>No Details Provided</h3>
+            <p>Detailed information for this project is currently unavailable.</p>
           </div>
-        \`;
-        if (typeof lucide !== 'undefined') lucide.createIcons();
+        `;
       }
+      
+      if (typeof lucide !== 'undefined') lucide.createIcons();
     });
   </script>
 </body>
