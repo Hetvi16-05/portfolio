@@ -4079,3 +4079,240 @@ body.light-mode .projects-modal {
   background: var(--bg-deep);
 }
 
+/* ==========================================================================
+   RECRUITER SIDEBAR
+   ========================================================================== */
+.recruiter-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 10001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.recruiter-panel-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.recruiter-sidebar {
+  position: fixed;
+  top: 0;
+  left: -450px;
+  width: 400px;
+  height: 100vh;
+  background: #18181A;
+  z-index: 10002;
+  display: flex;
+  flex-direction: column;
+  transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+  font-family: var(--font-sans);
+  color: #E2E8F0;
+}
+
+.recruiter-sidebar.active {
+  left: 0;
+}
+
+.rs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: #18181A;
+}
+
+.rs-header-icon {
+  color: #8B5CF6;
+}
+
+.rs-close-btn {
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.rs-close-btn:hover {
+  color: #fff;
+}
+
+.rs-tabs {
+  display: flex;
+  background: #27272A;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.rs-tab {
+  flex: 1;
+  text-align: center;
+  padding: 1rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94A3B8;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+}
+
+.rs-tab.active {
+  background: #18181A;
+  color: #fff;
+}
+
+.rs-content {
+  flex: 1;
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+}
+
+.rs-config-title {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #94A3B8;
+  margin-bottom: 0.5rem;
+}
+
+.rs-config-desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #94A3B8;
+  margin-bottom: 2rem;
+}
+
+.rs-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rs-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rs-option input {
+  display: none;
+}
+
+.rs-option.active {
+  border-color: #fff;
+  background: rgba(255,255,255,0.03);
+}
+
+.rs-option-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rs-option-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #F8FAFC;
+}
+
+.rs-option-tags {
+  font-size: 0.75rem;
+  color: #94A3B8;
+}
+
+.rs-radio-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #94A3B8;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.rs-option.active .rs-radio-circle {
+  border-color: #fff;
+}
+
+.rs-option.active .rs-radio-circle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.rs-footer {
+  background: #fff;
+  padding: 2rem 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.rs-sparkle-box {
+  width: 100%;
+  height: 80px;
+  border: 1px dashed rgba(0,0,0,0.1);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94A3B8;
+  background: #F8FAFC;
+}
+
+.rs-print-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #0F172A;
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.rs-print-btn:hover {
+  transform: scale(1.02);
+  background: #1E293B;
+}
+
+.rs-footer-desc {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #64748B;
+  line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+  .recruiter-sidebar {
+    width: 85vw;
+    left: -85vw;
+  }
+}
+

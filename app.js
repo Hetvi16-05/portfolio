@@ -1050,13 +1050,20 @@ function initThemeToggle() {
 }
 
 // ==========================================================================
-// 24. RECRUITER MODE INTERACTION
+// 24. RECRUITER SIDEBAR INTERACTION
 // ==========================================================================
 function initRecruiterMode() {
   const recruiterBtn = document.querySelector('.recruiter-pill');
   const closeTooltip = document.querySelector('.close-recruiter');
   const tooltip = document.querySelector('.recruiter-tooltip');
 
+  const sidebar = document.getElementById('recruiter-sidebar');
+  const overlay = document.getElementById('recruiter-panel-overlay');
+  const closeSidebarBtn = document.getElementById('rs-close-btn');
+  const printBtn = document.getElementById('rs-print-btn');
+  const options = document.querySelectorAll('.rs-option');
+
+  // Tooltip close logic
   if (closeTooltip && tooltip) {
     closeTooltip.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1069,20 +1076,45 @@ function initRecruiterMode() {
     });
   }
 
+  const openSidebar = () => {
+    sidebar.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeSidebar = () => {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
   if (recruiterBtn) {
-    recruiterBtn.addEventListener('click', () => {
-      // Simulate enabling a special mode
-      recruiterBtn.innerHTML = `<i data-lucide="check" width="16" height="16"></i> MODE ACTIVE`;
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-      
-      recruiterBtn.style.background = 'var(--purple)';
-      recruiterBtn.style.color = '#fff';
-      recruiterBtn.style.borderColor = 'var(--purple)';
-      
-      // Could open the resume directly or scroll to a specific section
-      setTimeout(() => {
-        window.open('Hetvisheth_resume.pdf', '_blank');
-      }, 600);
+    recruiterBtn.addEventListener('click', openSidebar);
+  }
+
+  if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
+  if (overlay) overlay.addEventListener('click', closeSidebar);
+
+  // Radio button selection logic
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      // Remove active from all
+      options.forEach(opt => opt.classList.remove('active'));
+      // Add active to clicked
+      option.classList.add('active');
+      // Set the radio input to checked
+      const radio = option.querySelector('input[type="radio"]');
+      if (radio) radio.checked = true;
+    });
+  });
+
+  // Print button logic
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      // In a real app, this might generate a PDF based on the selected role
+      const selected = document.querySelector('.rs-option input:checked');
+      console.log('Generating brief for:', selected ? selected.value : 'default');
+      window.open('Hetvisheth_resume.pdf', '_blank');
     });
   }
 }

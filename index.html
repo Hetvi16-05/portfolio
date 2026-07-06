@@ -599,6 +599,76 @@
     </div>
   </footer>
 
+  <!-- =========== RECRUITER SIDEBAR =========== -->
+  <div class="recruiter-panel-overlay" id="recruiter-panel-overlay"></div>
+  <aside class="recruiter-sidebar" id="recruiter-sidebar">
+    <div class="rs-header">
+      <div class="rs-header-icon"><i data-lucide="sliders-horizontal"></i></div>
+      <button class="rs-close-btn" id="rs-close-btn"><i data-lucide="x"></i></button>
+    </div>
+    
+    <div class="rs-tabs">
+      <div class="rs-tab active">TAILOR VIEW</div>
+      <div class="rs-tab">ATS SCANNER</div>
+      <div class="rs-tab">CHAT Q&A AGENT</div>
+    </div>
+    
+    <div class="rs-content">
+      <div class="rs-config-header">
+        <span class="rs-config-title">CONFIGURE TARGET ROLE</span>
+        <p class="rs-config-desc">Dynamically tailor taglines, skills, projects, and certifications across the portfolio to align with your open role.</p>
+      </div>
+
+      <div class="rs-options">
+        
+        <label class="rs-option active">
+          <input type="radio" name="target_role" value="ml_ai" checked>
+          <div class="rs-option-content">
+            <span class="rs-option-title">MACHINE LEARNING / AI ENGINEER</span>
+            <span class="rs-option-tags">Computer Vision, NLP, PyTorch, TensorFlow</span>
+          </div>
+          <div class="rs-radio-circle"></div>
+        </label>
+
+        <label class="rs-option">
+          <input type="radio" name="target_role" value="data">
+          <div class="rs-option-content">
+            <span class="rs-option-title">DATA SCIENTIST / ANALYST</span>
+            <span class="rs-option-tags">Data Pipelines, EDA, SQL, Power BI</span>
+          </div>
+          <div class="rs-radio-circle"></div>
+        </label>
+
+        <label class="rs-option">
+          <input type="radio" name="target_role" value="fullstack_ai">
+          <div class="rs-option-content">
+            <span class="rs-option-title">FULL-STACK AI DEVELOPER</span>
+            <span class="rs-option-tags">FastAPI, React, GenAI Integrations</span>
+          </div>
+          <div class="rs-radio-circle"></div>
+        </label>
+
+        <label class="rs-option">
+          <input type="radio" name="target_role" value="software">
+          <div class="rs-option-content">
+            <span class="rs-option-title">SOFTWARE ENGINEER</span>
+            <span class="rs-option-tags">Python, Scalable Systems, APIs</span>
+          </div>
+          <div class="rs-radio-circle"></div>
+        </label>
+
+      </div>
+    </div>
+    
+    <div class="rs-footer">
+      <div class="rs-sparkle-box">
+        <i data-lucide="sparkles" width="24" height="24"></i>
+      </div>
+      <button class="rs-print-btn" id="rs-print-btn">PRINT RECRUITER BRIEF (PDF)</button>
+      <p class="rs-footer-desc">Generates a print-friendly, 1-page resume visualizer tailored to the selected role.</p>
+    </div>
+  </aside>
+
   <script type="module" src="app.js"></script>
 </body>
 </html>
