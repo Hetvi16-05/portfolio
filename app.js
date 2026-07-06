@@ -195,6 +195,7 @@ function launchSite(reduced) {
   initAboutNameAnimation(reduced);
   initThemeToggle();
   initRecruiterMode();
+  initProjectsModal();
 }
 
 // ==========================================================================
@@ -1084,4 +1085,41 @@ function initRecruiterMode() {
       }, 600);
     });
   }
+}
+
+// ==========================================================================
+// 25. PROJECTS MODAL (SPA OVERLAY)
+// ==========================================================================
+function initProjectsModal() {
+  const modal = document.getElementById('projects-modal');
+  const closeBtn = document.getElementById('close-projects-btn');
+  if (!modal) return;
+
+  const openLinks = document.querySelectorAll('a[href="#all-projects-section"]');
+  
+  const openModal = (e) => {
+    e.preventDefault();
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  };
+
+  const closeModal = () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  openLinks.forEach(link => {
+    link.addEventListener('click', openModal);
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeModal);
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
+  });
 }
