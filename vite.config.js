@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-  base: './',
+  base: '/',
   build: {
     rollupOptions: {
       input: {
@@ -10,6 +10,7 @@ export default defineConfig({
         about: resolve(__dirname, 'about.html'),
         skills: resolve(__dirname, 'skills.html'),
         projects: resolve(__dirname, 'projects.html'),
+        project_details: resolve(__dirname, 'project-details.html'),
         contact: resolve(__dirname, 'contact.html'),
         reports: resolve(__dirname, 'reports.html'),
         certificates: resolve(__dirname, 'certificates.html'),
