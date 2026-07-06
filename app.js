@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
-  initCursor();
   initSpotlight();
   initLoadingScreen(prefersReduced);
   initPageTransition();
@@ -196,6 +195,9 @@ function launchSite(reduced) {
   initThemeToggle();
   initRecruiterMode();
   initProjectsModal();
+  initHeroBrain3D(reduced);
+  initAIAssistant();
+  initSkillsGalaxy(reduced);
 }
 
 // ==========================================================================
@@ -220,117 +222,111 @@ function initLenis() {
 }
 
 // ==========================================================================
-// 4. THREE.JS — Star Field Galaxy
+// 4. THREE.JS NEURAL BACKGROUND
 // ==========================================================================
 function initStarField(reduced) {
   const canvas = document.getElementById('star-canvas');
   if (!canvas || reduced) return;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: 'low-power' });
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000, 0);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x000000, 0);
 
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
-  camera.position.z = 5;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 400;
 
-  // ── Star particles ──
-  const COUNT = 1800;
-  const geo = new THREE.BufferGeometry();
-  const pos    = new Float32Array(COUNT * 3);
-  const colors = new Float32Array(COUNT * 3);
-  const sizes  = new Float32Array(COUNT);
+  const particleCount = 120;
+  const maxDistance = 100;
+  
+  const particles = new THREE.BufferGeometry();
+  const particlePositions = new Float32Array(particleCount * 3);
+  const particleVelocities = [];
 
-  // Palette: blue, purple, cyan, white
-  const palette = [
-    [0.23, 0.51, 0.96],  // blue   #3B82F6
-    [0.55, 0.36, 0.97],  // purple #8B5CF6
-    [0.02, 0.71, 0.83],  // cyan   #06B6D4
-    [0.97, 0.98, 1.00],  // white
-  ];
+  for (let i = 0; i < particleCount; i++) {
+    particlePositions[i * 3] = (Math.random() - 0.5) * 800;
+    particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 800;
+    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 400;
 
-  for (let i = 0; i < COUNT; i++) {
-    // Sphere distribution
-    const r     = 1.5 + Math.random() * 3.5;
-    const theta = Math.random() * Math.PI * 2;
-    const phi   = Math.acos(2 * Math.random() - 1);
-
-    pos[i*3]   = r * Math.sin(phi) * Math.cos(theta);
-    pos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-    pos[i*3+2] = r * Math.cos(phi);
-
-    const c = palette[Math.floor(Math.random() * palette.length)];
-    colors[i*3]   = c[0];
-    colors[i*3+1] = c[1];
-    colors[i*3+2] = c[2];
-
-    sizes[i] = Math.random() * 2.5 + 0.8;
+    particleVelocities.push({
+      x: (Math.random() - 0.5) * 0.5,
+      y: (Math.random() - 0.5) * 0.5,
+      z: (Math.random() - 0.5) * 0.5
+    });
   }
 
-  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  geo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
-  geo.setAttribute('size',     new THREE.BufferAttribute(sizes, 1));
+  particles.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
 
-  const mat = new THREE.ShaderMaterial({
-    uniforms: { uTime: { value: 0 } },
-    vertexShader: `
-      attribute float size;
-      attribute vec3 color;
-      varying vec3 vColor;
-      varying float vAlpha;
-      uniform float uTime;
-      void main() {
-        vColor = color;
-        vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = size * (280.0 / -mvPos.z);
-        gl_Position = projectionMatrix * mvPos;
-        vAlpha = 0.5 + 0.5 * sin(uTime * 0.8 + position.x * 2.0);
-      }
-    `,
-    fragmentShader: `
-      varying vec3 vColor;
-      varying float vAlpha;
-      void main() {
-        float d = length(gl_PointCoord - vec2(0.5));
-        if (d > 0.5) discard;
-        float alpha = (1.0 - smoothstep(0.2, 0.5, d)) * vAlpha;
-        gl_FragColor = vec4(vColor, alpha * 0.85);
-      }
-    `,
+  const pMaterial = new THREE.PointsMaterial({
+    color: 0x8b5cf6,
+    size: 3,
     transparent: true,
-    vertexColors: true,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
+    opacity: 0.6
   });
 
-  const stars = new THREE.Points(geo, mat);
-  scene.add(stars);
+  const particleSystem = new THREE.Points(particles, pMaterial);
+  scene.add(particleSystem);
+
+  const linesGeometry = new THREE.BufferGeometry();
+  const linesMaterial = new THREE.LineBasicMaterial({
+    color: 0x3b82f6,
+    transparent: true,
+    opacity: 0.15
+  });
+
+  const linesMesh = new THREE.LineSegments(linesGeometry, linesMaterial);
+  scene.add(linesMesh);
 
   // Mouse parallax
   let targetMX = 0, targetMY = 0;
   let currentMX = 0, currentMY = 0;
 
   document.addEventListener('mousemove', (e) => {
-    targetMX = (e.clientX / window.innerWidth  - 0.5) * 0.4;
-    targetMY = (e.clientY / window.innerHeight - 0.5) * 0.4;
+    targetMX = (e.clientX / window.innerWidth - 0.5) * 100;
+    targetMY = (e.clientY / window.innerHeight - 0.5) * 100;
   });
 
-  let animId;
-  const clock = new THREE.Clock();
-
   function animate() {
-    animId = requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
+    requestAnimationFrame(animate);
 
-    mat.uniforms.uTime.value = t;
+    const positions = particleSystem.geometry.attributes.position.array;
+    
+    // Move particles
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] += particleVelocities[i].x;
+      positions[i * 3 + 1] += particleVelocities[i].y;
+      positions[i * 3 + 2] += particleVelocities[i].z;
 
-    stars.rotation.y += 0.00025;
-    stars.rotation.x += 0.00008;
+      // Bounce
+      if (Math.abs(positions[i * 3]) > 400) particleVelocities[i].x *= -1;
+      if (Math.abs(positions[i * 3 + 1]) > 400) particleVelocities[i].y *= -1;
+      if (Math.abs(positions[i * 3 + 2]) > 200) particleVelocities[i].z *= -1;
+    }
+    particleSystem.geometry.attributes.position.needsUpdate = true;
 
-    // Smooth camera parallax
-    currentMX += (targetMX - currentMX) * 0.04;
-    currentMY += (targetMY - currentMY) * 0.04;
+    // Connect lines
+    const linePositions = [];
+    for (let i = 0; i < particleCount; i++) {
+      for (let j = i + 1; j < particleCount; j++) {
+        const dx = positions[i * 3] - positions[j * 3];
+        const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+        const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+        if (dist < maxDistance) {
+          linePositions.push(
+            positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2],
+            positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]
+          );
+        }
+      }
+    }
+    linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+
+    // Parallax
+    currentMX += (targetMX - currentMX) * 0.05;
+    currentMY += (targetMY - currentMY) * 0.05;
     camera.position.x = currentMX;
     camera.position.y = -currentMY;
     camera.lookAt(scene.position);
@@ -340,51 +336,13 @@ function initStarField(reduced) {
 
   animate();
 
-  // Resize
-  const ro = new ResizeObserver(() => {
+  window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
-  ro.observe(document.documentElement);
 }
 
-// ==========================================================================
-// 5. CUSTOM CURSOR
-// ==========================================================================
-function initCursor() {
-  const dot  = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  if (!dot || !ring || window.matchMedia('(hover: none)').matches) return;
-
-  let mouseX = -200, mouseY = -200;
-  let ringX  = -200, ringY  = -200;
-
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    dot.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
-  });
-
-  document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
-  document.addEventListener('mouseup',   () => ring.classList.remove('is-clicking'));
-
-  // Ring follows with lerp
-  function lerpRing() {
-    ringX += (mouseX - ringX) * 0.12;
-    ringY += (mouseY - ringY) * 0.12;
-    ring.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
-    requestAnimationFrame(lerpRing);
-  }
-  lerpRing();
-
-  // Hover states
-  const interactive = 'a, button, .magnetic, .proj-card, .featured-card, .tilt-card, .filter-btn, .social-btn, #intro-presentation';
-  document.querySelectorAll(interactive).forEach(el => {
-    el.addEventListener('mouseenter', () => ring.classList.add('is-hovering'));
-    el.addEventListener('mouseleave', () => ring.classList.remove('is-hovering'));
-  });
-}
 
 // ==========================================================================
 // 6. SPOTLIGHT — follows mouse
@@ -577,10 +535,10 @@ function initScrollAnimations(reduced) {
 // 9. ROLE TYPER
 // ==========================================================================
 function initRoleTyper() {
-  const el = document.getElementById('hero-role-text');
+  const el = document.getElementById('hero-typer-text'); // updated ID
   if (!el) return;
 
-  const roles = ['AI Systems', 'Data Pipelines', 'Smart Applications', 'ML Models', 'Intelligent Agents', 'Neural Networks'];
+  const roles = ['AI Engineer', 'Data Analyst', 'Machine Learning Developer', 'LLM Builder', 'Full Stack Developer'];
   let idx = 0, charIdx = 0, deleting = false;
 
   const type = () => {
@@ -598,7 +556,7 @@ function initRoleTyper() {
     setTimeout(type, delay);
   };
 
-  setTimeout(type, 3500); // after loader
+  setTimeout(type, 1500); // after loader
 }
 
 // ==========================================================================
@@ -1154,4 +1112,297 @@ function initProjectsModal() {
       closeModal();
     }
   });
+}
+
+// ==========================================================================
+// 26. HERO 3D BRAIN
+// ==========================================================================
+function initHeroBrain3D(reduced) {
+  const container = document.getElementById('hero-3d-container');
+  if (!container || typeof THREE === 'undefined') return;
+
+  const scene = new THREE.Scene();
+  // Adjust camera to fit the right-side container
+  const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 1000);
+  camera.position.z = 100;
+
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+
+  // Create nodes (Points)
+  const particleCount = 200;
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+  
+  // A rough sphere/brain shape
+  for (let i = 0; i < particleCount; i++) {
+    const phi = Math.acos(-1 + (2 * i) / particleCount);
+    const theta = Math.sqrt(particleCount * Math.PI) * phi;
+    
+    // add slight randomness
+    const r = 30 + (Math.random() * 5);
+    
+    positions[i * 3] = r * Math.cos(theta) * Math.sin(phi);
+    positions[i * 3 + 1] = r * Math.sin(theta) * Math.sin(phi);
+    positions[i * 3 + 2] = r * Math.cos(phi);
+  }
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  const material = new THREE.PointsMaterial({
+    color: 0x3b82f6,
+    size: 2,
+    transparent: true,
+    opacity: 0.8,
+  });
+
+  const brain = new THREE.Points(geometry, material);
+  scene.add(brain);
+
+  // Mouse Interaction
+  let mouseX = 0;
+  let mouseY = 0;
+  const windowHalfX = window.innerWidth / 2;
+  const windowHalfY = window.innerHeight / 2;
+
+  if (!reduced) {
+    document.addEventListener('mousemove', (event) => {
+      mouseX = (event.clientX - windowHalfX) * 0.05;
+      mouseY = (event.clientY - windowHalfY) * 0.05;
+    });
+  }
+
+  // Animation Loop
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const time = clock.getElapsedTime();
+
+    if (!reduced) {
+      // Gentle floating rotation
+      brain.rotation.y += 0.002;
+      brain.rotation.x = Math.sin(time * 0.5) * 0.1;
+
+      // Mouse follow effect
+      camera.position.x += (mouseX - camera.position.x) * 0.05;
+      camera.position.y += (-mouseY - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
+    }
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  // Handle Resize
+  window.addEventListener('resize', () => {
+    if (!container) return;
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  });
+}
+
+// ==========================================================================
+// 27. AI ASSISTANT WIDGET
+// ==========================================================================
+function initAIAssistant() {
+  const launcher = document.getElementById('ai-launcher-btn');
+  const chatWindow = document.getElementById('ai-chat-window');
+  const closeBtn = document.getElementById('ai-close-btn');
+  const chatBody = document.getElementById('ai-chat-body');
+  const input = document.getElementById('ai-chat-input');
+  const submitBtn = document.getElementById('ai-chat-submit');
+  const suggestionBtns = document.querySelectorAll('.ai-suggestion-btn');
+
+  if (!launcher || !chatWindow) return;
+
+  const toggleChat = () => {
+    chatWindow.classList.toggle('active');
+    if (chatWindow.classList.contains('active')) {
+      input.focus();
+    }
+  };
+
+  launcher.addEventListener('click', toggleChat);
+  closeBtn.addEventListener('click', () => chatWindow.classList.remove('active'));
+
+  const addMessage = (text, isUser = false) => {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `ai-message ${isUser ? 'user-message' : 'bot-message'}`;
+    msgDiv.innerHTML = `<p>${text}</p>`;
+    
+    // Remove suggestions if user types
+    if (isUser) {
+      const suggestions = chatBody.querySelector('.ai-suggestions');
+      if (suggestions) suggestions.remove();
+    }
+
+    chatBody.appendChild(msgDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  };
+
+  const showTypingIndicator = () => {
+    const indicator = document.createElement('div');
+    indicator.className = 'typing-indicator';
+    indicator.id = 'typing-indicator';
+    indicator.innerHTML = '<span></span><span></span><span></span>';
+    chatBody.appendChild(indicator);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  };
+
+  const removeTypingIndicator = () => {
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
+  };
+
+  const generateResponse = (query) => {
+    const lowerQuery = query.toLowerCase();
+    let response = "I'm still learning! You can ask me about Hetvi's projects, skills, or download her resume.";
+
+    if (lowerQuery.includes('project') || lowerQuery.includes('built') || lowerQuery.includes('work')) {
+      response = "Hetvi has built several impressive projects including an Autonomous Drone Navigation system using PyTorch, a Real-Time Patient Monitoring Dashboard, and an LLM-powered Code Review Assistant. You can check out the Projects section for details!";
+    } else if (lowerQuery.includes('skill') || lowerQuery.includes('tech') || lowerQuery.includes('know')) {
+      response = "She is highly skilled in Machine Learning (PyTorch, TensorFlow), Data Analytics (Python, SQL, Power BI), and Full-Stack Development (React, Next.js, Node.js).";
+    } else if (lowerQuery.includes('resume') || lowerQuery.includes('cv') || lowerQuery.includes('download')) {
+      response = "Sure! You can download her resume by clicking the 'Download Resume' button in the hero section, or <a href='Hetvisheth_resume.pdf' target='_blank' style='color:#60A5FA;text-decoration:underline;'>click right here</a>.";
+    } else if (lowerQuery.includes('contact') || lowerQuery.includes('hire') || lowerQuery.includes('email')) {
+      response = "You can reach out to her via the contact form at the bottom of the page, or email her directly at hetvi@example.com.";
+    } else if (lowerQuery.includes('hello') || lowerQuery.includes('hi ') || lowerQuery.includes('hey')) {
+      response = "Hello! How can I help you explore Hetvi's portfolio today?";
+    }
+
+    setTimeout(() => {
+      removeTypingIndicator();
+      addMessage(response, false);
+    }, 1500); // simulate thinking
+  };
+
+  const handleSubmit = () => {
+    const text = input.value.trim();
+    if (!text) return;
+    
+    addMessage(text, true);
+    input.value = '';
+    
+    showTypingIndicator();
+    generateResponse(text);
+  };
+
+  submitBtn.addEventListener('click', handleSubmit);
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleSubmit();
+  });
+
+  suggestionBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.textContent;
+      input.value = text;
+      handleSubmit();
+    });
+  });
+}
+
+// ==========================================================================
+// 28. SKILLS GALAXY
+// ==========================================================================
+function initSkillsGalaxy(reduced) {
+  const container = document.getElementById('sg-container');
+  const tooltip = document.getElementById('sg-tooltip');
+  if (!container || !tooltip) return;
+
+  const skillsData = [
+    { name: 'Python', level: 'Expert', projects: 7, desc: 'Primary language for ML, Data Analysis, and backend services.', color: 'linear-gradient(135deg, #3B82F6, #10B981)' },
+    { name: 'PyTorch', level: 'Advanced', projects: 4, desc: 'Used for autonomous drone navigation and deep learning models.', color: 'linear-gradient(135deg, #EF4444, #F59E0B)' },
+    { name: 'React', level: 'Advanced', projects: 5, desc: 'Building interactive and dynamic user interfaces for web apps.', color: 'linear-gradient(135deg, #06B6D4, #3B82F6)' },
+    { name: 'TensorFlow', level: 'Advanced', projects: 3, desc: 'Building and training neural networks for predictive analytics.', color: 'linear-gradient(135deg, #F59E0B, #EF4444)' },
+    { name: 'SQL', level: 'Advanced', projects: 6, desc: 'Complex querying, database design, and data warehousing.', color: 'linear-gradient(135deg, #8B5CF6, #3B82F6)' },
+    { name: 'Power BI', level: 'Intermediate', projects: 2, desc: 'Data visualization and business intelligence reporting.', color: 'linear-gradient(135deg, #F59E0B, #10B981)' },
+    { name: 'NLP', level: 'Advanced', projects: 3, desc: 'Building LLMs and text processing pipelines.', color: 'linear-gradient(135deg, #EC4899, #8B5CF6)' },
+    { name: 'FastAPI', level: 'Intermediate', projects: 4, desc: 'High-performance backend APIs for ML model serving.', color: 'linear-gradient(135deg, #10B981, #06B6D4)' },
+  ];
+
+  const planets = [];
+
+  skillsData.forEach((skill, i) => {
+    const el = document.createElement('div');
+    el.className = 'sg-planet';
+    // Size based on level/projects roughly
+    const size = skill.level === 'Expert' ? 100 : (skill.level === 'Advanced' ? 85 : 70);
+    el.style.width = `${size}px`;
+    el.style.height = `${size}px`;
+    el.style.background = skill.color;
+    el.innerHTML = `<span>${skill.name}</span>`;
+    
+    // Initial random position
+    let x = Math.random() * (container.clientWidth - size) + size / 2;
+    let y = Math.random() * (container.clientHeight - size) + size / 2;
+    
+    // Random velocity
+    let vx = (Math.random() - 0.5) * 1.5;
+    let vy = (Math.random() - 0.5) * 1.5;
+
+    planets.push({ el, x, y, vx, vy, size, skill, hovered: false });
+    container.appendChild(el);
+
+    // Interactivity
+    el.addEventListener('mouseenter', () => {
+      planets[i].hovered = true;
+      document.getElementById('sg-tooltip-title').textContent = skill.name;
+      document.getElementById('sg-tooltip-level').textContent = `Level: ${skill.level}`;
+      document.getElementById('sg-tooltip-projects').textContent = `Projects used: ${skill.projects}`;
+      document.getElementById('sg-tooltip-desc').textContent = skill.desc;
+      
+      tooltip.classList.add('active');
+      
+      // Position tooltip near the planet
+      const rect = el.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      
+      let tooltipX = rect.left - containerRect.left + (size / 2);
+      let tooltipY = rect.top - containerRect.top - 20;
+      
+      tooltip.style.left = `${tooltipX}px`;
+      tooltip.style.top = `${tooltipY}px`;
+    });
+
+    el.addEventListener('mouseleave', () => {
+      planets[i].hovered = false;
+      tooltip.classList.remove('active');
+    });
+  });
+
+  if (!reduced) {
+    function animate() {
+      planets.forEach(p => {
+        if (p.hovered) return; // Pause if hovered
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce off walls
+        if (p.x - p.size / 2 < 0 || p.x + p.size / 2 > container.clientWidth) p.vx *= -1;
+        if (p.y - p.size / 2 < 0 || p.y + p.size / 2 > container.clientHeight) p.vy *= -1;
+
+        // Keep inside bounds (safety)
+        p.x = Math.max(p.size / 2, Math.min(p.x, container.clientWidth - p.size / 2));
+        p.y = Math.max(p.size / 2, Math.min(p.y, container.clientHeight - p.size / 2));
+
+        p.el.style.left = `${p.x}px`;
+        p.el.style.top = `${p.y}px`;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  } else {
+    // Static placement for reduced motion
+    planets.forEach(p => {
+      p.el.style.left = `${p.x}px`;
+      p.el.style.top = `${p.y}px`;
+    });
+  }
 }

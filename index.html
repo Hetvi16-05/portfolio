@@ -129,9 +129,7 @@
     </div>
   </div>
 
-  <!-- =========== CUSTOM CURSOR =========== -->
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
+
 
   <!-- =========== BACKGROUND LAYERS =========== -->
   <canvas id="star-canvas"></canvas>
@@ -187,44 +185,34 @@
 
     <!-- =========== HERO =========== -->
     <section class="hero" id="hero">
-      <div class="hero-container">
-        <div class="hero-content-new">
-          
+      <div class="hero-container-new">
+        <!-- Left Side: Text and CTAs -->
+        <div class="hero-text-content">
           <div class="badge-glow hero-badge-new">
             <span class="pulse-dot-green"></span>
             OPEN TO INTERNSHIPS & COLLABORATIONS
           </div>
 
-          <h1 class="hero-title-new">
-            <div class="hero-line"><span class="serif-italic">Engineering </span><span class="sans-bold">INTELLIGENT</span></div>
-            <div class="hero-line"><span class="sans-bold">PIPELINES</span></div>
-            <div class="hero-line"><span class="serif-italic">that predict, </span><span class="sans-bold bracketed">SCALE</span><span class="sans-bold"> & AUTOMATE.</span></div>
+          <h1 class="hero-title-main">
+            Building AI Systems that Transform Data into <span class="gradient-text">Intelligent Decisions.</span>
           </h1>
 
-          <div class="hero-bottom-row">
-            <div class="hero-bio-container">
-              <p class="hero-bio-new">
-                I am Hetvi Sheth, a CS student at Navrachana University. I build computer vision pipelines and edge ML systems because I believe in solving real, physical-world problems and amplifying human capabilities.
-              </p>
-              <div class="hero-signature">Hetvi Sheth</div>
-            </div>
+          <div class="hero-typing-container">
+            <span class="hero-typing-prefix">I am a </span>
+            <span id="hero-typer-text" class="hero-typer-text"></span>
+            <span class="hero-cursor">|</span>
+          </div>
 
-            <div class="hero-actions-container">
-              <div class="my-work-note">
-                <span>my work</span>
-                <svg class="drawn-arrow" width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 2C20 8 45 15 55 35M55 35L45 32M55 35L52 25" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div class="hero-ctas" id="hero-ctas">
+          <div class="hero-new-ctas">
             <a href="#all-projects-section" class="btn-pill-solid magnetic">
-              VIEW WORK <i data-lucide="arrow-right" width="18" height="18"></i>
+              View Projects <i data-lucide="arrow-right"></i>
+            </a>
+            <a href="Hetvisheth_resume.pdf" target="_blank" class="btn-pill-outline magnetic">
+              Download Resume <i data-lucide="download"></i>
             </a>
             <a href="#contact" class="btn-pill-outline magnetic">
-              SAY HELLO <i data-lucide="arrow-up-right" width="18" height="18"></i>
+              Contact Me <i data-lucide="mail"></i>
             </a>
-          </div>
-            </div>
           </div>
 
           <div class="recruiter-mode-btn magnetic">
@@ -236,7 +224,11 @@
               <i data-lucide="briefcase" width="16" height="16"></i> RECRUITER MODE
             </button>
           </div>
+        </div>
 
+        <!-- Right Side: 3D Illustration Container -->
+        <div class="hero-3d-content" id="hero-3d-container">
+          <!-- Three.js Canvas will be injected here via app.js -->
         </div>
       </div>
     </section>
@@ -498,45 +490,93 @@
       </section>
     </div>
 
-    <!-- =========== SKILLS TICKER =========== -->
-    <div class="ticker-section" aria-hidden="true">
-      <div style="display:flex; overflow:hidden;">
-        <div class="ticker-wrapper">
-          <div class="ticker-item">
-            <span class="ticker-text">Python</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Machine Learning</span><span class="ticker-sep"></span>
-            <span class="ticker-text">TensorFlow</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Data Analytics</span><span class="ticker-sep"></span>
-            <span class="ticker-text">NLP</span><span class="ticker-sep"></span>
-            <span class="ticker-text">React</span><span class="ticker-sep"></span>
-            <span class="ticker-text">FastAPI</span><span class="ticker-sep"></span>
-            <span class="ticker-text">SQL</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Computer Vision</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Power BI</span><span class="ticker-sep"></span>
-            <span class="ticker-text">PyTorch</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Big Data</span><span class="ticker-sep"></span>
-            <span class="ticker-text">GSAP</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Three.js</span><span class="ticker-sep"></span>
+    <!-- =========== AI PIPELINE STORYLINE =========== -->
+    <section id="ai-pipeline" class="ai-pipeline-section">
+      <div class="container">
+        <div class="section-label reveal" style="justify-content:center">The Process</div>
+        <h2 class="reveal reveal-delay-1" style="text-align:center; margin-bottom: 3rem;">
+          How I Build <span class="gradient-text">Intelligent Systems</span>
+        </h2>
+        
+        <div class="pipeline-grid">
+          
+          <!-- Step 1 -->
+          <div class="pipeline-step reveal reveal-delay-2">
+            <div class="step-icon">
+              <i data-lucide="database"></i>
+            </div>
+            <div class="step-content">
+              <h3>1. Data Engineering</h3>
+              <p>Gathering, cleaning, and structuring raw data into scalable pipelines using SQL, Python, and big data tools.</p>
+              <div class="mini-chart data-flow-chart">
+                <div class="data-bar" style="height: 40%"></div>
+                <div class="data-bar" style="height: 60%"></div>
+                <div class="data-bar" style="height: 30%"></div>
+                <div class="data-bar" style="height: 80%"></div>
+                <div class="data-bar" style="height: 50%"></div>
+              </div>
+            </div>
           </div>
-          <div class="ticker-item" aria-hidden="true">
-            <span class="ticker-text">Python</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Machine Learning</span><span class="ticker-sep"></span>
-            <span class="ticker-text">TensorFlow</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Data Analytics</span><span class="ticker-sep"></span>
-            <span class="ticker-text">NLP</span><span class="ticker-sep"></span>
-            <span class="ticker-text">React</span><span class="ticker-sep"></span>
-            <span class="ticker-text">FastAPI</span><span class="ticker-sep"></span>
-            <span class="ticker-text">SQL</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Computer Vision</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Power BI</span><span class="ticker-sep"></span>
-            <span class="ticker-text">PyTorch</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Big Data</span><span class="ticker-sep"></span>
-            <span class="ticker-text">GSAP</span><span class="ticker-sep"></span>
-            <span class="ticker-text">Three.js</span><span class="ticker-sep"></span>
+
+          <div class="pipeline-connector reveal reveal-delay-2"></div>
+
+          <!-- Step 2 -->
+          <div class="pipeline-step reveal reveal-delay-3">
+            <div class="step-icon">
+              <i data-lucide="brain"></i>
+            </div>
+            <div class="step-content">
+              <h3>2. Model Training</h3>
+              <p>Designing and fine-tuning neural networks (PyTorch/TensorFlow) to find patterns and generate insights.</p>
+              <div class="mini-chart model-train-chart">
+                <svg viewBox="0 0 100 40" class="loss-curve">
+                  <path d="M 0,5 Q 25,35 50,38 T 100,39" fill="none" stroke="#8B5CF6" stroke-width="2" />
+                </svg>
+              </div>
+            </div>
           </div>
+
+          <div class="pipeline-connector reveal reveal-delay-3"></div>
+
+          <!-- Step 3 -->
+          <div class="pipeline-step reveal reveal-delay-4">
+            <div class="step-icon">
+              <i data-lucide="rocket"></i>
+            </div>
+            <div class="step-content">
+              <h3>3. Deployment</h3>
+              <p>Serving models via robust REST APIs (FastAPI) and integrating them into full-stack web applications.</p>
+              <div class="mini-chart deploy-chart">
+                <div class="node-ring"></div>
+                <div class="node-center"><i data-lucide="server" style="width: 14px; height:14px;"></i></div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- =========== INTERACTIVE SKILLS GALAXY =========== -->
+    <section id="skills-galaxy" class="skills-galaxy-section">
+      <div class="container">
+        <div class="section-label reveal" style="justify-content:center">Technical Arsenal</div>
+        <h2 class="reveal reveal-delay-1" style="text-align:center; margin-bottom: 3rem;">
+          My <span class="gradient-text">Skills Galaxy</span>
+        </h2>
+        
+        <div class="skills-galaxy-container" id="sg-container">
+          <!-- Planets will be generated by app.js -->
+        </div>
+
+        <div class="sg-tooltip" id="sg-tooltip">
+          <div class="sg-tooltip-title" id="sg-tooltip-title">Skill</div>
+          <div class="sg-tooltip-level" id="sg-tooltip-level">Level: Expert</div>
+          <div class="sg-tooltip-projects" id="sg-tooltip-projects">Projects: 3</div>
+          <div class="sg-tooltip-desc" id="sg-tooltip-desc">Description of the skill.</div>
+        </div>
+      </div>
+    </section>
 
     <!-- =========== CTA =========== -->
     <section class="cta-section" id="cta">
@@ -668,6 +708,44 @@
       <p class="rs-footer-desc">Generates a print-friendly, 1-page resume visualizer tailored to the selected role.</p>
     </div>
   </aside>
+
+  <!-- =========== FLOATING AI ASSISTANT =========== -->
+  <div class="ai-assistant-wrapper">
+    <div class="ai-chat-window" id="ai-chat-window">
+      <div class="ai-chat-header">
+        <div class="ai-chat-header-info">
+          <div class="ai-avatar">
+            <i data-lucide="bot"></i>
+          </div>
+          <div>
+            <span class="ai-title">Hetvi.AI</span>
+            <span class="ai-status">Online</span>
+          </div>
+        </div>
+        <button class="ai-close-btn" id="ai-close-btn"><i data-lucide="x"></i></button>
+      </div>
+      
+      <div class="ai-chat-body" id="ai-chat-body">
+        <div class="ai-message bot-message">
+          <p>Hi! I'm an AI assistant trained on Hetvi's portfolio. You can ask me about her projects, skills, or experience!</p>
+          <div class="ai-suggestions">
+            <button class="ai-suggestion-btn">What projects have you built?</button>
+            <button class="ai-suggestion-btn">What technologies do you know?</button>
+            <button class="ai-suggestion-btn">Download resume</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-chat-footer">
+        <input type="text" id="ai-chat-input" placeholder="Ask anything..." autocomplete="off">
+        <button id="ai-chat-submit"><i data-lucide="send"></i></button>
+      </div>
+    </div>
+    
+    <button class="ai-launcher-btn" id="ai-launcher-btn">
+      <i data-lucide="sparkles"></i>
+    </button>
+  </div>
 
   <script type="module" src="app.js"></script>
 </body>
