@@ -193,6 +193,8 @@ function launchSite(reduced) {
   initContactForm();
   initProjectFilters();
   initAboutNameAnimation(reduced);
+  initThemeToggle();
+  initRecruiterMode();
 }
 
 // ==========================================================================
@@ -1007,4 +1009,79 @@ function initPageTransition() {
       setTimeout(() => { window.location.href = href; }, 340);
     });
   });
+}
+
+// ==========================================================================
+// 23. THEME TOGGLE
+// ==========================================================================
+function initThemeToggle() {
+  const toggleBtns = document.querySelectorAll('.theme-toggle');
+  
+  // Check local storage or system preference
+  const currentTheme = localStorage.getItem('theme') || 
+    (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  
+  if (currentTheme === 'light') {
+    document.body.classList.add('light-mode');
+    updateToggleIcons('moon');
+  } else {
+    updateToggleIcons('sun');
+  }
+
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      const isLight = document.body.classList.contains('light-mode');
+      
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      updateToggleIcons(isLight ? 'moon' : 'sun');
+    });
+  });
+
+  function updateToggleIcons(iconName) {
+    toggleBtns.forEach(btn => {
+      btn.innerHTML = `<i data-lucide="${iconName}"></i>`;
+    });
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  }
+}
+
+// ==========================================================================
+// 24. RECRUITER MODE INTERACTION
+// ==========================================================================
+function initRecruiterMode() {
+  const recruiterBtn = document.querySelector('.recruiter-pill');
+  const closeTooltip = document.querySelector('.close-recruiter');
+  const tooltip = document.querySelector('.recruiter-tooltip');
+
+  if (closeTooltip && tooltip) {
+    closeTooltip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      gsap.to(tooltip, {
+        opacity: 0,
+        y: 10,
+        duration: 0.3,
+        onComplete: () => tooltip.style.display = 'none'
+      });
+    });
+  }
+
+  if (recruiterBtn) {
+    recruiterBtn.addEventListener('click', () => {
+      // Simulate enabling a special mode
+      recruiterBtn.innerHTML = `<i data-lucide="check" width="16" height="16"></i> MODE ACTIVE`;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      
+      recruiterBtn.style.background = 'var(--purple)';
+      recruiterBtn.style.color = '#fff';
+      recruiterBtn.style.borderColor = 'var(--purple)';
+      
+      // Could open the resume directly or scroll to a specific section
+      setTimeout(() => {
+        window.open('Hetvisheth_resume.pdf', '_blank');
+      }, 600);
+    });
+  }
 }

@@ -3970,3 +3970,61 @@ p {
   color: var(--text-muted);
   cursor: pointer;
 }
+
+/* ==========================================================================
+   LIGHT MODE OVERRIDES
+   ========================================================================== */
+body.light-mode {
+  --bg-deep: #F8FAFC;
+  --bg-dark: #F1F5F9;
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-glass: rgba(255, 255, 255, 0.7);
+  --bg-surface: rgba(255, 255, 255, 0.9);
+
+  --text: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+
+  --border: rgba(0, 0, 0, 0.1);
+  --border-bright: rgba(0, 0, 0, 0.2);
+
+  --glass-bg: rgba(0, 0, 0, 0.03);
+  --glass-border: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode #header .logo-text-bold,
+body.light-mode .sans-bold,
+body.light-mode .hero-title-new .sans-bold {
+  color: #0F172A !important;
+}
+
+body.light-mode .btn-pill-solid {
+  background: var(--blue);
+  color: #fff;
+}
+
+body.light-mode .btn-pill-outline {
+  color: var(--text);
+  border-color: var(--border-bright);
+}
+
+body.light-mode .serif-italic {
+  color: var(--text-muted);
+}
+
+body.light-mode .hero-badge-new {
+  background: rgba(0,0,0,0.04);
+}
+
+body.light-mode .recruiter-pill {
+  color: var(--text);
+  background: rgba(0,0,0,0.05);
+}
+
+body.light-mode .recruiter-pill:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+body.light-mode #header.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+}
