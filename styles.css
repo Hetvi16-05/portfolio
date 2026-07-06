@@ -3895,14 +3895,15 @@ p {
 }
 
 .recruiter-mode-btn {
-  position: absolute;
-  bottom: 0;
-  left: -100px;
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 1000;
 }
 
 @media (max-width: 1200px) {
   .recruiter-mode-btn {
-    left: 0;
+    left: 2rem;
   }
 }
 
@@ -3913,9 +3914,8 @@ p {
     gap: 3rem;
   }
   .recruiter-mode-btn {
-    position: relative;
-    left: 0;
-    margin-top: 2rem;
+    bottom: 1.5rem;
+    left: 1.5rem;
   }
   .my-work-note {
     top: -55px;
