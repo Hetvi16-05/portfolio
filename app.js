@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
+  initNeuralCursor();
   initSpotlight();
   initLoadingScreen(prefersReduced);
   initPageTransition();
@@ -343,6 +344,53 @@ function initStarField(reduced) {
   });
 }
 
+
+// ==========================================================================
+// 5. AI NEURAL CURSOR
+// ==========================================================================
+function initNeuralCursor() {
+  const node = document.getElementById('cursor-node');
+  const synapse = document.getElementById('cursor-synapse');
+  
+  if (!node || !synapse || window.matchMedia('(hover: none)').matches) return;
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  
+  let synapseX = mouseX;
+  let synapseY = mouseY;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Node follows instantly
+    node.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
+  });
+
+  // Synapse follows with lerp
+  function animateSynapse() {
+    synapseX += (mouseX - synapseX) * 0.15;
+    synapseY += (mouseY - synapseY) * 0.15;
+    synapse.style.transform = `translate(calc(${synapseX}px - 50%), calc(${synapseY}px - 50%))`;
+    requestAnimationFrame(animateSynapse);
+  }
+  animateSynapse();
+
+  // Hover states
+  const interactiveElements = document.querySelectorAll('a, button, input, select, textarea, .sg-planet, .btn-primary, .btn-outline, .project-card');
+  
+  interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      node.classList.add('is-hovering');
+      synapse.classList.add('is-hovering');
+    });
+    el.addEventListener('mouseleave', () => {
+      node.classList.remove('is-hovering');
+      synapse.classList.remove('is-hovering');
+    });
+  });
+}
 
 // ==========================================================================
 // 6. SPOTLIGHT — follows mouse
