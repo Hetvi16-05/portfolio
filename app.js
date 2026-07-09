@@ -195,12 +195,12 @@ function launchSite(reduced) {
   initAboutNameAnimation(reduced);
   initThemeToggle();
   initRecruiterMode();
-  initProjectsModal();
   initHeroBrain3D(reduced);
   initAIAssistant();
   initSkillsGalaxy(reduced);
   initGitHubGraph();
   initCodeTerminal();
+  initFAQ();
 }
 
 // ==========================================================================
@@ -1187,40 +1187,10 @@ function initRecruiterMode() {
 }
 
 // ==========================================================================
-// 25. PROJECTS MODAL (SPA OVERLAY)
+// 25. PROJECTS MODAL (SPA OVERLAY) - Removed
 // ==========================================================================
 function initProjectsModal() {
-  const modal = document.getElementById('projects-modal');
-  const closeBtn = document.getElementById('close-projects-btn');
-  if (!modal) return;
-
-  const openLinks = document.querySelectorAll('a[href="#all-projects-section"]');
-  
-  const openModal = (e) => {
-    e.preventDefault();
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-  };
-
-  const closeModal = () => {
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-  };
-
-  openLinks.forEach(link => {
-    link.addEventListener('click', openModal);
-  });
-
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeModal);
-  }
-
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      closeModal();
-    }
-  });
+  // Logic removed, now using projects.html page directly.
 }
 
 // ==========================================================================
@@ -1374,13 +1344,15 @@ function initAIAssistant() {
     let response = "I'm still learning! You can ask me about Hetvi's projects, skills, or download her resume.";
 
     if (lowerQuery.includes('project') || lowerQuery.includes('built') || lowerQuery.includes('work')) {
-      response = "Hetvi has built several impressive projects including an Autonomous Drone Navigation system using PyTorch, a Real-Time Patient Monitoring Dashboard, and an LLM-powered Code Review Assistant. You can check out the Projects section for details!";
+      response = "Hetvi has built several impressive systems including <strong>Saarthi AI</strong> (a multi-turn RAG chatbot), <strong>RAINWISE V3.1</strong> (rainfall prediction with 98.89% accuracy), and a <strong>Stroke Risk Engine</strong>. You can check out the Projects page for details!";
     } else if (lowerQuery.includes('skill') || lowerQuery.includes('tech') || lowerQuery.includes('know')) {
-      response = "She is highly skilled in Machine Learning (PyTorch, TensorFlow), Data Analytics (Python, SQL, Power BI), and Full-Stack Development (React, Next.js, Node.js).";
+      response = "She is highly skilled in Data & AI (Python, PyTorch, TensorFlow, Pandas, SQL) and Full-Stack Development (React, Next.js, Node.js, Express, HTML/CSS).";
+    } else if (lowerQuery.includes('education') || lowerQuery.includes('degree') || lowerQuery.includes('study')) {
+      response = "She holds a B.Tech in Computer Science & Engineering from Navrachana University, with a CGPA of 8.87/10.";
     } else if (lowerQuery.includes('resume') || lowerQuery.includes('cv') || lowerQuery.includes('download')) {
       response = "Sure! You can download her resume by clicking the 'Download Resume' button in the hero section, or <a href='Hetvisheth_resume.pdf' target='_blank' style='color:#60A5FA;text-decoration:underline;'>click right here</a>.";
     } else if (lowerQuery.includes('contact') || lowerQuery.includes('hire') || lowerQuery.includes('email')) {
-      response = "You can reach out to her via the contact form at the bottom of the page, or email her directly at hetvi@example.com.";
+      response = "You can reach out to her via the Contact page, or email her directly at <strong>shethhetvi11@gmail.com</strong>.";
     } else if (lowerQuery.includes('hello') || lowerQuery.includes('hi ') || lowerQuery.includes('hey')) {
       response = "Hello! How can I help you explore Hetvi's portfolio today?";
     }
@@ -1558,6 +1530,31 @@ function initCodeTerminal() {
     });
     btn.addEventListener('mouseleave', () => {
       btn.style.transform = 'scale(1)';
+    });
+  });
+}
+
+// ==========================================================================
+// 29. FAQ ACCORDION
+// ==========================================================================
+function initFAQ() {
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+      const isExpanded = question.getAttribute('aria-expanded') === 'true';
+      const answer = question.nextElementSibling;
+      
+      // Close all others
+      faqQuestions.forEach(q => {
+        q.setAttribute('aria-expanded', 'false');
+        q.nextElementSibling.style.maxHeight = null;
+      });
+      
+      if (!isExpanded) {
+        question.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = answer.scrollHeight + "px";
+      }
     });
   });
 }
