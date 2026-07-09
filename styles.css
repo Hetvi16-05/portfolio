@@ -4894,3 +4894,260 @@ body.light-mode .projects-modal {
 @keyframes pingRing {
   75%, 100% { transform: scale(2); opacity: 0; }
 }
+
+/* ==========================================================================
+   NEW RECRUITER MODE & PORTFOLIO ENHANCEMENTS
+   ========================================================================== */
+
+/* 1. ATS Match Score & Why Hire Me */
+.rs-match-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.rs-match-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.rs-match-score-ring {
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+.circular-chart {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 250px;
+}
+.circle-bg {
+  fill: none;
+  stroke: var(--glass-border);
+  stroke-width: 2.5;
+}
+.circle {
+  fill: none;
+  stroke: var(--purple);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  transition: stroke-dasharray 1s ease-out, stroke 0.5s ease;
+}
+.percentage {
+  fill: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  text-anchor: middle;
+  font-weight: bold;
+}
+.rs-match-title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+.rs-match-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
+.rs-match-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.rs-why-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+#rs-why-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+#rs-why-list li {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+#rs-why-list li i {
+  width: 14px;
+  height: 14px;
+  color: var(--green);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* 2. Business Impact Badges */
+.business-impact-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.impact-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--r-sm);
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.impact-badge i {
+  width: 12px;
+  height: 12px;
+}
+.impact-badge.purple-glow {
+  border-color: var(--purple-dim);
+  color: #a78bfa;
+  box-shadow: 0 0 10px var(--purple-dim);
+}
+.impact-badge.blue-glow {
+  border-color: var(--blue-dim);
+  color: #60a5fa;
+  box-shadow: 0 0 10px var(--blue-dim);
+}
+.impact-badge.cyan-glow {
+  border-color: var(--cyan-dim);
+  color: #22d3ee;
+  box-shadow: 0 0 10px var(--cyan-dim);
+}
+
+/* 3. Interactive Code Terminal */
+.about-terminal-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.terminal-window {
+  background: #0f111a;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.terminal-header {
+  background: #1a1b26;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.terminal-buttons {
+  display: flex;
+  gap: 6px;
+}
+.t-btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.t-btn.close { background: #f7768e; }
+.t-btn.min { background: #e0af68; }
+.t-btn.max { background: #9ece6a; }
+.terminal-title {
+  margin-left: auto;
+  margin-right: auto;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.terminal-body {
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #a9b1d6;
+  overflow-x: auto;
+}
+.syntax-keyword { color: #bb9af7; }
+.syntax-class { color: #e0af68; }
+.syntax-function { color: #7aa2f7; }
+.syntax-self { color: #f7768e; }
+.syntax-builtin { color: #0db9d7; }
+.syntax-boolean { color: #ff9e64; }
+.syntax-number { color: #ff9e64; }
+.syntax-comment { color: #565f89; font-style: italic; }
+
+/* 4. GitHub Contribution Graph */
+.github-graph-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 2rem;
+  backdrop-filter: var(--glass-blur);
+}
+.github-graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+}
+.github-graph-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  margin: 0;
+}
+.github-graph-title i {
+  width: 20px;
+  height: 20px;
+}
+.github-graph-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.github-graph {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12px, 1fr));
+  gap: 4px;
+  justify-content: center;
+}
+.github-graph .day {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--bg-surface);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.github-graph .day:hover {
+  transform: scale(1.2);
+  z-index: 10;
+}
+.github-graph .day.lvl-0 { background: rgba(255, 255, 255, 0.05); }
+.github-graph .day.lvl-1 { background: rgba(139, 92, 246, 0.3); box-shadow: 0 0 5px rgba(139, 92, 246, 0.3); }
+.github-graph .day.lvl-2 { background: rgba(139, 92, 246, 0.6); box-shadow: 0 0 8px rgba(139, 92, 246, 0.5); }
+.github-graph .day.lvl-3 { background: rgba(139, 92, 246, 0.8); box-shadow: 0 0 12px rgba(139, 92, 246, 0.7); }
+.github-graph .day.lvl-4 { background: #8B5CF6; box-shadow: 0 0 15px #8B5CF6; }
+
+.github-graph-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.legend-square {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.legend-square.lvl-0 { background: rgba(255, 255, 255, 0.05); }
+.legend-square.lvl-1 { background: rgba(139, 92, 246, 0.3); }
+.legend-square.lvl-2 { background: rgba(139, 92, 246, 0.6); }
+.legend-square.lvl-3 { background: rgba(139, 92, 246, 0.8); }
+.legend-square.lvl-4 { background: #8B5CF6; }

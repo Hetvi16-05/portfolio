@@ -199,6 +199,8 @@ function launchSite(reduced) {
   initHeroBrain3D(reduced);
   initAIAssistant();
   initSkillsGalaxy(reduced);
+  initGitHubGraph();
+  initCodeTerminal();
 }
 
 // ==========================================================================
@@ -1101,6 +1103,46 @@ function initRecruiterMode() {
   if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
   if (overlay) overlay.addEventListener('click', closeSidebar);
 
+  // Role selection data
+  const roleData = {
+    ml_ai: {
+      score: 94,
+      subtitle: "Highly Recommended",
+      reasons: [
+        '<i data-lucide="check-circle-2"></i> Strong foundation in PyTorch and TensorFlow',
+        '<i data-lucide="check-circle-2"></i> Experience deploying RAG pipelines and LLMs',
+        '<i data-lucide="check-circle-2"></i> Proven ability to solve real-world problems'
+      ]
+    },
+    data: {
+      score: 88,
+      subtitle: "Strong Match",
+      reasons: [
+        '<i data-lucide="check-circle-2"></i> Proficient in complex Data Pipelines and EDA',
+        '<i data-lucide="check-circle-2"></i> Advanced SQL and predictive modeling',
+        '<i data-lucide="check-circle-2"></i> Experience handling severe class imbalances'
+      ]
+    },
+    fullstack_ai: {
+      score: 98,
+      subtitle: "Perfect Match",
+      reasons: [
+        '<i data-lucide="check-circle-2"></i> End-to-end FastAPI & React deployments',
+        '<i data-lucide="check-circle-2"></i> Seamless GenAI and pgvector integrations',
+        '<i data-lucide="check-circle-2"></i> Proven track record of scalable systems'
+      ]
+    },
+    software: {
+      score: 85,
+      subtitle: "Good Fit",
+      reasons: [
+        '<i data-lucide="check-circle-2"></i> Excellent Python systems programming skills',
+        '<i data-lucide="check-circle-2"></i> Experience building robust REST APIs',
+        '<i data-lucide="check-circle-2"></i> Deep understanding of computer science fundamentals'
+      ]
+    }
+  };
+
   // Radio button selection logic
   options.forEach(option => {
     option.addEventListener('click', () => {
@@ -1110,7 +1152,26 @@ function initRecruiterMode() {
       option.classList.add('active');
       // Set the radio input to checked
       const radio = option.querySelector('input[type="radio"]');
-      if (radio) radio.checked = true;
+      if (radio) {
+        radio.checked = true;
+        
+        // Update Match Score & Why Hire Me
+        const data = roleData[radio.value];
+        if (data) {
+          const circle = document.getElementById('rs-match-circle');
+          const percentage = document.getElementById('rs-match-percentage');
+          const subtitle = document.querySelector('.rs-match-subtitle');
+          const list = document.getElementById('rs-why-list');
+          
+          if (circle && percentage && list) {
+            circle.style.strokeDasharray = `${data.score}, 100`;
+            percentage.textContent = `${data.score}%`;
+            if (subtitle) subtitle.textContent = data.subtitle;
+            list.innerHTML = data.reasons.map(r => `<li>${r}</li>`).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+          }
+        }
+      }
     });
   });
 
@@ -1453,4 +1514,50 @@ function initSkillsGalaxy(reduced) {
       p.el.style.top = `${p.y}px`;
     });
   }
+}
+
+// ==========================================================================
+// 27. GITHUB CONTRIBUTION GRAPH
+// ==========================================================================
+function initGitHubGraph() {
+  const grid = document.getElementById('github-graph-grid');
+  if (!grid) return;
+  
+  // 52 weeks * 7 days = 364 days. Let's render about 150 squares for a clean UI block
+  const numSquares = 180; 
+  let html = '';
+  
+  for (let i = 0; i < numSquares; i++) {
+    // Randomize activity levels to simulate a real graph
+    // Weight it slightly towards lvl-0 and lvl-1 to look realistic
+    const rand = Math.random();
+    let lvl = 0;
+    if (rand > 0.4) lvl = 1;
+    if (rand > 0.7) lvl = 2;
+    if (rand > 0.85) lvl = 3;
+    if (rand > 0.95) lvl = 4;
+    
+    html += `<div class="day lvl-${lvl}"></div>`;
+  }
+  
+  grid.innerHTML = html;
+}
+
+// ==========================================================================
+// 28. INTERACTIVE CODE TERMINAL
+// ==========================================================================
+function initCodeTerminal() {
+  const termBody = document.getElementById('code-terminal-body');
+  if (!termBody) return;
+  
+  // Basic hover effect for window buttons
+  const buttons = document.querySelectorAll('.t-btn');
+  buttons.forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+      btn.style.transform = 'scale(1.2)';
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'scale(1)';
+    });
+  });
 }
