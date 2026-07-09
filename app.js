@@ -201,6 +201,7 @@ function launchSite(reduced) {
   initGitHubGraph();
   initCodeTerminal();
   initFAQ();
+  initDashboard();
 }
 
 // ==========================================================================
@@ -1557,4 +1558,33 @@ function initFAQ() {
       }
     });
   });
+}
+
+// ==========================================================================
+// 30. DEVELOPER DASHBOARD ANIMATIONS
+// ==========================================================================
+function initDashboard() {
+  // Animate LeetCode rings on scroll
+  const lcRings = document.querySelectorAll('.lc-progress');
+  if (lcRings.length === 0) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animate each ring to its target offset
+        lcRings.forEach(ring => {
+          const targetOffset = ring.style.getPropertyValue('--target-offset');
+          if (targetOffset) {
+            ring.style.strokeDashoffset = targetOffset;
+          }
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  const dashboardSection = document.getElementById('dashboard');
+  if (dashboardSection) {
+    observer.observe(dashboardSection);
+  }
 }
