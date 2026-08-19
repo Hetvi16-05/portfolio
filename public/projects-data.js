@@ -170,6 +170,28 @@ const githubProjects = [
       <h2>Live Demo</h2>
       <p>Check out the live application here: <a href="https://travia-tawny.vercel.app" target="_blank" style="color: var(--primary);">travia-tawny.vercel.app</a></p>
     `
+  },
+  {
+    repoId: "Arcanum-AI",
+    title: "Arcanum AI",
+    category: "ai",
+    icon: "brain",
+    badge: "EdTech & AI",
+    shortDesc: "Real-time EdTech platform providing adaptive contextual explanations and classroom telemetry.",
+    tags: ["Python", "FastAPI", "React", "AI/ML"],
+    link: "https://github.com/Priya-bhatt-crazy/TETRA027",
+    fullDetails: \`
+      <h2>Project Overview</h2>
+      <p>An EdTech platform making complex academic concepts intuitive through real-time AI, contextual explanations, multilingual support, and classroom intelligence telemetry. Built at TetraTHON 2026 (6th Rank / 160 Teams) and currently scaling into a commercial product.</p>
+      <h2>Key Features</h2>
+      <ul>
+        <li><strong>Real-time AI:</strong> Contextual concept simplification & multi-modal explanations.</li>
+        <li><strong>Multilingual Support:</strong> Dynamic multi-language adaptive pathways for diverse learners.</li>
+        <li><strong>Classroom Telemetry:</strong> Real-time comprehension analytics dashboard for educators.</li>
+      </ul>
+      <h2>Live Demo</h2>
+      <p>Check out the live application here: <a href="https://tetra027.web.app/" target="_blank" style="color: var(--primary);">tetra027.web.app</a></p>
+    \`
   }
 ];
 
