@@ -24,8 +24,21 @@
   </div>
   <div id="spotlight" aria-hidden="true"></div>
 
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
+  <div id="cursor-node">
+    <div class="cursor-icon-wrapper">
+      <svg class="ai-cursor-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+        <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+      </svg>
+    </div>
+  </div>
+  <div id="cursor-synapse">
+    <svg class="synapse-svg" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.6"/>
+      <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="20 10 5 10"/>
+      <path d="M50 0 L50 12 M50 88 L50 100 M0 50 L12 50 M88 50 L100 50" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
   <div id="page-transition" aria-hidden="true"></div>
 
   <header id="header">
