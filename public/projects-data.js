@@ -181,16 +181,65 @@ const githubProjects = [
     tags: ["Python", "FastAPI", "React", "AI/ML"],
     link: "https://github.com/Priya-bhatt-crazy/TETRA027",
     fullDetails: `
-      <h2>Project Overview</h2>
-      <p>An EdTech platform making complex academic concepts intuitive through real-time AI, contextual explanations, multilingual support, and classroom intelligence telemetry. Built at TetraTHON 2026 (6th Rank / 160 Teams) and currently scaling into a commercial product.</p>
-      <h2>Key Features</h2>
-      <ul>
-        <li><strong>Real-time AI:</strong> Contextual concept simplification & multi-modal explanations.</li>
-        <li><strong>Multilingual Support:</strong> Dynamic multi-language adaptive pathways for diverse learners.</li>
-        <li><strong>Classroom Telemetry:</strong> Real-time comprehension analytics dashboard for educators.</li>
+      <h2>The Solution</h2>
+      <p>Engineered Arcanum AI, a real-time EdTech system delivering adaptive contextual explanations, language translation layers, and classroom intelligence analytics. Led the AI/ML pipeline design, real-time backend API architecture, and prompt processing pathways.</p>
+      <ul style="list-style-type: none; padding-left: 0; margin-bottom: 2rem;">
+        <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: var(--primary);">✓</span> <span>Real-time AI contextual explanations for simplifying complex academic concepts</span></li>
+        <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: var(--primary);">✓</span> <span>Multilingual translation and adaptive context pathways for diverse learners</span></li>
+        <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: var(--primary);">✓</span> <span>Classroom intelligence dashboard providing live student comprehension telemetry for educators</span></li>
+        <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: var(--primary);">✓</span> <span>High-concurrency backend architecture engineered for instantaneous query response generation</span></li>
+        <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: var(--primary);">✓</span> <span>Built in a 36-hour hackathon sprint and actively scaling into a commercial product</span></li>
       </ul>
+
+      <h2>System Pipeline</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0 2.5rem 0; align-items: center;">
+        <div style="flex: 1 1 180px; padding: 1.2rem; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; text-align: left;">
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary); letter-spacing: 1px;">STEP 01</span>
+          <h4 style="margin: 0.5rem 0; font-size: 1rem; color: var(--text);">Query Ingest</h4>
+          <p style="font-size: 0.85rem; margin: 0; color: var(--text-muted);">Multilingual student input</p>
+        </div>
+        <div style="color: var(--text-muted); font-size: 1.2rem;">→</div>
+        <div style="flex: 1 1 180px; padding: 1.2rem; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; text-align: left;">
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary); letter-spacing: 1px;">STEP 02</span>
+          <h4 style="margin: 0.5rem 0; font-size: 1rem; color: var(--text);">FastAPI Gateway</h4>
+          <p style="font-size: 0.85rem; margin: 0; color: var(--text-muted);">Async request routing</p>
+        </div>
+        <div style="color: var(--text-muted); font-size: 1.2rem;">→</div>
+        <div style="flex: 1 1 180px; padding: 1.2rem; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px; text-align: left;">
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary); letter-spacing: 1px;">STEP 03</span>
+          <h4 style="margin: 0.5rem 0; font-size: 1rem; color: var(--text);">Real-Time AI</h4>
+          <p style="font-size: 0.85rem; margin: 0; color: var(--text-muted);">Contextual simplification</p>
+        </div>
+      </div>
+
+      <h2>Engineering Trade-offs</h2>
+      <div style="padding: 1.5rem; background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; margin-bottom: 2.5rem; border-left: 4px solid #f59e0b;">
+        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">During the 36-hour hackathon, we prioritized low-latency inference routing and dynamic prompt engineering over offline model fine-tuning to ensure rock-solid real-time performance and instant response generation during live judge evaluations.</p>
+      </div>
+
+      <h2>Proven Impact</h2>
+      <div style="padding: 1.5rem; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1)); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 12px; margin-bottom: 2.5rem;">
+        <p style="margin: 0; font-size: 1.05rem; line-height: 1.6;">Secured <strong>6th Rank among 160 competing teams</strong> at TetraTHON 2026. Currently deployed live at tetra027.web.app and actively scaling into a full commercial EdTech product.</p>
+      </div>
+
+      <h2>The Constraints</h2>
+      <ul style="list-style-type: none; padding-left: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem;">
+        <li style="padding: 1.2rem; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px;">
+          <strong style="display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary); text-transform: uppercase; margin-bottom: 0.5rem;">⏱️ Timeline</strong>
+          <span style="font-size: 0.9rem; font-weight: 500;">36 Hours (TetraTHON)</span>
+        </li>
+        <li style="padding: 1.2rem; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px;">
+          <strong style="display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary); text-transform: uppercase; margin-bottom: 0.5rem;">👥 Team</strong>
+          <span style="font-size: 0.9rem; font-weight: 500;">5 Developers</span>
+        </li>
+        <li style="padding: 1.2rem; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 12px;">
+          <strong style="display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary); text-transform: uppercase; margin-bottom: 0.5rem;">🛠️ Core Tech</strong>
+          <span style="font-size: 0.9rem; font-weight: 500;">Python, FastAPI, AI, React</span>
+        </li>
+      </ul>
+
       <h2>Live Demo</h2>
-      <p>Check out the live application here: <a href="https://tetra027.web.app/" target="_blank" style="color: var(--primary);">tetra027.web.app</a></p>
+      <p>Check out the live application here: <a href="https://tetra027.web.app/" target="_blank" style="color: var(--primary); font-weight: 500; text-decoration: underline;">tetra027.web.app</a></p>
     `
   }
 ];
