@@ -1009,6 +1009,12 @@ function initPageTransition() {
 
   overlay.classList.remove('active');
 
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      overlay.classList.remove('active');
+    }
+  });
+
   document.querySelectorAll('a[href]').forEach(link => {
     const href = link.getAttribute('href');
     if (!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('http') || link.hasAttribute('download') || link.getAttribute('target') === '_blank') return;
