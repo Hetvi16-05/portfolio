@@ -1,2 +1,2 @@
 this my portfolio 
-please fill to contact me
+please feel free to contact me
