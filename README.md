@@ -1,2 +1,1 @@
-this my portfolio 
-please feel free to contact me
+This project is a portfolio showcasing my skills, projects, and experience in Computer Science, AI/ML, Data Science, and software development. It highlights my work in Python, C++, Java, web development, machine learning, deep learning, and data analytics, along with academic projects and problem-solving experience. The portfolio is designed with a clean, modern, and recruiter-friendly interface to provide an overview of my technical journey, projects, achievements, and continuous learning.
